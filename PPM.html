@@ -73,17 +73,26 @@
       background-color: #c0392b;
     }
 
-    .result {
-      margin-top: 25px;
-      padding: 15px;
-      background-color: #222;
-      border: 1px solid #555;
-      border-radius: 6px;
-    }
+    . .results {
+  margin-top: 25px;
+  padding: 20px;
+  background-color: #1c1c1c;
+  border: 1px solid #444;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+  font-size: 1.05em;
+  line-height: 1.6;
+}
 
-    .result p {
-      margin: 10px 0;
-    }
+.results p {
+  margin: 10px 0;
+  border-bottom: 1px dashed #555;
+  padding-bottom: 8px;
+}
+
+.results p:last-child {
+  border-bottom: none;
+}
   </style>
 </head>
 <header class="navbar">
@@ -108,12 +117,13 @@
     <div style="display: flex; justify-content: space-between;">
       <button class="calculate" onclick="calculateFlow()">Hitung</button>
     </div>
-  </form>
-
-  <div class="result" id="result" style="display: none;">
+    <div class="results" id="results" style="display: none;">
     <p><strong>Flow Starch:</strong> <span id="flowStarch"></span> kg/min</p>
     <p><strong>Flow Enzyme:</strong> <span id="flowEnzyme"></span> mL/min</p>
   </div>
+  </form>
+
+  
 
   <script>
     function calculateFlow() {
@@ -131,11 +141,11 @@
 
       document.getElementById("flowStarch").textContent = flowStarch.toFixed(2);
       document.getElementById("flowEnzyme").textContent = flowEnzyme.toFixed(2);
-      document.getElementById("result").style.display = "block";
+      document.getElementById("results").style.display = "block";
     }
 
     function resetOutput() {
-      document.getElementById("result").style.display = "none";
+      document.getElementById("results").style.display = "none";
     }
   </script>
 

@@ -17,9 +17,10 @@
 <main style="padding: 80px 20px 20px 20px;">
   <h2>Totalizer Starch</h2>
   <form id="conversion">
+  	<input type="reset" value="Reset" onclick="return confirm_reset()" style="margin-left: 10px;">
     <table style="width: 100%; margin: 0;">
     	<div style="margin-top: 15px;">
-    	<input type="reset" value="Reset" onclick="return confirm_reset()" style="margin-left: 10px;">
+    	
     	</div><br>
       <tr>
         <td>HOPPER<br>
@@ -75,18 +76,25 @@
 
 <script type="text/javascript">
 function calculate() {
-  var fields = ["HOPPER", "COOKER", "REACTION", "STORAGE", "F1", "F2"];
-  for (var i = 0; i < fields.length; i++) {
-    if (document.getElementById(fields[i]).value === "") {
-      alert('Isien Datae Cok!');
-      return false;
-    }
-  }
-  return true;
-}
+  var hopperPercent = parseFloat(document.getElementById("HOPPER").value);
+  var cooker = parseFloat(document.getElementById("COOKER").value);
+  var reaction = parseFloat(document.getElementById("REACTION").value);
+  var storage = parseFloat(document.getElementById("STORAGE").value);
+  var f1 = parseFloat(document.getElementById("F1").value);
+  var f2 = parseFloat(document.getElementById("F2").value);
 
-function confirm_reset() {
-  return confirm('Yakin a mbok reset?');
+  if (
+    isNaN(hopperPercent) || isNaN(cooker) || isNaN(reaction) ||
+    isNaN(storage) || isNaN(f1) || isNaN(f2)
+  ) {
+    alert('Isien Datae Cok!');
+    return false;
+  }
+
+  var hopper = hopperPercent * 3180 / 100; // Konversi ke kg
+  var total = hopper + cooker + reaction + storage + f1 + f2;
+
+  document.querySelector('input[name="WG"]').value = total.toFixed(0);
 }
 </script>
 </body>
