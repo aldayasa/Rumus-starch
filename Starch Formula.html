@@ -77,35 +77,52 @@
 .toggle-icon.rotate {
   transform: rotate(90deg);
 }
-  .formula-content {
-  display: none;
+.formula-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 15px;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.formula-content {
+  max-height: 0;
+  overflow: hidden;
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: max-height 0.5s ease, opacity 0.5s ease;
 }
 
 .formula-content.show {
-  display: block;
+  max-height: 2000px; /* besar cukup agar muat semua konten */
   opacity: 1;
+  margin-bottom: 16px;
 }
   .example-box {
-    background-color: rgba(255,255,255,0.1);
-    padding: 12px;
-    border-left: 4px solid #4fc3f7;
-    border-radius: 8px;
-    font-size: 14px;
-    color: #e0f7fa;
-    margin-top: 10px;
-    display: block;
-    margin-bottom: 8px;
-  }
-  input[type="number"] {
-    margin: 5px 0;
-    padding: 4px;
-    border-radius: 4px;
-    border: none;
-    width: 100px;
-      background: rgba(255, 255, 255, 0.1);
-  }
+  background-color: rgba(255,255,255,0.1);
+  padding: 16px;
+  border-left: 4px solid #4fc3f7;
+  border-radius: 8px;
+  font-size: 15px;
+  color: #e0f7fa;
+  margin-top: 10px;
+  display: block;
+  margin-bottom: 12px;
+  width: 100%;
+  max-width: 500px;
+}
+  input[type="number"],
+select {
+  margin: 6px 0;
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  width: 160px;
+  font-size: 15px;
+}
   pre, code {
     background-color: rgba(255, 255, 255, 0.1);
     padding: 10px;
@@ -128,21 +145,26 @@
 #result_11,
 #result_12,
 #result_13 {
-  margin-top: 10px;
+  margin-top: 12px;
   background: rgba(255, 255, 255, 0.1);
-  padding: 8px 12px;
+  padding: 10px 14px;
   border-radius: 6px;
   font-weight: bold;
+  font-size: 15px;
+  text-align: center;
+  max-width: 400px;
 }
 button {
   background-color: #2196F3;
   color: white;
-  padding: 8px 8px;
+  padding: 10px 18px;
   border: none;
   border-radius: 8px;
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
+  font-size: 15px;
+  margin-top: 10px;
 }
 
 button:hover {
@@ -345,8 +367,8 @@ button:hover {
 </h3>
   <div class="formula-content">
   	<p class="formula-desc">Melakukan konversi satuan antara liter/menit dan meter kubik/jam sesuai kebutuhan perhitungan.</p>
-    <pre><code>l/min → m³/h: Flow × 60 ÷ 1000  
-m³/h → l/min: Flow × 1000 ÷ 60</code></pre>
+    <pre><code>l/min → m³/h = Flow × 60 ÷ 1000  
+m³/h → l/min = Flow × 1000 ÷ 60</code></pre>
     <div class="example-box">
       <strong>Masukkan nilai:</strong><br>
       <label>Flow (angka): <input type="number" id="flow9_9" /></label><br>
@@ -433,7 +455,6 @@ m³/h → l/min: Flow × 1000 ÷ 60</code></pre>
 <div id="result_13" style="margin-top:10px;"></div>
 </div>
 </div>
-<button id="backToTop" onclick="scrollToTopAndClose()">↑ </button>
 </div>
 <footer style="margin-top: 40px; background-color: #181818;">
     <i>&copy; Ardita Rizki F</i>
@@ -561,7 +582,7 @@ document.getElementById("btn_4").addEventListener("click", function () {
 
   var flowAir = (flow * (solid - target)) / target;
 
-  document.getElementById("result_6").innerText = "Flow Air = " + flowAir.toFixed(2) + " m³/h";
+  document.getElementById("result_6").innerText = "Flow Water = " + flowAir.toFixed(2) + " m³/h";
 });
 
   document.getElementById("btn_7").addEventListener("click", function () {
