@@ -686,17 +686,17 @@ function STMTBL()
 <span style="color:#e74c3c; font-family:trebuchet ms; font-size:100%; font-weight:bold; text-shadow:1px 1px 1px #000;">
 </span>
 <br>
-<button type="reset" class="button"><i><b>Clear</b></i></button>
+<button type="reset" class="button" style="margin-left: 20px;"><i><b>Clear</b></i></button>
 
 <br><br>
 
-<div class="inp1">
-<b>Brix</b>
-<br>
-<b>Temperature</b>
+<div class="inp1" style="margin-left: 20px;">
+  <b>Brix</b>
+  <br>
+  <b>Temperature</b>
 </div>
 
-<div class="inp2" style="max-width: 150px; padding: 8px;">
+<div class="inp2" style="max-width: 150px; padding: 8px; margin-left: 20px;">
   <input style="text-align:right; font-size:1em; width: 80%;" onblur="return TRTH();" type="number" id="BRX">&nbsp;<i><b>%</b></i>
   <br>
   <input style="text-align:right; font-size:1em; width: 80%;" onblur="return TRTH();" type="number" id="TMP">&nbsp;<i><b>°C</b></i>
@@ -732,11 +732,11 @@ function STMTBL()
 <input style="text-align:right; font-size:1.2em;" id="UHUY">
 </div>
 <br>
-<span style="font-size:1.0em; font-family:arial; font-weight:bold; color:#FFFFFF; padding:5px; text-shadow:1px 1px 1px #000;">
-Solid Content:
+<span style="font-size:1.0em; font-family:arial; font-weight:bold; color:#FFFFFF; padding:5px; text-shadow:1px 1px 1px #000; margin-left: 20px;">
+  Solid Content:
 </span>
 <br>
-<div class="res" style="max-width: 150px; padding: 10px;">
+<div class="res" style="max-width: 150px; padding: 10px; margin-left: 20px;">
   <input 
     style="text-align:center; font-size:1.5em; border:1px #FFF ridge; border-top:none; border-left:none; border-right:none; background:#000000; color:white; text-shadow:2px 2px 1px #000; width: 100%;"
     onblur="return BHWS();" 
@@ -745,9 +745,10 @@ Solid Content:
     id="HORE" 
     disabled="">&nbsp;&nbsp;<i><b></b></i>
 </div>
-
 </form>
-<button class="button" onclick="STMTBL();"><i><b>Calculate</b></i></button>
+<button class="button" onclick="STMTBL();" style="margin-left: 20px;">
+  <i><b>Calculate</b></i>
+</button>
 </div>
 <!--END OBAT-->
 

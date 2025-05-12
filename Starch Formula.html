@@ -171,6 +171,11 @@ button:hover {
   border: none;
   border-radius: 2px;
   cursor: pointer;
+  width: auto;              /* override jika button global pakai width: 100% atau 50% */
+  min-width: 0;             /* override batasan */
+  box-sizing: content-box;  /* reset jika pakai border-box di global */
+  display: inline-block;    /* pastikan tidak jadi block */
+  margin: 0;                /* reset global margin */
 }
 </style>
 <body class="w3-black">
