@@ -67,7 +67,7 @@ input[readonly] {
 .button,
 input[type="reset"],
 input[type="button"],
-button {  
+button {
     min-width: 100px;
     padding: 8px 16px;
     margin-top: 12px;

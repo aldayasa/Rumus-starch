@@ -136,7 +136,7 @@
 button {
   background-color: #2196F3;
   color: white;
-  padding: 10px 16px;
+  padding: 8px 8px;
   border: none;
   border-radius: 8px;
   font-weight: bold;
@@ -180,10 +180,13 @@ button:hover {
 </style>
 <body class="w3-black">
 <!--arditarizki-->
+	
 <header class="navbar">
   <div id="navbar-placeholder"></div>
 </header>
-<br><br><br>
+<br><br>
+	<h1 class="judul-clickable" style="color: #aad8ff; font-size: 24px" onclick="window.location.href='index.html'">Starch Preparation Calculator</h1>
+  <p style="text-align: center; font-size:12px">Kalkulator praktis & ensiklopedia formula untuk pengolahan pati</p>
 <div class="formula-item">
 <h3 class="formula-toggle">1. Rumus Solid &nbsp;
   <i class="fa fa-chevron-right toggle-icon"></i>
@@ -429,6 +432,9 @@ m³/h → l/min: Flow × 1000 ÷ 60</code></pre>
 </div>
 <button id="backToTop" onclick="scrollToTopAndClose()">↑ </button>
 </div>
+<footer style="margin-top: 40px;">
+    <i>&copy; Ardita Rizki F</i>
+  </footer>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   var toggles = document.querySelectorAll(".formula-toggle");
