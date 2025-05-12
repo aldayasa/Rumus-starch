@@ -4,112 +4,127 @@
   <meta charset="UTF-8">
   <title>Starch Preparation Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+
+  <!-- Fonts & Icons -->
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <!-- Bootstrap Icons -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
   <style>
     body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #121212;
-  color: #f0f0f0;
-}
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #121212;
+      color: #f0f0f0;
+    }
 
-header {
-  background-color: #1f1f1f;
-  padding: 20px;
-  text-align: center;
-  box-shadow: 0 2px 10px #000;
-}
+    header {
+      background-color: #1f1f1f;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 10px #000;
+    }
 
-header h1 {
-  margin: 0;
-  font-size: 26px;
-  color: #00bcd4;
-}
+    header h1 {
+      margin: 0;
+      font-size: 26px;
+      color: #00bcd4;
+    }
 
-nav {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 15px;
-  max-width: 700px;
-  margin: 30px auto 10px auto;
-  padding: 0 20px;
-}
+    nav {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      max-width: 800px;
+      margin: 30px auto 10px auto;
+      padding: 0 20px;
+    }
 
-nav a {
-  flex: 0 0 45%;
-  background-color: #00bcd4;
-  color: #fff;
-  padding: 14px 20px;
-  text-align: left;
-  text-decoration: none;
-  border-radius: 8px;
-  transition: background 0.3s;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 500;
-}
+    @media (min-width: 768px) {
+      nav {
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(2, auto);
+      }
+    }
 
-nav a:hover {
-  background-color: #0097a7;
-}
+    nav a {
+      background-color: #00bcd4;
+      color: #fff;
+      padding: 14px 20px;
+      text-align: left;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 500;
+    }
 
-/* Link "Ensiklopedia Formula" tampil di bawah dan tengah */
-.ensiklopedia-link {
-  display: block;
-  margin: 35px auto 10px auto;
-  width: fit-content;
-  padding: 14px 26px;
-  background-color: #e74c3c;
-  color: #fff;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: background 0.3s;
-}
+    nav a:hover {
+      background-color: #0097a7;
+    }
 
-.ensiklopedia-link:hover {
-  background-color: #c0392b;
-}
+    .ensiklopedia-link {
+      background-color: #e74c3c;
+      color: #fff;
+      text-align: center;
+      text-decoration: none;
+      padding: 14px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      grid-column: span 2;
+      margin-top: 10px;
+    }
 
-.container {
-  max-width: 800px;
-  margin: 40px auto;
-  padding: 0 20px;
-  text-align: center;
-}
+    .ensiklopedia-link:hover {
+      background-color: #c0392b;
+    }
 
-footer {
-  text-align: center;
-  padding: 20px;
-  font-size: 14px;
-  color: #aaa;
-}
+    @media (min-width: 768px) {
+      .ensiklopedia-link {
+        grid-column: span 5;
+      }
+    }
 
-.judul-clickable {
-  cursor: pointer;
-  color: inherit;
-  text-decoration: none;
-}
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+      text-align: center;
+    }
 
-.judul-clickable:hover {
-  text-decoration: underline;
-}
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      color: #aaa;
+    }
+
+    .judul-clickable {
+      cursor: pointer;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .judul-clickable:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
 
 <header>
-	<div style="margin-bottom: 20px;">
-      <a href="https://starch-preparation.netlify.app/" style="display: inline-block; background-color: rgba(79, 195, 247, 0.15); color: #4fc3f7; padding: 10px 18px; border-radius: 8px; font-size: 0.95rem; font-weight: 600; text-decoration: none;">
-        <i class="fa fa-home" style="margin-right: 6px;"></i> Kembali ke Beranda
-      </a>
-    </div>
+  <div style="margin-bottom: 20px;">
+    <a href="https://starch-preparation.netlify.app/" style="display: inline-block; background-color: rgba(79, 195, 247, 0.15); color: #4fc3f7; padding: 10px 18px; border-radius: 8px; font-size: 0.95rem; font-weight: 600; text-decoration: none;">
+      <i class="fa fa-home" style="margin-right: 6px;"></i> Kembali ke Beranda
+    </a>
+  </div>
   <h1 style="color: #aad8ff;">Starch Preparation Calculator</h1>
   <p>Kalkulator praktis & ensiklopedia formula untuk pengolahan pati</p>
 </header>
@@ -125,11 +140,11 @@ footer {
   <a href="atago.html"><i class="bi bi-eyedropper"></i> Atago Solid</a>
   <a href="PPM.html"><i class="bi bi-percent"></i> Dosis Enzyme</a>
   <a href="Starch Consumption.html"><i class="bi bi-bar-chart-fill"></i> Starch Consumption</a>
-</nav>
 
-<a href="starch formula.html" class="ensiklopedia-link">
-  <i class="bi bi-journal-text"></i> Ensiklopedia Formula
-</a>
+  <a href="starch formula.html" class="ensiklopedia-link">
+    <i class="bi bi-journal-text"></i> Ensiklopedia Formula
+  </a>
+</nav>
 
 <div class="container">
   <h2 class="judul-clickable" style="color: #aad8ff;" onclick="window.location.href='about.html'">Selamat Datang</h2>
