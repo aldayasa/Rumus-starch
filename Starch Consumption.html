@@ -39,9 +39,9 @@
 
   <label>Production Rate (t/h) <br>
     <input type="number" name="production" step="any">
-  </label><br><br>
+  </label><br>
+  	<input type="button" value="Kalkulasi" onclick="hitungKonsumsi()">
 <div id="result"></div>
-  <input type="button" value="Kalkulasi" onclick="hitungKonsumsi()">
 </form>
 <footer style="margin-top: 40px; background-color: #181818;">
     <i>&copy; Ardita Rizki F</i>
@@ -68,7 +68,7 @@
 
     var resultDiv = document.getElementById('result');
     resultDiv.style.display = 'block';
-    resultDiv.innerText = consumption.toFixed(2) + ' kg/ton paper';
+    resultDiv.innerText = consumption.toFixed(1) + ' Kg/Tp';
   }
 </script>
 </body>
