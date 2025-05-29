@@ -310,42 +310,53 @@ margin-left: auto;
 
 <script>
   function handleInput(el) {
-    // Hapus semua karakter selain angka
-    var val = el.value.replace(/[^0-9]/g, '');
-
-    // Maks 4 digit saja (2 untuk jam + 2 menit)
-    if (val.length > 4) val = val.slice(0, 4);
-
-    // Format dengan ":" di posisi yang tepat
-    if (val.length <= 2) {
-      el.value = val;
-    } else {
-      el.value = val.slice(0, val.length - 2) + ':' + val.slice(val.length - 2);
-    }
-
-    // Validasi jam dan menit realtime
-    var parts = el.value.split(':');
-    var jamStr = parts[0];
-    var menitStr = parts.length > 1 ? parts[1] : '0';
-
-    var jam = parseInt(jamStr, 10);
-    var menit = parseInt(menitStr, 10);
-
-    if (isNaN(jam)) jam = 0;
-    if (isNaN(menit)) menit = 0;
-
-    if (jam > 24) {
-      showModal('Input Salah', 'Jam tidak boleh lebih dari 24.');
-      el.value = '';
-    } else if (menit > 59) {
-      showModal('Input Salah', 'Menit tidak boleh lebih dari 59.');
-      el.value = '';
-    }
+  var raw = el.value;
+  // Abaikan input jika masih mengandung titik (.) atau belum valid
+  if (raw.indexOf('.') !== -1) {
+    showModal('Format Tidak Didukung', 'Gunakan angka tanpa titik. Contoh: 730 untuk 07:30');
+    el.value = '';
+    return;
   }
+
+  // Ambil hanya angka
+  var val = raw.replace(/[^0-9]/g, '');
+
+  // Maksimal 4 digit
+  if (val.length > 4) val = val.slice(0, 4);
+
+  // Format: XX:YY
+  if (val.length <= 2) {
+    el.value = val;
+    return;
+  } else {
+    el.value = val.slice(0, val.length - 2) + ':' + val.slice(val.length - 2);
+  }
+
+  // Lanjut hanya jika panjang sudah memadai
+ if (val.length < 4) return;
+
+  var jamStr = val.slice(0, val.length - 2);
+  var menitStr = val.slice(val.length - 2);
+
+  var jam = parseInt(jamStr, 10);
+  var menit = parseInt(menitStr, 10);
+
+  if (isNaN(jam)) jam = 0;
+  if (isNaN(menit)) menit = 0;
+
+  if (jam > 24) {
+    showModal('Input Salah', 'Jam tidak boleh lebih dari 24.');
+    el.value = '';
+  } else if (menit > 59) {
+    showModal('Input Salah', 'Menit tidak boleh lebih dari 59.');
+    el.value = '';
+  }
+}
 
   function parseTime(text) {
     if (text.indexOf(':') === -1) return null;
     var parts = text.split(':');
+    if (parts.length !== 2) return null;
     var jam = parseInt(parts[0], 10);
     var menit = parseInt(parts[1], 10);
     if (isNaN(jam) || isNaN(menit)) return null;
@@ -384,8 +395,17 @@ margin-left: auto;
     var endTotal = endJam * 60 + endMenit;
     var durasi = endTotal - startTotal;
 
-    if (durasi <= 0) {
-      showModal('Durasi Tidak Valid', 'Jam selesai harus lebih besar dari jam mulai.');
+    if (durasi < 0) {
+      durasi += 1440; // lewat tengah malam
+    }
+
+    if (durasi === 0) {
+      showModal("Durasi Nol", "Jam mulai dan jam selesai tidak boleh sama persis.");
+      return;
+    }
+
+    if (durasi > 720) {
+      showModal("Kesalahan Waktu", "Durasi tidak wajar. Cek kembali input waktunya.");
       return;
     }
 
@@ -405,10 +425,10 @@ margin-left: auto;
     document.getElementById('customModal').style.display = 'none';
   }
 
-  window.onload = function() {
+  window.onload = function () {
     var okBtn = document.getElementById('modalOkBtn');
     if (okBtn) {
-      okBtn.onclick = function() {
+      okBtn.onclick = function () {
         closeModal();
       };
     }
