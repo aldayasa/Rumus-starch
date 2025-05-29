@@ -311,7 +311,7 @@ margin-left: auto;
     <p>PT Dayasa Aria Prima | Industrial Excellence with Integrity</p>
   </div>
 </footer>
-  <script>
+<script>
   var count = 0;
   var total = 0;
 
@@ -399,7 +399,7 @@ margin-left: auto;
     hasilList.appendChild(div);
 
     updateSummary();
-    simpanKeLocalStorage(); // Simpan setelah hitung
+    simpanKeCookie();
   }
 
   function resetInput() {
@@ -415,7 +415,7 @@ margin-left: auto;
     box.parentNode.removeChild(box);
     count--;
     updateSummary();
-    simpanKeLocalStorage(); // Simpan setelah hapus
+    simpanKeCookie();
   }
 
   function updateSummary() {
@@ -447,34 +447,45 @@ margin-left: auto;
     }
   }
 
-  // === LOCAL STORAGE ===
-  function simpanKeLocalStorage() {
-    const hasilElements = document.querySelectorAll('.result-box');
-    const hasilArray = Array.from(hasilElements).map(el => ({
-      text: el.childNodes[0].textContent.trim(),
-      ml: parseInt(el.getAttribute('data-ml'), 10)
-    }));
-
-    localStorage.setItem('hasilMasak', JSON.stringify(hasilArray));
-    localStorage.setItem('totalMasak', total);
-    localStorage.setItem('countMasak', count);
+  function simpanKeCookie() {
+    var hasilElements = document.getElementsByClassName('result-box');
+    var hasilArray = [];
+    for (var i = 0; i < hasilElements.length; i++) {
+      var el = hasilElements[i];
+      var teks = "";
+      var nodes = el.childNodes;
+      for (var j = 0; j < nodes.length; j++) {
+        if (nodes[j].nodeType === 3) {
+          teks = nodes[j].nodeValue.trim();
+          break;
+        }
+      }
+      hasilArray.push({
+        text: teks,
+        ml: parseInt(el.getAttribute('data-ml'), 10)
+      });
+    }
+    setCookie('hasilMasak', JSON.stringify(hasilArray));
+    setCookie('totalMasak', total);
+    setCookie('countMasak', count);
   }
 
-  function loadDariLocalStorage() {
-    const data = JSON.parse(localStorage.getItem('hasilMasak')) || [];
-    total = parseInt(localStorage.getItem('totalMasak')) || 0;
-    count = parseInt(localStorage.getItem('countMasak')) || 0;
+  function loadDariCookie() {
+    var data = JSON.parse(getCookie('hasilMasak') || '[]');
+    total = parseInt(getCookie('totalMasak') || '0', 10);
+    count = parseInt(getCookie('countMasak') || '0', 10);
 
-    const hasilList = document.getElementById('hasil-list');
+    var hasilList = document.getElementById('hasil-list');
     hasilList.innerHTML = '';
 
-    data.forEach(item => {
-      const div = document.createElement('div');
+    for (var i = 0; i < data.length; i++) {
+      var item = data[i];
+      var div = document.createElement('div');
       div.className = 'result-box';
       div.setAttribute('data-ml', item.ml);
       div.innerHTML = item.text + ' <span style="color:red; cursor:pointer;" onclick="hapusHasil(this)">✖</span>';
       hasilList.appendChild(div);
-    });
+    }
 
     updateSummary();
   }
@@ -484,12 +495,34 @@ margin-left: auto;
     total = 0;
     count = 0;
     updateSummary();
-    localStorage.removeItem('hasilMasak');
-    localStorage.removeItem('totalMasak');
-    localStorage.removeItem('countMasak');
+    deleteCookie('hasilMasak');
+    deleteCookie('totalMasak');
+    deleteCookie('countMasak');
   }
 
-  window.addEventListener('DOMContentLoaded', loadDariLocalStorage);
+  // Helpers untuk cookie
+  function setCookie(name, value) {
+    document.cookie = name + "=" + encodeURIComponent(value) + "; path=/";
+  }
+
+  function getCookie(name) {
+    var cookies = document.cookie.split(';');
+    for (var i = 0; i < cookies.length; i++) {
+      var c = cookies[i].trim();
+      if (c.indexOf(name + "=") === 0) return decodeURIComponent(c.substring(name.length + 1));
+    }
+    return null;
+  }
+
+  function deleteCookie(name) {
+    document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  }
+
+  if (document.addEventListener) {
+    document.addEventListener('DOMContentLoaded', loadDariCookie, false);
+  } else {
+    window.attachEvent('onload', loadDariCookie);
+  }
 </script>
 </body>
 </html>
