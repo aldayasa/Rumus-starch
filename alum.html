@@ -1,62 +1,139 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<title>Rumus Konsumsi Alum</title>
-<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="xedni.css">
-	<link rel="stylesheet" href="sweetalert2.css">
-<script src="script.js" type="text/javascript"></script>
-<script type="text/javascript" src="sweetalert2.js"></script>
+  <title>Rumus Konsumsi Alum</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="xedni.css">
+  <link rel="stylesheet" href="sweetalert2.css"> <!-- tidak digunakan tapi tetap disertakan -->
+  <script src="script.js" type="text/javascript"></script>
+  <script type="text/javascript" src="sweetalert2.js"></script> <!-- tidak digunakan -->
+  <style>
+    /* Custom popup sederhana */
+    #popupOverlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 9999;
+    }
+
+    #popupBox {
+      background: #fff;
+      width: 300px;
+      margin: 150px auto;
+      padding: 20px;
+      border-radius: 6px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+
+    #popupMessage {
+      margin-bottom: 20px;
+      color: #333;
+      font-size: 14px;
+    }
+
+    #popupBox button {
+      padding: 6px 18px;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
 <header class="navbar">
-  <div id="navbar-placeholder"></div>
+  <div class="navbar-container">
+    <div class="navbar-brand" onclick="window.location.href='index.html'">StarchPrep</div>
+    <div class="navbar-toggle" onclick="toggleMenu()">☰</div>
+    <div class="navbar-menu" id="navbarMenu">
+      <a href="index.html" class="home-link">
+        <img src="home.png" alt="Home" class="home-icon"> Home
+      </a>
+      <a href="alum.html">Konsumsi Alum</a>
+      <a href="totalizer starch.html">Totalizer Starch</a>
+      <a href="enzyme.html">Flow Enzyme</a>
+      <a href="retentiontime.html">Retention Time</a>
+      <a href="estimate.html">Estimasi Starch</a>
+      <a href="SSA.html">Flow SSA</a>
+      <a href="atago.html">Atago Solid</a>
+      <a href="NaOH.html">Pemakaian NaOH</a>
+      <a href="PPM.html">Dosis Enzyme</a>
+      <a href="Starch Consumption.html">Starch Consumption</a>
+      <a href="starch formula.html">Ensiklopedia Formula</a>
+    </div>
+  </div>
 </header>
-<br><br><br>
-  <h2>Pemakaian Alum</h2>
-  <form name="conversion">
-  	<input type="reset" value="Reset"><br><br>
-    <label>Level Awal Alum Storage:
-      <input type="number" id="LAW1" name="LAW1">
-    </label>    <br>
-    <label>Level Akhir Alum Storage:
-      <input type="number" id="LAK1" name="LAK1">
-    </label>
-    <br>
-    <label>Hasil Presentase:
- <br>      <input type="text" name="CONV" readonly>
-    </label>
-        <br>
-    <label>Hasil:
-    <br>
-      <input type="text" name="WG" readonly>
-    </label><br>
-    <button type="button" class="button" onclick="calculate()"><b>Calculate</b></button>
 
-  </form>
-<footer style="margin-top: 40px;  background-color: #181818;">
-    <i>&copy; Ardita Rizki F</i>
-  </footer>
+<br><br><br>
+
+<h2>Pemakaian Alum</h2>
+<form name="conversion">
+  <input type="reset" value="Reset"><br><br>
+  <label>Level Awal Alum Storage:
+    <input type="number" id="LAW1" name="LAW1">
+  </label><br>
+  <label>Level Akhir Alum Storage:
+    <input type="number" id="LAK1" name="LAK1">
+  </label><br>
+  <label>Hasil Presentase:<br>
+    <input type="text" name="CONV" readonly>
+  </label><br>
+  <label>Hasil:<br>
+    <input type="text" name="WG" readonly>
+  </label><br>
+  <button type="button" class="button" onclick="calculate()"><b>Calculate</b></button>
+</form>
+
+<!-- Custom Popup Box -->
+<div id="popupOverlay">
+  <div id="popupBox">
+    <div id="popupMessage"></div>
+    <button onclick="closePopup()">OK</button>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-content">
+    <p>&copy; 2025 Ardita Rizki F — Operator DCS Starch, PM1</p>
+    <p>PT Dayasa Aria Prima | Industrial Excellence with Integrity</p>
+  </div>
+</footer>
+
 <script>
-  function calculate() {
-  var fields = ["LAW1", "LAK1"];
-  for (var i = 0; i < fields.length; i++) {
-    if (document.getElementById(fields[i]).value === "") {
-      alert("Isien Datae Cok!");
-      return false;
-    }
+  function showPopup(message) {
+    document.getElementById('popupMessage').innerText = message;
+    document.getElementById('popupOverlay').style.display = 'block';
   }
 
-  var LAW1 = parseFloat(document.getElementById("LAW1").value);
-  var LAK1 = parseFloat(document.getElementById("LAK1").value);
-  var CONV = (LAW1 - LAK1).toFixed(1);
-  document.forms["conversion"]["CONV"].value = CONV + ' %';
-  document.forms["conversion"]["WG"].value = ((parseFloat(CONV) * 170162) / 100).toFixed(0) + ' kg';
+  function closePopup() {
+    document.getElementById('popupOverlay').style.display = 'none';
+  }
 
-  return true;
-}
+  function calculate() {
+    var LAW1 = document.getElementById("LAW1").value;
+    var LAK1 = document.getElementById("LAK1").value;
+
+    if (LAW1 === "" || LAK1 === "") {
+      showPopup("Isien Datae Cok! Semua kolom harus diisi.");
+      return false;
+    }
+
+    LAW1 = parseFloat(LAW1);
+    LAK1 = parseFloat(LAK1);
+
+    if (LAW1 <= LAK1) {
+      showPopup("Level Awal harus lebih besar dari Level Akhir.");
+      return false;
+    }
+
+    var CONV = (LAW1 - LAK1).toFixed(1);
+    document.forms["conversion"]["CONV"].value = CONV + ' %';
+    document.forms["conversion"]["WG"].value = ((parseFloat(CONV) * 170162) / 100).toFixed(0) + ' kg';
+
+    return true;
+  }
 </script>
 </body>
 </html>
