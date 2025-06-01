@@ -3,158 +3,396 @@
 <head>
   <meta charset="UTF-8">
   <title>Starch Preparation Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Fonts & Icons -->
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
   <style>
+    /* Custom styles for gradients and shadows if needed, though Tailwind handles most */
     body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #121212;
-      color: #f0f0f0;
+      font-family: 'Inter', sans-serif; /* Keep Inter font as preferred */
     }
 
-    header {
-      background-color: #1f1f1f;
-      padding: 20px;
-      text-align: center;
-      box-shadow: 0 2px 10px #000;
+    /* Custom class for the welcome section background - Dark Theme */
+    .welcome-bg-dark {
+      background: radial-gradient(circle at center, rgba(30, 41, 59, 0.8) 0%, rgba(17, 24, 39, 0.9) 70%, rgba(17, 24, 39, 1) 100%);
     }
 
-    header h1 {
-      margin: 0;
-      font-size: 26px;
-      color: #00bcd4;
+    /* Custom class for the welcome section background - Light Theme */
+    .welcome-bg-light {
+      background: radial-gradient(circle at center, rgba(200, 220, 255, 0.8) 0%, rgba(240, 245, 255, 0.9) 70%, rgba(255, 255, 255, 1) 100%);
     }
 
-    nav {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-      max-width: 800px;
-      margin: 30px auto 10px auto;
-      padding: 0 20px;
-    }
-
-    @media (min-width: 768px) {
-      nav {
-        grid-template-columns: repeat(5, 1fr);
-        grid-template-rows: repeat(2, auto);
+    /* Custom Keyframe Animation for Fade In Up */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
     }
 
-    nav a {
-      background-color: #00bcd4;
-      color: #fff;
-      padding: 14px 20px;
-      text-align: left;
-      text-decoration: none;
-      border-radius: 8px;
-      transition: background 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 500;
+    /* Apply custom animation using Tailwind's arbitrary values */
+    .animate-fade-in-up {
+      animation: fadeInUp 0.7s ease-out forwards;
     }
 
-    nav a:hover {
-      background-color: #0097a7;
+    /* Custom shadow for containers, matching provided CSS */
+    .custom-shadow {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    }
+    .custom-shadow-light {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Lighter shadow for light theme */
     }
 
-    .ensiklopedia-link {
-      background-color: #e74c3c;
-      color: #fff;
-      text-align: center;
-      text-decoration: none;
-      padding: 14px 20px;
-      border-radius: 8px;
-      font-weight: 600;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      grid-column: span 2;
-      margin-top: 10px;
+    /* Custom focus border color */
+    .focus-border-yellow:focus {
+      border-color: #f1c40f;
+    }
+    .focus-border-yellow-light:focus {
+      border-color: #d4ac0d; /* Slightly darker yellow for light theme */
     }
 
-    .ensiklopedia-link:hover {
-      background-color: #c0392b;
+    /* Custom button hover for main buttons (blue) */
+    .btn-blue-hover-dark:hover {
+      background-color: #2980b9; /* Darker blue */
+    }
+    .btn-blue-hover-light:hover {
+      background-color: #2980b9; /* Darker blue */
     }
 
-    @media (min-width: 768px) {
-      .ensiklopedia-link {
-        grid-column: span 5;
-      }
+    /* Custom button hover for red button */
+    .btn-red-hover-dark:hover {
+      background-color: #c0392b; /* Darker red */
+    }
+    .btn-red-hover-light:hover {
+      background-color: #c0392b; /* Darker red */
     }
 
-    .container {
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 0 20px;
-      text-align: center;
+    /* Custom button hover for emerald/teal button */
+    .btn-emerald-hover-dark:hover {
+      background: linear-gradient(to right, #059669, #0d9488); /* Darker shades */
     }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 14px;
-      color: #aaa;
-    }
-
-    .judul-clickable {
-      cursor: pointer;
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .judul-clickable:hover {
-      text-decoration: underline;
+    .btn-emerald-hover-light:hover {
+      background: linear-gradient(to right, #059669, #0d9488); /* Darker shades */
     }
   </style>
 </head>
-<body>
+<body class="bg-gray-950 text-gray-100 min-h-screen flex flex-col p-2.5">
 
-<header>
-  <div style="margin-bottom: 20px;">
-    <a href="https://starch-preparation.netlify.app/" style="display: inline-block; background-color: rgba(79, 195, 247, 0.15); color: #4fc3f7; padding: 10px 18px; border-radius: 8px; font-size: 0.95rem; font-weight: 600; text-decoration: none;">
-      <i class="fa fa-home" style="margin-right: 6px;"></i> Kembali ke Beranda
+  <header class="bg-gray-900 py-8 text-center shadow-lg relative header-bg">
+    <div class="absolute top-4 right-4">
+      <button id="theme-toggle"
+              class="p-3 rounded-full bg-gray-700 text-gray-200 hover:bg-gray-600 transition-colors duration-300
+                     shadow-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-opacity-75"
+              aria-label="Toggle tema gelap/terang">
+        <i id="theme-icon" class="bi bi-moon-fill text-xl"></i>
+      </button>
+    </div>
+    <div class="mb-6">
+      <a href="https://starch-preparation.netlify.app/"
+         class="inline-flex items-center px-6 py-3 rounded-full bg-cyan-700/30 text-cyan-300 font-semibold
+                hover:bg-cyan-600/40 transition-all duration-300 shadow-md home-button"
+                aria-label="Kembali ke Beranda Utama">
+        <i class="bi bi-house-door mr-2"></i> Kembali ke Beranda
+      </a>
+    </div>
+    <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text
+               bg-gradient-to-r from-yellow-400 to-yellow-600 drop-shadow-lg header-title-gradient text-center">
+      Starch Preparation Calculator
+    </h1>
+    <p class="text-lg md:text-xl text-gray-300 mt-2 header-description-text">
+      Kalkulator praktis & ensiklopedia formula untuk pengolahan pati
+    </p>
+  </header>
+
+  <div class="max-w-full md:max-w-5xl mx-auto p-4 mt-7.5">
+    <div class="relative flex items-center rounded-xl custom-shadow search-bar-container p-4.5">
+      <input type="text" id="search-input" placeholder="Cari formula atau kalkulator..."
+             class="w-full py-3 pl-5 pr-12 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-cyan-500
+                    border border-gray-600 bg-gray-700 text-gray-100 placeholder-gray-400 text-base focus-border-yellow search-input-field"
+             aria-label="Kolom pencarian untuk formula atau kalkulator">
+      <i class="bi bi-search absolute right-5 text-xl text-gray-400 search-icon"></i>
+    </div>
+  </div>
+
+  <nav class="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-full md:max-w-5xl mx-auto p-4 mt-8 flex-grow">
+    <a href="alum.html"
+       class="flex items-center md:justify-center px-5 py-3 rounded-xl bg-blue-500
+              text-white font-medium shadow-md hover:from-cyan-500 hover:to-blue-600 hover:shadow-lg
+              transition-all duration-300 transform hover:-translate-y-1 active:scale-95 nav-link-gradient btn-blue-hover-dark"
+              aria-label="Buka Kalkulator Konsumsi Alum">
+      <i class="bi bi-droplet-half text-2xl mr-3"></i> Konsumsi Alum
+    </a>
+    <a href="totalizer starch.html"
+       class="flex items-center md:justify-center px-5 py-3 rounded-xl bg-blue-500
+              text-white font-medium shadow-md hover:from-cyan-500 hover:to-blue-600 hover:shadow-lg
+              transition-all duration-300 transform hover:-translate-y-1 active:scale-95 nav-link-gradient btn-blue-hover-dark"
+              aria-label="Buka Kalkulator Totalizer Starch">
+      <i class="bi bi-speedometer2 text-2xl mr-3"></i> Totalizer Starch
+    </a>
+    <a href="enzyme.html"
+       class="flex items-center md:justify-center px-5 py-3 rounded-xl bg-blue-500
+              text-white font-medium shadow-md hover:from-cyan-500 hover:to-blue-600 hover:shadow-lg
+              transition-all duration-300 transform hover:-translate-y-1 active:scale-95 nav-link-gradient btn-blue-hover-dark"
+              aria-label="Buka Kalkulator Flow Enzyme">
+      <i class="bi bi-bezier2 text-2xl mr-3"></i> Flow Enzyme
+    </a>
+    <a href="retentiontime.html"
+       class="flex items-center md:justify-center px-5 py-3 rounded-xl bg-blue-500
+              text-white font-medium shadow-md hover:from-cyan-500 hover:to-blue-600 hover:shadow-lg
+              transition-all duration-300 transform hover:-translate-y-1 active:scale-95 nav-link-gradient btn-blue-hover-dark"
+              aria-label="Buka Kalkulator Retention Time">
+      <i class="bi bi-clock-history text-2xl mr-3"></i> Retention Time
+    </a>
+    <a href="estimate.html"
+       class="flex items-center md:justify-center px-5 py-3 rounded-xl bg-blue-500
+              text-white font-medium shadow-md hover:from-cyan-500 hover:to-blue-600 hover:shadow-lg
+              transition-all duration-300 transform hover:-translate-y-1 active:scale-95 nav-link-gradient btn-blue-hover-dark"
+              aria-label="Buka Kalkulator Estimasi Starch">
+      <i class="bi bi-calculator-fill text-2xl mr-3"></i> Estimasi Starch
+    </a>
+    <a href="SSA.html"
+       class="flex items-center md:justify-center px-5 py-3 rounded-xl bg-blue-500
+              text-white font-medium shadow-md hover:from-cyan-500 hover:to-blue-600 hover:shadow-lg
+              transition-all duration-300 transform hover:-translate-y-1 active:scale-95 nav-link-gradient btn-blue-hover-dark"
+              aria-label="Buka Kalkulator Flow SSA">
+      <i class="bi bi-diagram-3-fill text-2xl mr-3"></i> Flow SSA
+    </a>
+    <a href="NaOH.html"
+       class="flex items-center md:justify-center px-5 py-3 rounded-xl bg-blue-500
+              text-white font-medium shadow-md hover:from-cyan-500 hover:to-blue-600 hover:shadow-lg
+              transition-all duration-300 transform hover:-translate-y-1 active:scale-95 nav-link-gradient btn-blue-hover-dark"
+              aria-label="Buka Kalkulator Pemakaian NaOH">
+      <i class="bi bi-cup-straw text-2xl mr-3"></i> Pemakaian NaOH
+    </a>
+    <a href="atago.html"
+       class="flex items-center md:justify-center px-5 py-3 rounded-xl bg-blue-500
+              text-white font-medium shadow-md hover:from-cyan-500 hover:to-blue-600 hover:shadow-lg
+              transition-all duration-300 transform hover:-translate-y-1 active:scale-95 nav-link-gradient btn-blue-hover-dark"
+              aria-label="Buka Kalkulator Atago Solid">
+      <i class="bi bi-eyedropper text-2xl mr-3"></i> Atago Solid
+    </a>
+    <a href="PPM.html"
+       class="flex items-center md:justify-center px-5 py-3 rounded-xl bg-blue-500
+              text-white font-medium shadow-md hover:from-cyan-500 hover:to-blue-600 hover:shadow-lg
+              transition-all duration-300 transform hover:-translate-y-1 active:scale-95 nav-link-gradient btn-blue-hover-dark"
+              aria-label="Buka Kalkulator Dosis Enzyme">
+      <i class="bi bi-percent text-2xl mr-3"></i> Dosis Enzyme
+    </a>
+    <a href="Starch Consumption.html"
+       class="flex items-center md:justify-center px-5 py-3 rounded-xl bg-blue-500
+              text-white font-medium shadow-md hover:from-cyan-500 hover:to-blue-600 hover:shadow-lg
+              transition-all duration-300 transform hover:-translate-y-1 active:scale-95 nav-link-gradient btn-blue-hover-dark"
+              aria-label="Buka Kalkulator Konsumsi Starch">
+      <i class="bi bi-bar-chart-fill text-2xl mr-3"></i> Starch Consumption
+    </a>
+
+    <a href="starch formula.html"
+       class="col-span-2 md:col-span-5 flex items-center justify-center mt-4 px-8 py-4 rounded-xl
+              bg-red-600 text-white font-bold shadow-lg
+              hover:from-red-500 hover:to-red-700 transition-all duration-300 transform hover:scale-105 active:scale-95 nav-link-red-gradient btn-red-hover-dark"
+              aria-label="Buka Ensiklopedia Formula">
+      <i class="bi bi-journal-text text-2xl mr-3"></i> Ensiklopedia Formula
+    </a>
+  </nav>
+
+  <div class="container max-w-full md:max-w-[700px] mx-auto my-12 p-4.5 bg-gray-800 rounded-xl custom-shadow text-center
+              relative overflow-hidden welcome-section welcome-bg-dark animate-fade-in-up mt-7.5">
+    <h2 class="text-3xl md:text-4xl font-bold text-yellow-400 mb-4 cursor-pointer hover:underline welcome-h2 text-center"
+        onclick="window.location.href='about.html'">
+      Selamat Datang
+    </h2>
+    <p class="text-gray-100 text-lg leading-relaxed mb-6 welcome-p">
+      Halaman ini berfungsi sebagai pusat navigasi ke berbagai kalkulator dan informasi seputar formula dalam proses pembuatan pati.
+    </p>
+    <p class="text-gray-100 text-lg leading-relaxed mb-8 welcome-p">
+      Silakan klik tombol di atas untuk memulai perhitungan atau menjelajahi ensiklopedia formula yang tersedia.
+    </p>
+    <a href="starch formula.html"
+       class="inline-flex items-center px-8 py-4 bg-emerald-500
+              text-white font-bold rounded-full shadow-lg hover:from-emerald-400 hover:to-teal-500
+              transition-all duration-300 transform hover:scale-105 active:scale-95 welcome-link-gradient btn-emerald-hover-dark"
+              aria-label="Mulai Eksplorasi Formula Starch">
+      <i class="bi bi-lightbulb-fill text-xl mr-3"></i> Mulai Eksplorasi
     </a>
   </div>
-  <h1 style="color: #aad8ff;">Starch Preparation Calculator</h1>
-  <p>Kalkulator praktis & ensiklopedia formula untuk pengolahan pati</p>
-</header>
 
-<nav>
-  <a href="alum.html"><i class="bi bi-droplet-half"></i> Konsumsi Alum</a>
-  <a href="totalizer starch.html"><i class="bi bi-speedometer2"></i> Totalizer Starch</a>
-  <a href="enzyme.html"><i class="bi bi-bezier2"></i> Flow Enzyme</a>
-  <a href="retentiontime.html"><i class="bi bi-clock-history"></i> Retention Time</a>
-  <a href="estimate.html"><i class="bi bi-calculator-fill"></i> Estimasi Starch</a>
-  <a href="SSA.html"><i class="bi bi-diagram-3-fill"></i> Flow SSA</a>
-  <a href="NaOH.html"><i class="bi bi-cup-straw"></i> Pemakaian NaOH</a>
-  <a href="atago.html"><i class="bi bi-eyedropper"></i> Atago Solid</a>
-  <a href="PPM.html"><i class="bi bi-percent"></i> Dosis Enzyme</a>
-  <a href="Starch Consumption.html"><i class="bi bi-bar-chart-fill"></i> Starch Consumption</a>
+  <footer class="text-center py-6 text-gray-400 text-sm mt-auto footer-text bg-gray-950">
+    <div class="max-w-[1000px] mx-auto text-center leading-relaxed border-t border-gray-700 pt-3.5">
+      &copy; 2025 Ardita Rizki Fauzi. Hak cipta dilindungi.
+      <div class="mt-2">
+        <a href="#" class="text-gray-400 hover:text-cyan-400 mx-2 footer-link">Kebijakan Privasi</a> |
+        <a href="#" class="text-gray-400 hover:text-cyan-400 mx-2 footer-link">Syarat Penggunaan</a>
+      </div>
+    </div>
+  </footer>
 
-  <a href="starch formula.html" class="ensiklopedia-link">
-    <i class="bi bi-journal-text"></i> Ensiklopedia Formula
-  </a>
-</nav>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const body = document.body;
+      const themeToggle = document.getElementById('theme-toggle');
+      const themeIcon = document.getElementById('theme-icon');
 
-<div class="container">
-  <h2 class="judul-clickable" style="color: #aad8ff;" onclick="window.location.href='about.html'">Selamat Datang</h2>
-  <p>Halaman ini berfungsi sebagai pusat navigasi ke berbagai kalkulator dan informasi seputar formula dalam proses pembuatan starch.</p>
-  <p>Silakan klik tombol di atas untuk memulai perhitungan atau menjelajahi ensiklopedia formula yang tersedia.</p>
-</div>
+      // Elements that need dynamic class changes
+      const header = document.querySelector('header');
+      const homeButton = document.querySelector('.home-button');
+      const headerTitle = document.querySelector('.header-title-gradient');
+      const headerDescription = document.querySelector('.header-description-text');
+      const searchBarContainer = document.querySelector('.search-bar-container');
+      const searchInputField = document.getElementById('search-input');
+      const searchIcon = document.querySelector('.search-icon');
+      const navLinks = document.querySelectorAll('.nav-link-gradient');
+      const navRedLink = document.querySelector('.nav-link-red-gradient');
+      const welcomeSection = document.querySelector('.welcome-section');
+      const welcomeH2 = document.querySelector('.welcome-h2');
+      const welcomePs = document.querySelectorAll('.welcome-p');
+      const welcomeLink = document.querySelector('.welcome-link-gradient');
+      const footer = document.querySelector('footer');
+      const footerLinks = document.querySelectorAll('.footer-link');
 
-<footer>
-  &copy; 2025 Ardita Rizki Fauzi. All rights reserved.
-</footer>
+      // Function to apply theme classes
+      const applyTheme = (theme) => {
+        // Clear existing theme-specific classes from body
+        body.classList.remove('bg-gray-950', 'text-gray-100', 'bg-gray-50', 'text-gray-900', 'p-2.5');
+        header.classList.remove('bg-gray-900', 'bg-gray-100');
+        homeButton.classList.remove('bg-cyan-700/30', 'text-cyan-300', 'hover:bg-cyan-600/40', 'bg-cyan-300/30', 'text-cyan-700', 'hover:bg-cyan-400/40');
+        headerTitle.classList.remove('from-yellow-400', 'to-yellow-600', 'from-yellow-700', 'to-yellow-900');
+        headerDescription.classList.remove('text-gray-300', 'text-gray-700');
+
+        searchBarContainer.classList.remove('bg-gray-800', 'bg-white', 'custom-shadow', 'custom-shadow-light');
+        searchInputField.classList.remove('bg-gray-700', 'text-gray-100', 'placeholder-gray-400', 'bg-gray-100', 'text-gray-800', 'placeholder-gray-500', 'border-gray-600', 'border-gray-300', 'focus-border-yellow', 'focus-border-yellow-light');
+        searchIcon.classList.remove('text-gray-400', 'text-gray-600');
+
+        navLinks.forEach(link => {
+          link.classList.remove('bg-blue-500', 'bg-blue-600', 'text-white', 'text-gray-800', 'btn-blue-hover-dark', 'btn-blue-hover-light');
+        });
+        if (navRedLink) {
+          navRedLink.classList.remove('bg-red-600', 'bg-red-700', 'text-white', 'text-gray-800', 'btn-red-hover-dark', 'btn-red-hover-light');
+        }
+        if (welcomeLink) {
+          welcomeLink.classList.remove('bg-emerald-500', 'bg-emerald-600', 'text-white', 'text-gray-800', 'btn-emerald-hover-dark', 'btn-emerald-hover-light');
+        }
+        welcomeSection.classList.remove('welcome-bg-dark', 'welcome-bg-light', 'bg-gray-800', 'bg-white', 'custom-shadow', 'custom-shadow-light');
+        welcomeH2.classList.remove('text-yellow-400', 'text-yellow-700');
+        welcomePs.forEach(p => {
+          p.classList.remove('text-gray-100', 'text-gray-700');
+        });
+        footer.classList.remove('bg-gray-950', 'bg-gray-50', 'text-gray-400', 'text-gray-600');
+        footerLinks.forEach(link => {
+          link.classList.remove('text-gray-400', 'hover:text-cyan-400', 'text-gray-600', 'hover:text-cyan-600');
+        });
+        themeToggle.classList.remove('bg-gray-700', 'text-gray-200', 'bg-gray-200', 'text-gray-700');
+
+
+        if (theme === 'dark') {
+          body.classList.add('bg-gray-950', 'text-gray-100', 'p-2.5');
+          header.classList.add('bg-gray-900');
+          homeButton.classList.add('bg-cyan-700/30', 'text-cyan-300', 'hover:bg-cyan-600/40');
+          headerTitle.classList.add('from-yellow-400', 'to-yellow-600');
+          headerDescription.classList.add('text-gray-300');
+
+          searchBarContainer.classList.add('bg-gray-800', 'custom-shadow');
+          searchInputField.classList.add('bg-gray-700', 'text-gray-100', 'placeholder-gray-400', 'border-gray-600', 'focus-border-yellow');
+          searchIcon.classList.add('text-gray-400');
+
+          navLinks.forEach(link => {
+            link.classList.add('bg-blue-500', 'text-white', 'btn-blue-hover-dark');
+          });
+          if (navRedLink) {
+            navRedLink.classList.add('bg-red-600', 'text-white', 'btn-red-hover-dark');
+          }
+          if (welcomeLink) {
+            welcomeLink.classList.add('bg-emerald-500', 'text-white', 'btn-emerald-hover-dark');
+          }
+          welcomeSection.classList.add('welcome-bg-dark', 'bg-gray-800', 'custom-shadow');
+          welcomeH2.classList.add('text-yellow-400');
+          welcomePs.forEach(p => {
+            p.classList.add('text-gray-100');
+          });
+          footer.classList.add('bg-gray-950', 'text-gray-400');
+          footerLinks.forEach(link => {
+            link.classList.add('text-gray-400', 'hover:text-cyan-400');
+          });
+          themeIcon.classList.replace('bi-sun-fill', 'bi-moon-fill');
+          themeToggle.classList.add('bg-gray-700', 'text-gray-200');
+
+        } else { // light theme
+          body.classList.add('bg-gray-50', 'text-gray-900', 'p-2.5');
+          header.classList.add('bg-gray-100');
+          homeButton.classList.add('bg-cyan-300/30', 'text-cyan-700', 'hover:bg-cyan-400/40');
+          headerTitle.classList.add('from-yellow-700', 'to-yellow-900'); /* Darker gradient for light theme */
+          headerDescription.classList.add('text-gray-700');
+
+          searchBarContainer.classList.add('bg-white', 'custom-shadow-light');
+          searchInputField.classList.add('bg-gray-100', 'text-gray-800', 'placeholder-gray-500', 'border-gray-300', 'focus-border-yellow-light');
+          searchIcon.classList.add('text-gray-600');
+
+          navLinks.forEach(link => {
+            link.classList.add('bg-blue-600', 'text-white', 'btn-blue-hover-light');
+          });
+          if (navRedLink) {
+            navRedLink.classList.add('bg-red-700', 'text-white', 'btn-red-hover-light');
+          }
+          if (welcomeLink) {
+            welcomeLink.classList.add('bg-emerald-600', 'text-white', 'btn-emerald-hover-light');
+          }
+          welcomeSection.classList.add('welcome-bg-light', 'bg-white', 'custom-shadow-light');
+          welcomeH2.classList.add('text-yellow-700');
+          welcomePs.forEach(p => {
+            p.classList.add('text-gray-700');
+          });
+          footer.classList.add('bg-gray-50', 'text-gray-600');
+          footerLinks.forEach(link => {
+            link.classList.add('text-gray-600', 'hover:text-cyan-600');
+          });
+          themeIcon.classList.replace('bi-moon-fill', 'bi-sun-fill');
+          themeToggle.classList.add('bg-gray-200', 'text-gray-700');
+        }
+        localStorage.setItem('theme', theme);
+      };
+
+      // Toggle theme function
+      const toggleTheme = () => {
+        const currentTheme = body.classList.contains('bg-gray-950') ? 'dark' : 'light';
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        applyTheme(newTheme);
+      };
+
+      // Determine initial theme
+      const getInitialTheme = () => {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+          return savedTheme;
+        }
+        // Check system preference
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          return 'dark';
+        }
+        return 'light'; // Default to light if no preference found
+      };
+
+      // Apply initial theme
+      applyTheme(getInitialTheme());
+
+      // Event listener for theme toggle button
+      themeToggle.addEventListener('click', toggleTheme);
+
+      // Listen for changes in system theme preference
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        // Only update if the user hasn't manually set a theme in localStorage
+        if (!localStorage.getItem('theme')) {
+          applyTheme(e.matches ? 'dark' : 'light');
+        }
+      });
+    });
+  </script>
 
 </body>
 </html>
+
