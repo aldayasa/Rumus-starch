@@ -19,7 +19,7 @@
 
  .container {
     max-width: 300px;
-    margin: 80px auto 0 auto; /* kasih ruang 80px dari atas agar tidak ketabrak navbar */
+    margin: 25px auto 0 auto; /* kasih ruang 80px dari atas agar tidak ketabrak navbar */
     padding: 18px;
     background-color: #2c2c2c;
     border-radius: 8px;
@@ -30,7 +30,7 @@
     color: #f1c40f;
     text-align: center;
     font-size: 24px;
-    margin-top: 80px; /* Supaya turun dari bawah navbar */
+    margin-top: 60px; /* Supaya turun dari bawah navbar */
 }
 
         label {
@@ -40,9 +40,9 @@
         }
 
         input, select, button {
-            width: 50%;
-            padding: 8px;
-            margin-top: 8px;
+            width: 90%;
+            padding: 10px;
+            margin-top: 12px;
             border: 1px solid #555;
             background-color: #333;
             color: #f1f1f1;
@@ -56,11 +56,13 @@
         }
 
         button {
+        	width: 40%;
             background-color: #3498db;
             color: #fff;
             cursor: pointer;
             border: none;
-            margin-top: 15px;
+            margin-top: 12px;
+ margin-bottom: 15px;
         }
 
         button:hover {
@@ -91,79 +93,76 @@
         .reset-button:hover {
             background-color: #c0392b;
         }
-/* Navbar wrapper */
-    .navbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background-color: #222;
-      z-index: 1000;
-    }
-
-    .navbar-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 15px;
-    }
-
-    .navbar-brand {
-      color: #f1c40f;
-    font-size: 26px;
-    float: left;
-    font-weight: bold;
-    cursor: pointer;
-    }
-
-    .navbar-toggle {
-      font-size: 24px;
-      cursor: pointer;
-      display: block;
-    }
-
-/* Default menu disembunyikan */
-.navbar-menu {
-  max-height: 0;
-  overflow-y: hidden;
-  transition: max-height 0.3s ease-out;
-  background-color: #333;
-  position: absolute;
-  top: 50px;
-  right: 10px;
-  width: 200px;
-  border-radius: 8px;
-  z-index: 999;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #222;
+  z-index: 1000;
 }
 
-.navbar-menu.open {
-  max-height: 300px; /* Sesuaikan tinggi menu maksimal */
-  overflow-y: auto;
+.navbar-container {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+}
+
+.navbar-brand {
+  color: #f1c40f;
+  font-size: 26px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.navbar-toggle {
+  font-size: 24px;
+  cursor: pointer;
+  display: block;
+margin-left: auto;
+}
+
+#navbarMenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 200px;
+  background-color: #333;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  max-height: 300px;         /* Scroll aktif saat terlalu tinggi */
+  overflow-y: auto;          /* Scroll vertical */
+  z-index: 999;
+}
+
+/* Tampilkan menu saat diklik */
+#navbarMenu.show {
+  display: block;
 }
 .navbar-menu a {
   display: block;
   padding: 10px 15px;
   color: #fff;
   text-decoration: none;
-  text-align: left; /* Tambahkan ini */
+  text-align: left;
 }
 
 .navbar-menu a:hover {
   background-color: #555;
 }
-    .navbar-menu.show {
-      max-height: 225px;
-      overflow-y: auto;
-    }
 
-    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-      .navbar-menu {
-        display: block;
-        max-height: 300px;
-        overflow-y: scroll;
-      }
-    }
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  .navbar-menu {
+    display: block;
+    max-height: 300px;
+    overflow-y: scroll;
+  }
+}
+
     .home-link {
   background-color: #f1c40f;
   color: #111;
@@ -181,22 +180,58 @@
   height: 20px;
   margin-right: 8px;
 }
-footer {
-    width: 300px;
-    margin: 20px auto 0 auto; /* atas 20px, kiri-kanan auto agar ke tengah */
+.footer {
+  background-color: #181818;
+  color: #ccc;
+  padding: 20px 30px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 14px;
+  margin-top: 60px;
+}
+
+.footer-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+  line-height: 1.6;
+  border-top: 1px solid #333;
+  padding-top: 15px;
+}
+
+/* Responsif: center text di layar kecil */
+@media (max-width: 600px) {
+  .footer-content {
     text-align: center;
-    color: #888;
+  }
 }
     </style>
 </head>
 <header class="navbar">
-  <div id="navbar-placeholder"></div>
+  <div class="navbar-container">
+    <div class="navbar-brand" onclick="window.location.href='index.html'">StarchPrep</div>
+    <div class="navbar-toggle" onclick="toggleMenu()">☰</div>
+    <div class="navbar-menu" id="navbarMenu">
+      <a href="index.html" class="home-link">
+        <img src="home.png" alt="Home" class="home-icon"> Home
+      </a>
+      <a href="alum.html">Konsumsi Alum</a>
+      <a href="totalizer starch.html">Totalizer Starch</a>
+      <a href="enzyme.html">Flow Enzyme</a>
+      <a href="retentiontime.html">Retention Time</a>
+      <a href="estimate.html">Estimasi Starch</a>
+      <a href="SSA.html">Flow SSA</a>
+      <a href="atago.html">Atago Solid</a>
+      <a href="NaOH.html">Pemakaian NaOH</a>
+      <a href="PPM.html">Dosis Enzyme</a>
+      <a href="Starch Consumption.html">Starch Consumption</a>
+      <a href="starch formula.html">Ensiklopedia Formula</a>
+    </div>
+  </div>
 </header>
 <body>
 <h1>Flow Surface Sizing Agent</h1>
 <div class="container">
     <button class="reset-button" onclick="resetForm()">Reset</button>
-
     <label for="mode">Pilih Mode Perhitungan:</label>
     <select id="mode" onchange="toggleInputs()">
         <option value="flow">Hitung Flow (cc/min)</option>
@@ -224,9 +259,12 @@ footer {
     <h2>Hasil</h2>
     <p id="result">Hasil: <span id="resultValue">0</span></p>
 </div>
-<footer style="margin-top: 40px;">
-    <i>&copy; Ardita Rizki F</i>
-  </footer>
+<footer class="footer">
+  <div class="footer-content">
+    <p>&copy; 2025 Ardita Rizki F — Operator DCS Starch, PM1</p>
+    <p>PT Dayasa Aria Prima | Industrial Excellence with Integrity</p>
+  </div>
+</footer>
 <script>
     function toggleInputs() {
         var mode = document.getElementById('mode').value;

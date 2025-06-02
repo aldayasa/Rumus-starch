@@ -10,23 +10,41 @@
 <script type="text/javascript" src="sweetalert2.js"></script>
 </head>
 <header class="navbar">
-  <div id="navbar-placeholder"></div>
+  <div class="navbar-container">
+    <div class="navbar-brand" onclick="window.location.href='index.html'">StarchPrep</div>
+    <div class="navbar-toggle" onclick="toggleMenu()">☰</div>
+    <div class="navbar-menu" id="navbarMenu">
+      <a href="index.html" class="home-link">
+        <img src="home.png" alt="Home" class="home-icon"> Home
+      </a>
+      <a href="alum.html">Konsumsi Alum</a>
+      <a href="totalizer starch.html">Totalizer Starch</a>
+      <a href="enzyme.html">Flow Enzyme</a>
+      <a href="retentiontime.html">Retention Time</a>
+      <a href="estimate.html">Estimasi Starch</a>
+      <a href="SSA.html">Flow SSA</a>
+      <a href="atago.html">Atago Solid</a>
+      <a href="NaOH.html">Pemakaian NaOH</a>
+      <a href="PPM.html">Dosis Enzyme</a>
+      <a href="Starch Consumption.html">Starch Consumption</a>
+      <a href="starch formula.html">Ensiklopedia Formula</a>
+    </div>
+  </div>
 </header>
-<br><br><br>
+<br><br>
   <h2>Retention Time</h2>
   <form name="conversion">
 <table>
-	<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <input type="reset" value="Reset"><br>
 <tr>
-<td>FLOW STARCH 6881<br><input onblur="return CVRS();" type="number" placeholder="Masukkan Flow m3/h" name="FLOW" id="FLOW" required></td>
+<td>Flow Pompa Cooker<br><input onblur="return CVRS();" type="number" placeholder="Masukkan Flow m3/h" name="FLOW" id="FLOW" required></td>
 </tr>
 <tr>
 <td><input readonly="return CVRS();" type="hidden" placeholder="l/min" name="CONV"></td>
 </tr>
 
 <tr>
-<td>RETENTION TIME &nbsp;<br><input onblur="return CVRS();" type="number" placeholder="Masukkan Waktu(min)" name="TIME" id="TIME" required></td>
+<td>Waktu Retensi &nbsp;<br><input onblur="return CVRS();" type="number" placeholder="Masukkan Waktu(min)" name="TIME" id="TIME" required></td>
 </tr>
 <br>
 <tr>
@@ -40,9 +58,12 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <button type="button" class="button" onclick="calculate()"><b>Calculate</b></button>
 </form>
-<footer style="margin-top: 40px; background-color: #181818;">
-    <i>&copy; Ardita Rizki F</i>
-  </footer>
+<footer class="footer">
+  <div class="footer-content">
+    <p>&copy; 2025 Ardita Rizki F — Operator DCS Starch, PM1</p>
+    <p>PT Dayasa Aria Prima | Industrial Excellence with Integrity</p>
+  </div>
+</footer>
 <script type="text/javascript">
 function calculate() {
   var form = document.forms["conversion"];
@@ -54,7 +75,7 @@ function calculate() {
     var WG = (CONV * TIME / 70).toFixed(1);
 
     form["CONV"].value = CONV;
-    form["WG"].value = WG + " %";
+    form["WG"].value = WG + " % Level Reaction";
   } else {
     alert("Isien Datae Cok!");
   }

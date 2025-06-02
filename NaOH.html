@@ -11,7 +11,7 @@
 <script type="text/javascript" src="sweetalert2.js"></script>
   <style>
     body {
-      background-color: #1e1e1e;
+      background-color: #181818;
       color: #e0e0e0;
       font-family: Arial, sans-serif;
       margin: 0;
@@ -128,7 +128,7 @@
       margin-top: 20px;
       top: 50px;
       right: 10px;
-      width: 270px;
+      width: 170px;
       padding: 10px;
       background-color: #2c3e50;
       border-left: 4px solid #3498db;
@@ -139,9 +139,27 @@
 </head>
 <body>
 <header class="navbar">
-  <div id="navbar-placeholder"></div>
-  
-</header><br>
+  <div class="navbar-container">
+    <div class="navbar-brand" onclick="window.location.href='index.html'">StarchPrep</div>
+    <div class="navbar-toggle" onclick="toggleMenu()">☰</div>
+    <div class="navbar-menu" id="navbarMenu">
+      <a href="index.html" class="home-link">
+        <img src="home.png" alt="Home" class="home-icon"> Home
+      </a>
+      <a href="alum.html">Konsumsi Alum</a>
+      <a href="totalizer starch.html">Totalizer Starch</a>
+      <a href="enzyme.html">Flow Enzyme</a>
+      <a href="retentiontime.html">Retention Time</a>
+      <a href="estimate.html">Estimasi Starch</a>
+      <a href="SSA.html">Flow SSA</a>
+      <a href="atago.html">Atago Solid</a>
+      <a href="NaOH.html">Pemakaian NaOH</a>
+      <a href="PPM.html">Dosis Enzyme</a>
+      <a href="Starch Consumption.html">Starch Consumption</a>
+      <a href="starch formula.html">Ensiklopedia Formula</a>
+    </div>
+  </div>
+</header>
 <h1>Solid NaOH & Pemakaian</h1>
 <div class="container">
   <label>Total NaOH (liter): <input type="number" id="naoh8_8" /></label>
@@ -149,9 +167,13 @@
   <button id="btn_8">Hitung</button>
   <div id="result_8"></div>
 </div>
-<footer style="margin-top: 40px; background-color: #1e1e1e;">
-    <i>&copy; Ardita Rizki F</i>
-  </footer><script>
+<footer class="footer">
+  <div class="footer-content">
+    <p>&copy; 2025 Ardita Rizki F — Operator DCS Starch, PM1</p>
+    <p>PT Dayasa Aria Prima | Industrial Excellence with Integrity</p>
+  </div>
+</footer>
+<script>
   document.getElementById("btn_8").addEventListener("click", function () {
     var naohLiter = parseFloat(document.getElementById("naoh8_8").value);
     var airLiter = parseFloat(document.getElementById("air8_8").value);

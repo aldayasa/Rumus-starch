@@ -11,7 +11,26 @@
 <body class="w3-black">
 <!--arditarizki-->
 <header class="navbar">
-  <div id="navbar-placeholder"></div>
+  <div class="navbar-container">
+    <div class="navbar-brand" onclick="window.location.href='index.html'">StarchPrep</div>
+    <div class="navbar-toggle" onclick="toggleMenu()">☰</div>
+    <div class="navbar-menu" id="navbarMenu">
+      <a href="index.html" class="home-link">
+        <img src="home.png" alt="Home" class="home-icon"> Home
+      </a>
+      <a href="alum.html">Konsumsi Alum</a>
+      <a href="totalizer starch.html">Totalizer Starch</a>
+      <a href="enzyme.html">Flow Enzyme</a>
+      <a href="retentiontime.html">Retention Time</a>
+      <a href="estimate.html">Estimasi Starch</a>
+      <a href="SSA.html">Flow SSA</a>
+      <a href="atago.html">Atago Solid</a>
+      <a href="NaOH.html">Pemakaian NaOH</a>
+      <a href="PPM.html">Dosis Enzyme</a>
+      <a href="Starch Consumption.html">Starch Consumption</a>
+      <a href="starch formula.html">Ensiklopedia Formula</a>
+    </div>
+  </div>
 </header>
 <script>
    $(document).ready(function() {
@@ -655,7 +674,7 @@ function STMTBL()
 		
 		
 	if (TMP < 15) {
-  swal("Temperature Error", "The temperature is out of range, it must be 15–40°C", "warning");
+  alert("Waduh COK! Suhune kurang, kudu antara 15–40°C!", "The temperature is out of range, it must be 15–40°C", "warning");
 }
 		
 		else if ((TMP>=15) & (TMP<20))
@@ -668,7 +687,7 @@ function STMTBL()
 		{ document.getElementById("HORE").value = (BRX+UHUY) + ' %'; }
 		
 		else if (TMP>40)
-		swal("Invalid temperature", "Must be between 15°C and 40°C", "error");
+		alert("COK panase! Suhu kudu antara 15–40°C", "Must be between 15°C and 40°C", "error");
 		
 		return (false);		
 }

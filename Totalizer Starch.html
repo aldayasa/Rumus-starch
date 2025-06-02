@@ -11,7 +11,7 @@
   <script type="text/javascript" src="sweetalert2.js"></script>
 </head>
 <body>
-﻿<header class="navbar">
+<header class="navbar">
   <div class="navbar-container">
     <div class="navbar-brand" onclick="window.location.href='index.html'">StarchPrep</div>
     <div class="navbar-toggle" onclick="toggleMenu()">☰</div>
@@ -39,54 +39,48 @@
 <form id="conversion">
     <input type="reset" value="Reset" onclick="return confirm_reset()" style="margin-left: 10px; margin-bottom: 10px;">
     <table>
-      <tr>
-        <td>HOPPER<br>
-          <input onblur="return CVRS();" type="number" placeholder="%" name="HOPPER" id="HOPPER" required max="100">
-        </td>
-      </tr>
-      <tr hidden>
-        <td><input type="number" placeholder="kg" name="CONV"></td>
-      </tr>
-      <tr>
-        <td>COOKER<br>
-          <input onblur="return CVRS();" type="number" placeholder="kg" name="COOKER" id="COOKER" required>
-        </td>
-      </tr>
-      <tr>
-        <td>REACTION<br>
-          <input onblur="return CVRS();" type="number" placeholder="kg" name="REACTION" id="REACTION" required>
-        </td>
-      </tr>
-      <tr>
-        <td>STORAGE<br>
-          <input onblur="return CVRS();" type="number" placeholder="kg" name="STORAGE" id="STORAGE" required>
-        </td>
-      </tr>
-      <tr>
-        <td>F1<br>
-          <input onblur="return CVRS();" type="number" placeholder="kg" name="F1" id="F1" required>
-        </td>
-      </tr>
-      <tr>
-        <td>F2<br>
-          <input onblur="return CVRS();" type="number" placeholder="kg" name="F2" id="F2" required>
-        </td>
-      </tr>
-      <tr>
-        <td>HASIL:<br>
-          <input readonly type="text" placeholder="kg" name="WG">
-        </td>
-      </tr>
-    </table>
+  <tr>
+    <td>Estimasi Level Hopper<br>
+      <input onblur="return CVRS();" type="number" placeholder="%" name="HOPPER" id="HOPPER" required max="100">
+    </td>
+    <td>Total Cooker<br>
+      <input onblur="return CVRS();" type="number" placeholder="kg" name="COOKER" id="COOKER" required>
+    </td>
+  </tr>
+  <tr>
+    <td>Total Reaction<br>
+      <input onblur="return CVRS();" type="number" placeholder="kg" name="REACTION" id="REACTION" required>
+    </td>
+    <td>Total Storage<br>
+      <input onblur="return CVRS();" type="number" placeholder="kg" name="STORAGE" id="STORAGE" required>
+    </td>
+  </tr>
+  <tr>
+    <td>Total Final Tank 1<br>
+      <input onblur="return CVRS();" type="number" placeholder="kg" name="F1" id="F1" required>
+    </td>
+    <td>Total Final Tank 2<br>
+      <input onblur="return CVRS();" type="number" placeholder="kg" name="F2" id="F2" required>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">HASIL:<br>
+      <input readonly type="text" placeholder="kg" name="WG" style="width: 100%;">
+    </td>
+  </tr>
+</table>
 
     <div style="margin-top: 20px;">
       <button type="button" class="button" onclick="calculate()"><b>Calculate</b></button>
     </div>
   </form>
 
-  <footer style="margin-top: 40px; background-color: #181818;">
-    <i>&copy; Ardita Rizki F</i>
-  </footer>
+  <footer class="footer">
+  <div class="footer-content">
+    <p>&copy; 2025 Ardita Rizki F — Operator DCS Starch, PM1</p>
+    <p>PT Dayasa Aria Prima | Industrial Excellence with Integrity</p>
+  </div>
+</footer>
 </main>
 
 <script type="text/javascript">
@@ -116,6 +110,25 @@ function calculate() {
 
   document.querySelector('input[name="WG"]').value = total.toFixed(0) + ' kg';
 }
+// Fungsi toggle menu navbar
+function toggleMenu() {
+  var menu = document.getElementById('navbarMenu');
+  if (!menu) return;
+
+  if (menu.classList) {
+    menu.classList.toggle('show');
+  } else {
+    var classes = menu.className.split(" ");
+    var i = classes.indexOf("show");
+    if (i >= 0) {
+      classes.splice(i, 1);
+    } else {
+      classes.push("show");
+    }
+    menu.className = classes.join(" ");
+  }
+}
+
 </script>
 </body>
 </html>

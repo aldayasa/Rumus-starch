@@ -16,7 +16,7 @@ body {
   padding-top: 50px; /* Sesuaikan tinggi navbar agar tidak ketutup */
 }
 
-/* Navbar wrapper */
+/* Navbar */
 .navbar {
   position: fixed;
   top: 0;
@@ -27,16 +27,16 @@ body {
 }
 
 .navbar-container {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 6px 12px;
+  padding: 10px 15px;
 }
 
 .navbar-brand {
   color: #f1c40f;
   font-size: 26px;
-  float: left;
   font-weight: bold;
   cursor: pointer;
 }
@@ -45,30 +45,30 @@ body {
   font-size: 24px;
   cursor: pointer;
   display: block;
+margin-left: auto;
 }
 
-.navbar-menu {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease-out;
-  background-color: #333;
+#navbarMenu {
+  display: none;
   position: absolute;
-  top: 50px;
-  right: 10px;
+  top: 100%;
+  right: 0;
   width: 200px;
+  background-color: #333;
   border-radius: 8px;
-  z-index: 999;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  max-height: 300px;         /* Scroll aktif saat terlalu tinggi */
+  overflow-y: auto;          /* Scroll vertical */
+  z-index: 999;
 }
 
-.navbar-menu.open {
-  max-height: 300px; /* Sesuaikan tinggi maksimal menu */
-  overflow-y: auto;
+/* Tampilkan menu saat diklik */
+#navbarMenu.show {
+  display: block;
 }
-
 .navbar-menu a {
   display: block;
-  padding: 6px 12px;
+  padding: 10px 15px;
   color: #fff;
   text-decoration: none;
   text-align: left;
@@ -78,15 +78,10 @@ body {
   background-color: #555;
 }
 
-.navbar-menu.show {
-  max-height: 225px;
-  overflow-y: auto;
-}
-
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
   .navbar-menu {
     display: block;
-    max-height: 200px;
+    max-height: 300px;
     overflow-y: scroll;
   }
 }
@@ -183,25 +178,4 @@ button:hover, input[type="button"]:hover {
 
 .container button:hover {
   background-color: #45a049;
-}
-
-.sweet-alert {
-  background-color: #e74c3c;
-  font-family: 'Arial', Trebuchet ms, Open Sans, sans-serif;
-  width: 478px;
-  padding: 17px;
-  border-radius: 5px;
-  text-align: center;
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  margin-left: -256px;
-  margin-top: -200px;
-  overflow: hidden;
-  display: none;
-  z-index: 99999;
-}
-
-.sweet-alert input {
-  display: none !important;
 }

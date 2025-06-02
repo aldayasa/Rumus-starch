@@ -11,41 +11,78 @@
 </head>
 <body>
 <header class="navbar">
-  <div id="navbar-placeholder"></div>
+  <div class="navbar-container">
+    <div class="navbar-brand" onclick="window.location.href='index.html'">StarchPrep</div>
+    <div class="navbar-toggle" onclick="toggleMenu()">☰</div>
+    <div class="navbar-menu" id="navbarMenu">
+      <a href="index.html" class="home-link">
+        <img src="home.png" alt="Home" class="home-icon"> Home
+      </a>
+      <a href="alum.html">Konsumsi Alum</a>
+      <a href="totalizer starch.html">Totalizer Starch</a>
+      <a href="enzyme.html">Flow Enzyme</a>
+      <a href="retentiontime.html">Retention Time</a>
+      <a href="estimate.html">Estimasi Starch</a>
+      <a href="SSA.html">Flow SSA</a>
+      <a href="atago.html">Atago Solid</a>
+      <a href="NaOH.html">Pemakaian NaOH</a>
+      <a href="PPM.html">Dosis Enzyme</a>
+      <a href="Starch Consumption.html">Starch Consumption</a>
+      <a href="starch formula.html">Ensiklopedia Formula</a>
+    </div>
+  </div>
 </header>
 <body>
 	<br><br><br>
 	<h2>Starch Consumption</h2>
   <form id="conversion">
-  <label>Total Flow Top (m³/h) <br>
-    <input type="number" name="flowTop" step="any">
-  </label><br>
-
-  <label>Solid Top (%) <br>
-    <input type="number" name="solidTop" step="any">
-  </label><br>
-
-  <label>Total Flow Bottom (m³/h)
-    <input type="number" name="flowBottom" step="any">
-  </label><br>
-
-  <label>Solid Bottom (%) <br>
-    <input type="number" name="solidBottom" step="any">
-  </label><br>
-
-  <label>Density (ton/m³) <br>
-    <input type="number" name="density" step="any" value="1.1">
-  </label><br>
-
-  <label>Production Rate (t/h) <br>
-    <input type="number" name="production" step="any">
-  </label><br>
-  	<input type="button" value="Kalkulasi" onclick="hitungKonsumsi()">
-<div id="result"></div>
+  <table>
+    <tr>
+      <td>
+        Total Flow Top (m³/h)<br>
+        <input type="number" name="flowTop" step="any">
+      </td>
+      <td>
+        Solid Top (%)<br>
+        <input type="number" name="solidTop" step="any">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Total Flow Bottom (m³/h)<br>
+        <input type="number" name="flowBottom" step="any">
+      </td>
+      <td>
+        Solid Bottom (%)<br>
+        <input type="number" name="solidBottom" step="any">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Density (ton/m³)<br>
+        <input type="number" name="density" step="any" value="1.1">
+      </td>
+      <td>
+        Production Rate (t/h)<br>
+        <input type="number" name="production" step="any">
+      </td>
+    </tr>
+    <tr>
+  <td>
+    <input type="button" value="Kalkulasi" onclick="hitungKonsumsi()">
+  </td>
+  <td>
+    <div id="result" class="result-box"></div>
+  </td>
+</tr>
+  </table>
 </form>
-<footer style="margin-top: 40px; background-color: #181818;">
-    <i>&copy; Ardita Rizki F</i>
-  </footer>
+<footer class="footer">
+  <div class="footer-content">
+    <p>&copy; 2025 Ardita Rizki F — Operator DCS Starch, PM1</p>
+    <p>PT Dayasa Aria Prima | Industrial Excellence with Integrity</p>
+  </div>
+</footer>
 <script>
   function hitungKonsumsi() {
     var form = document.getElementById('conversion');

@@ -10,7 +10,26 @@
 <script type="text/javascript" src="sweetalert2.js"></script>
 </head>
 <header class="navbar">
-  <div id="navbar-placeholder"></div>
+  <div class="navbar-container">
+    <div class="navbar-brand" onclick="window.location.href='index.html'">StarchPrep</div>
+    <div class="navbar-toggle" onclick="toggleMenu()">☰</div>
+    <div class="navbar-menu" id="navbarMenu">
+      <a href="index.html" class="home-link">
+        <img src="home.png" alt="Home" class="home-icon"> Home
+      </a>
+      <a href="alum.html">Konsumsi Alum</a>
+      <a href="totalizer starch.html">Totalizer Starch</a>
+      <a href="enzyme.html">Flow Enzyme</a>
+      <a href="retentiontime.html">Retention Time</a>
+      <a href="estimate.html">Estimasi Starch</a>
+      <a href="SSA.html">Flow SSA</a>
+      <a href="atago.html">Atago Solid</a>
+      <a href="NaOH.html">Pemakaian NaOH</a>
+      <a href="PPM.html">Dosis Enzyme</a>
+      <a href="Starch Consumption.html">Starch Consumption</a>
+      <a href="starch formula.html">Ensiklopedia Formula</a>
+    </div>
+  </div>
 </header>
 <body>
 	<br><br><br>
@@ -19,39 +38,36 @@
   <table><input type="reset" value="Reset">
   	<br>
     <tr>
-      <td>FLOW STORAGE<i><small>&nbsp; Flow Starch Top + Bottom</small></i><br>
+      <td>Total Flow Storage<i><small>&nbsp; Flow Starch Top + Bottom</small></i><br>
         <input type="number" placeholder="m³/h" name="FLOW" id="FLOW" required>
       </td>
+      <td>Level Cooker<br><input type="number" placeholder="%" name="COOKER" id="COOKER" required> </td>
     </tr>
     <tr>
-      <td>COOKER<br><input type="number" placeholder="%" name="COOKER" id="COOKER" required> </td>
+      <td>Level Reaction<br><input type="number" placeholder="%" name="REACTION" id="REACTION" required> </td>
+            <td>Level Storage<br><input type="number" placeholder="%" name="STORAGE" id="STORAGE" required> </td>
     </tr>
     <tr>
-      <td>REACTION<br><input type="number" placeholder="%" name="REACTION" id="REACTION" required> </td>
-    </tr>
-    <tr>
-      <td>STORAGE<br><input type="number" placeholder="%" name="STORAGE" id="STORAGE" required> </td>
-    </tr>
-    <tr>
-      <td>F1<br><input type="number" placeholder="%" name="F1" id="F1" required> </td>
-    </tr>
-    <tr>
-      <td>F2<br><input type="number" placeholder="%" name="F2" id="F2" required> </td>
+      <td>Level Final Tank 1<br><input type="number" placeholder="%" name="F1" id="F1" required> </td>
+      <td>Level Final Tank 2<br><input type="number" placeholder="%" name="F2" id="F2" required> </td>
     </tr>
     <tr hidden>
       <td><b>Total Time</b><br><input  type="number" placeholder="minutes" name="WG"></td>
     </tr>
 <tr>
   <td><b>Total Waktu Starch Habis</b><br>
-    <input readonly type="text" id="formattedTime" placeholder="0 jam 0 menit 0 detik">
+    <input readonly style="width: 100%" type="text" id="formattedTime" placeholder="0 jam 0 menit 0 detik">
   </td>
 </tr>
   </table>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <button type="button" class="button" onclick="calculate()"><b>Calculate</b></button>
+  <button  type="button" class="button" onclick="calculate()"><b>Calculate</b></button>
 </form>
-<footer style="margin-top: 40px; background-color: #181818;">
-    <i>&copy; Ardita Rizki F</i>
-  </footer>
+<footer class="footer">
+  <div class="footer-content">
+    <p>&copy; 2025 Ardita Rizki F — Operator DCS Starch, PM1</p>
+    <p>PT Dayasa Aria Prima | Industrial Excellence with Integrity</p>
+  </div>
+</footer>
 
 <script>
 function calculate() {

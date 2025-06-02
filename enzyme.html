@@ -465,9 +465,9 @@ margin-left: auto;
         ml: parseInt(el.getAttribute('data-ml'), 10)
       });
     }
-    setCookie('hasilMasak', JSON.stringify(hasilArray));
-    setCookie('totalMasak', total);
-    setCookie('countMasak', count);
+    setCookie('hasilMasak', JSON.stringify(hasilArray), 30);
+    setCookie('totalMasak', total, 30);
+    setCookie('countMasak', count, 30);
   }
 
   function loadDariCookie() {
@@ -500,9 +500,12 @@ margin-left: auto;
     deleteCookie('countMasak');
   }
 
-  // Helpers untuk cookie
-  function setCookie(name, value) {
-    document.cookie = name + "=" + encodeURIComponent(value) + "; path=/";
+  // ✅ Cookie Helpers dengan expired 30 hari
+  function setCookie(name, value, days = 30) {
+    var date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); // 30 hari
+    var expires = "; expires=" + date.toUTCString();
+    document.cookie = name + "=" + encodeURIComponent(value) + expires + "; path=/";
   }
 
   function getCookie(name) {
@@ -521,7 +524,7 @@ margin-left: auto;
   if (document.addEventListener) {
     document.addEventListener('DOMContentLoaded', loadDariCookie, false);
   } else {
-    window.attachEvent('onload', loadDariCookie);
+    window.attachEvent('onload', loadDariCookie); // fallback untuk IE
   }
 </script>
 </body>
