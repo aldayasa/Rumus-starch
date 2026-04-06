@@ -2,7 +2,7 @@
 <html lang="id" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <title>Formula Hub | StarchPrep</title>
+  <title>Starch Formula | Web Formula</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <link rel="icon" type="image/png" href="balance.png" sizes="64x64">
 
@@ -16,32 +16,32 @@
     body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b0f19; color: #f8fafc; -webkit-tap-highlight-color: transparent; }
     [v-cloak] { display: none; }
     
-    /* Background Tema Seragam */
+    /* Background Tema Seragam dengan Dashboard Utama */
     .bg-hero { position: fixed; inset: 0; z-index: -1; background-image: url('background.webp'); background-size: cover; background-position: center; }
     .bg-overlay { position: fixed; inset: 0; background: linear-gradient(to bottom, rgba(11,15,25,0.85), rgba(11,15,25,0.95)); z-index: -1; backdrop-filter: blur(8px); }
 
     /* Efek Kaca (Glassmorphism) */
     .glass-card { background: rgba(30, 41, 59, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5); transition: all 0.3s; }
-    .glass-card:hover { border-color: rgba(34, 211, 238, 0.5); box-shadow: 0 10px 30px -10px rgba(34,211,238,0.3); transform: translateY(-3px); }
+    .glass-card:hover { border-color: rgba(250, 204, 21, 0.5); box-shadow: 0 10px 30px -10px rgba(250,204,21,0.3); transform: translateY(-3px); }
     
     /* Search Input Modern */
     .search-input {
       background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.1); color: #fff; transition: all 0.3s; outline: none;
     }
-    .search-input:focus { border-color: #22d3ee; box-shadow: 0 0 0 4px rgba(34,211,238,0.1); background: rgba(15, 23, 42, 0.9); }
+    .search-input:focus { border-color: #facc15; box-shadow: 0 0 0 4px rgba(250,204,21,0.1); background: rgba(15, 23, 42, 0.9); }
 
     /* Custom Scrollbar */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: #0b0f19; }
     ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: #22d3ee; }
+    ::-webkit-scrollbar-thumb:hover { background: #facc15; }
 
     /* Animasi Transisi Vue */
     .list-enter-active, .list-leave-active { transition: all 0.4s ease; }
     .list-enter-from, .list-leave-to { opacity: 0; transform: translateY(15px); }
   </style>
 </head>
-<body class="antialiased selection:bg-cyan-500 selection:text-white">
+<body class="antialiased selection:bg-yellow-500 selection:text-black">
 
 <div id="app" v-cloak class="min-h-screen flex flex-col relative pb-10">
   <div class="bg-hero"></div>
@@ -49,21 +49,22 @@
 
   <nav class="sticky top-0 z-[100] bg-[#0b0f19]/95 backdrop-blur-lg border-b border-gray-800 shadow-xl">
     <div class="max-w-7xl mx-auto flex justify-between items-center px-4 sm:px-6 py-4">
-      <div class="flex items-center gap-3">
+      
+      <div class="flex items-center gap-3 cursor-pointer" @click="searchQuery = ''">
         <div class="bg-gradient-to-br from-yellow-400 to-orange-500 p-2 rounded-lg shadow-lg shadow-yellow-500/20 shrink-0">
-          <i class="fa fa-calculator text-white text-lg sm:text-xl"></i>
+          <i class="bi bi-box-seam text-white text-lg sm:text-xl"></i>
         </div>
         <div class="min-w-0">
-          <h1 class="text-lg sm:text-xl font-black tracking-tighter text-white truncate">STARCH<span class="text-yellow-400">CALC</span></h1>
-          <p class="text-[8px] sm:text-[9px] text-gray-400 uppercase tracking-[0.2em] font-bold truncate">Formula Library</p>
+          <h1 class="text-lg sm:text-xl font-black tracking-tighter text-white truncate">STARCH<span class="text-yellow-400">FORMULA</span></h1>
+          <p class="text-[8px] sm:text-[9px] text-gray-400 uppercase tracking-[0.2em] font-bold truncate">Web Formula System</p>
         </div>
       </div>
       
-      <a href="index.html" class="hidden sm:inline-flex items-center gap-2 bg-white/5 hover:bg-white/10 text-gray-300 px-5 py-2.5 rounded-xl transition-all font-bold text-xs border border-white/10 shadow-lg active:scale-95">
-        <i class="fa fa-arrow-left"></i> Beranda Utama
+      <a href="index.html" class="hidden sm:inline-flex items-center gap-2 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 px-5 py-2.5 rounded-xl transition-all font-bold text-xs border border-cyan-500/20 shadow-lg active:scale-95">
+        <i class="fa fa-arrow-left"></i> StarchPrep Dashboard
       </a>
       
-      <a href="index.html" class="sm:hidden w-10 h-10 flex items-center justify-center bg-white/5 border border-white/10 rounded-full text-gray-300 active:scale-90 transition-transform shrink-0 shadow-lg">
+      <a href="index.html" class="sm:hidden w-10 h-10 flex items-center justify-center bg-cyan-500/10 border border-cyan-500/20 rounded-full text-cyan-400 active:scale-90 transition-transform shrink-0 shadow-lg">
         <i class="fa fa-arrow-left"></i>
       </a>
     </div>
@@ -72,16 +73,16 @@
   <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 z-10">
     
     <div class="text-center mb-8 sm:mb-12 px-2">
-      <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600 tracking-tighter mb-4 drop-shadow-lg">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500 tracking-tighter mb-4 drop-shadow-lg">
         Starch Preparation Calculator
       </h2>
       <p class="text-gray-400 text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
-        Pusat navigasi menuju seluruh alat bantu hitung, ensiklopedia, dan parameter operasional pabrik. Ketik nama rumus yang ingin Anda cari.
+        Pusat kalkulator independen untuk pengolahan pati. Ketik parameter yang ingin Anda hitung di bawah ini.
       </p>
     </div>
 
     <div class="max-w-2xl mx-auto mb-10 sm:mb-14 relative px-1 sm:px-0">
-      <i class="bi bi-search absolute left-5 sm:left-6 top-1/2 -translate-y-1/2 text-cyan-400 text-base sm:text-lg"></i>
+      <i class="bi bi-search absolute left-5 sm:left-6 top-1/2 -translate-y-1/2 text-yellow-400 text-base sm:text-lg"></i>
       <input 
         type="text" 
         v-model="searchQuery" 
@@ -93,23 +94,25 @@
       </button>
     </div>
 
-    <transition-group name="list" tag="div" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+    <transition-group name="list" tag="div" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
       
-      <a v-for="tool in filteredTools" :key="tool.title" :href="tool.link" class="glass-card rounded-2xl p-5 sm:p-6 group flex items-center gap-4 sm:gap-5">
+      <a v-for="(tool, index) in filteredTools" :key="tool.title" :href="tool.link" 
+         class="glass-card rounded-2xl p-5 sm:p-6 group flex items-center gap-4 sm:gap-5"
+         :class="{'lg:col-span-2': filteredTools.length === 10 && index >= 8}">
         
         <div :class="`w-12 h-12 sm:w-14 sm:h-14 shrink-0 rounded-xl flex items-center justify-center shadow-lg bg-${tool.color}-500/10 text-${tool.color}-400 group-hover:scale-110 transition-transform duration-300 border border-${tool.color}-500/20`">
           <i :class="`bi ${tool.icon} text-xl sm:text-2xl`"></i>
         </div>
         
         <div class="min-w-0 flex-1">
-          <h3 class="text-white font-bold text-sm sm:text-base tracking-tight mb-1 group-hover:text-cyan-400 transition-colors truncate">{{ tool.title }}</h3>
+          <h3 class="text-white font-bold text-sm sm:text-base tracking-tight mb-1 group-hover:text-yellow-400 transition-colors truncate">{{ tool.title }}</h3>
           <p class="text-[9px] sm:text-[10px] text-gray-500 uppercase font-black tracking-widest truncate">{{ tool.tag }}</p>
         </div>
         
         <i class="fa fa-chevron-right ml-1 text-gray-600 text-[10px] sm:text-xs opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all shrink-0"></i>
       </a>
 
-      <a v-if="filteredTools.length > 0" href="starch formula.html" class="glass-card col-span-full rounded-2xl p-5 sm:p-6 group flex items-center gap-4 sm:gap-5 border-red-500/30 bg-red-500/5 hover:bg-red-500/10 transition-colors mt-2 sm:mt-0">
+      <a v-if="filteredTools.length > 0" href="starch formula.html" class="glass-card col-span-full rounded-2xl p-5 sm:p-6 group flex items-center gap-4 sm:gap-5 border-red-500/30 bg-red-500/5 hover:bg-red-500/10 transition-colors mt-4">
         <div class="w-12 h-12 sm:w-14 sm:h-14 shrink-0 rounded-xl flex items-center justify-center shadow-lg bg-red-500/20 text-red-400 group-hover:scale-110 transition-transform duration-300 border border-red-500/30">
           <i class="bi bi-journal-text text-xl sm:text-2xl"></i>
         </div>
@@ -135,7 +138,7 @@
   </main>
 
   <footer class="text-center py-6 sm:py-8 mt-12 border-t border-gray-800 z-10 bg-[#0b0f19]/80 backdrop-blur-md">
-    <p class="text-[9px] sm:text-[10px] text-gray-500 font-bold tracking-widest uppercase">&copy; 2026 Ardita Rizki Fauzi | Powered by Vue.js</p>
+    <p class="text-[9px] sm:text-[10px] text-gray-500 font-bold tracking-widest uppercase">&copy; 2026 Ardita Rizki Fauzi | StarchPrep Ecosystem</p>
   </footer>
 
 </div>
@@ -147,7 +150,7 @@
     data() {
       return {
         searchQuery: '',
-        // Array Data Tools
+        // Tepat ada 10 item. Saat tampil semua, akan membentuk grid 4 - 4 - 2(span)
         tools: [
           { title: 'Konsumsi Alum', icon: 'bi-droplet-half', link: 'alum.html', tag: 'Chemical', color: 'blue' },
           { title: 'Totalizer Starch', icon: 'bi-speedometer2', link: 'totalizer starch.html', tag: 'Production', color: 'emerald' },
