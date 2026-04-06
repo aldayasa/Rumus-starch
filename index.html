@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>StarchPrep PRO V7 - Platinum SPA</title>
+    <title>StarchPrep PRO V8 - Ultimate SPA</title>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; background-color: #0b0f19; color: #f8fafc; scroll-behavior: smooth; }
@@ -16,9 +16,9 @@
         .glass-card { background: rgba(30, 41, 59, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
         input, select { background: #111 !important; border: 2px solid #333 !important; color: white !important; text-align: center; font-weight: 800; border-radius: 1rem; width: 100%; padding: 0.8rem; outline: none; }
         input:focus { border-color: #f1c40f !important; }
+        .res-box { background: rgba(241, 196, 15, 0.05); border: 1px solid rgba(241, 196, 15, 0.2); border-radius: 1.5rem; padding: 1.5rem; text-align: center; }
         .fade-enter-active, .fade-leave-active { transition: all 0.3s ease; }
         .fade-enter-from, .fade-leave-to { opacity: 0; transform: translateY(10px); }
-        .res-box { background: rgba(241, 196, 15, 0.05); border: 1px solid rgba(241, 196, 15, 0.2); border-radius: 1.5rem; padding: 1.5rem; text-align: center; }
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
     </style>
@@ -30,28 +30,30 @@
 
     <nav class="flex justify-between items-center py-6 mb-8">
         <div class="flex items-center gap-3">
-            <div class="bg-[#f1c40f] p-2 rounded-xl shadow-lg">
-                <i class="bi bi-cpu-fill text-black text-xl"></i>
+            <div class="bg-[#f1c40f] p-2.5 rounded-xl shadow-lg shadow-[#f1c40f]/20">
+                <i class="bi bi-cpu-fill text-black text-2xl"></i>
             </div>
-            <h1 class="text-xl font-black italic tracking-tighter uppercase">STARCH<span class="text-[#f1c40f]">PRO</span></h1>
+            <div>
+                <h1 class="text-xl font-black italic tracking-tighter uppercase leading-none">STARCH<span class="text-[#f1c40f]">PRO</span></h1>
+                <p class="text-[8px] font-bold text-slate-500 uppercase tracking-widest mt-1">Industrial SPA V8.0</p>
+            </div>
         </div>
         <div class="flex gap-2">
-            <button @click="activeId = 'f-wiki'" class="bg-white/5 border border-white/10 px-4 py-2 rounded-full text-[9px] font-black uppercase tracking-widest hover:bg-white/10">Encyclopedia</button>
-            <a href="https://starch-preparation.netlify.app/" class="bg-white/5 border border-white/10 px-4 py-2 rounded-full text-[9px] font-black uppercase tracking-widest hover:bg-white/10"><i class="bi bi-house-door"></i></a>
+            <button @click="openTool('f-wiki')" class="bg-cyan-500/20 border border-cyan-500/30 px-4 py-2 rounded-full text-[9px] font-black uppercase tracking-widest text-cyan-400 active:scale-90 transition-all">Encyclopedia</button>
+            <a href="https://starch-preparation.netlify.app/" class="bg-white/5 border border-white/10 px-4 py-2 rounded-full text-[9px] font-black uppercase tracking-widest active:scale-90 transition-all"><i class="bi bi-house-door"></i></a>
         </div>
     </nav>
 
     <div v-show="!activeId" class="animate-fade-in">
         <div class="text-center mb-10">
-            <h2 class="text-4xl font-black text-white tracking-tighter mb-2 italic">DCS Command Center</h2>
-            <p class="text-slate-500 text-[10px] font-bold uppercase tracking-[0.3em]">Paper Machine 1 - Industrial SPA</p>
+            <h2 class="text-4xl font-black text-white tracking-tighter mb-2 italic">Control Terminal</h2>
+            <p class="text-slate-500 text-[10px] font-bold uppercase tracking-[0.3em]">Paper Machine 1 Industrial System</p>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-            <div v-for="(tool, index) in tools" :key="tool.id" 
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-10">
+            <div v-for="tool in tools" :key="tool.id" 
                  @click="openTool(tool.id)"
-                 class="glass-card p-6 rounded-[2.5rem] text-center cursor-pointer hover:border-[#f1c40f]/60 transition-all group active:scale-95"
-                 :class="{'md:col-span-2': index >= 8}">
+                 class="glass-card p-6 rounded-[2.5rem] text-center cursor-pointer hover:border-[#f1c40f]/60 transition-all group active:scale-95">
                 <i :class="tool.icon + ' text-3xl mb-3 block'" :style="{color: tool.color}"></i>
                 <span class="text-[9px] font-black uppercase tracking-[0.15em] text-slate-400 group-hover:text-white">{{ tool.title }}</span>
             </div>
@@ -63,94 +65,68 @@
             
             <div class="flex justify-between items-center mb-6">
                 <button @click="activeId = null" class="text-[#f1c40f] font-black uppercase text-[10px] tracking-widest bg-white/5 px-5 py-2.5 rounded-full border border-white/5 active:scale-90">
-                    <i class="bi bi-grid-fill mr-2"></i> Menu Utama
+                    <i class="bi bi-grid-fill mr-2"></i> Menu Terminal
                 </button>
-                <span class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Modul: {{ getActiveTitle }}</span>
+                <span class="text-[9px] font-black text-slate-500 uppercase tracking-widest">{{ getActiveTitle }}</span>
             </div>
 
             <div v-if="activeId === 'f-enz-batch'" class="glass-card p-8 rounded-[3rem] shadow-2xl">
                 <h3 class="text-center text-purple-400 font-black italic mb-8 uppercase text-xs">Batch Enzyme Calculator</h3>
                 <div class="space-y-4">
                     <div class="grid grid-cols-2 gap-3">
-                        <div>
-                            <label class="text-[9px] font-bold text-slate-500 uppercase ml-2 mb-1 block">Mulai (HH:MM)</label>
-                            <input type="text" v-model="enz.t1" @keyup="formatTime('t1')" placeholder="09:00" maxlength="5" class="text-xl">
-                        </div>
-                        <div>
-                            <label class="text-[9px] font-bold text-slate-500 uppercase ml-2 mb-1 block">Selesai (HH:MM)</label>
-                            <input type="text" v-model="enz.t2" @keyup="formatTime('t2')" placeholder="10:30" maxlength="5" class="text-xl">
-                        </div>
+                        <input type="text" v-model="enz.t1" @keyup="formatTime('t1')" placeholder="Mulai (0900)" maxlength="5">
+                        <input type="text" v-model="enz.t2" @keyup="formatTime('t2')" placeholder="Selesai (1030)" maxlength="5">
                     </div>
-                    <label class="text-[9px] font-bold text-slate-500 uppercase ml-2 mb-1 block">Rate Konsumsi (ml/menit)</label>
-                    <input type="number" v-model.number="enz.rate" placeholder="Contoh: 10" class="text-xl">
-                    
-                    <button @click="addEnzBatch" class="w-full bg-purple-600 py-4 rounded-2xl font-black uppercase text-xs shadow-lg active:scale-95 transition-all">Simpan Batch Masakan</button>
+                    <input type="number" v-model.number="enz.rate" placeholder="Rate ml/menit">
+                    <button @click="addEnzBatch" class="w-full bg-purple-600 py-4 rounded-2xl font-black uppercase text-xs shadow-lg active:scale-95">Simpan Batch Masakan</button>
                     
                     <div v-if="enz.list.length > 0" class="mt-6 space-y-2 max-h-52 overflow-y-auto pr-2">
-                        <div v-for="(item, i) in enz.list" :key="i" class="flex justify-between items-center bg-black/40 p-4 rounded-xl border border-white/5 transition-all">
+                        <div v-for="(item, i) in enz.list" :key="i" class="flex justify-between items-center bg-black/40 p-4 rounded-xl border border-white/5">
                             <div class="flex flex-col">
-                                <span class="text-[8px] font-black text-purple-400 uppercase">Batch {{ angkaKeUrutan(i+1) }}</span>
+                                <span class="text-[8px] font-black text-purple-400 uppercase">Batch {{ getOrdinal(i+1) }}</span>
                                 <span class="text-xs font-bold text-white">{{ item.ml }} ml <small class="text-slate-500 ml-1">({{ item.dur }} min)</small></span>
                             </div>
-                            <i @click="removeEnz(i)" class="bi bi-x-circle-fill text-red-500 text-lg cursor-pointer hover:scale-110 active:scale-90"></i>
+                            <i @click="removeEnz(i)" class="bi bi-x-circle-fill text-red-500 text-lg cursor-pointer active:scale-75 transition-all"></i>
                         </div>
                     </div>
-
                     <div class="res-box mt-4 bg-purple-500/10 border-purple-400/30">
-                        <label class="text-[9px] font-black uppercase opacity-40 block mb-1">Total Accumulation</label>
+                        <label class="text-[9px] font-black uppercase opacity-40 block mb-1">Total Enzyme used</label>
                         <p class="text-5xl font-black text-white">{{ enzTotal }} <span class="text-sm">ml</span></p>
-                        <button v-if="enz.list.length > 0" @click="resetEnz" class="mt-4 text-[8px] font-black uppercase text-red-400 hover:underline">Reset Semua Data</button>
+                        <button v-if="enz.list.length > 0" @click="resetEnz" class="mt-4 text-[8px] font-black uppercase text-red-400 hover:underline">Reset Data</button>
                     </div>
                 </div>
             </div>
 
             <div v-if="activeId === 'f-est'" class="glass-card p-8 rounded-[3rem]">
-                <h3 class="text-center text-orange-400 font-black italic mb-8 uppercase text-xs">Estimasi Sisa Starch</h3>
+                <h3 class="text-center text-orange-400 font-black italic mb-8 uppercase text-xs">Estimasi Waktu Habis Starch</h3>
                 <div class="space-y-4">
-                    <label class="text-[9px] font-bold text-slate-500 uppercase ml-2 mb-1 block text-center">Total Flow Storage (m3/h)</label>
-                    <input type="number" v-model.number="est.flow" placeholder="Flow Top + Bottom" class="text-xl py-4">
-                    
+                    <input type="number" v-model.number="est.flow" placeholder="Total Flow Storage (m3/h)" class="text-xl py-4">
                     <div class="bg-black/40 p-5 rounded-2xl border border-white/5 space-y-4">
                         <div>
-                            <label class="text-[9px] font-bold text-slate-500 uppercase block mb-2">Level Cooker (%)</label>
+                            <label class="text-[8px] font-bold text-slate-500 uppercase block mb-1">Level Cooker (%)</label>
                             <input type="number" v-model.number="est.c" class="mb-2">
                             <label class="flex items-center gap-2 cursor-pointer">
                                 <input type="checkbox" v-model="est.empty" class="w-4 h-4 !bg-transparent">
-                                <span class="text-[10px] text-slate-400 font-bold">Cooker benar-benar kosong</span>
+                                <span class="text-[9px] text-slate-400 font-bold">Cooker benar-benar kosong</span>
                             </label>
                         </div>
                         <div class="grid grid-cols-2 gap-3">
-                            <div><label class="text-[8px] font-bold text-slate-500 uppercase block mb-1">Reaction (%)</label>
-                            <input v-model.number="est.r" type="number"></div>
-                            <div><label class="text-[8px] font-bold text-slate-500 uppercase block mb-1">Storage (%)</label>
-                            <input v-model.number="est.s" type="number"></div>
+                            <div><label class="text-[8px] font-bold text-slate-500 uppercase block mb-1">Reaction (%)</label><input v-model.number="est.r" type="number"></div>
+                            <div><label class="text-[8px] font-bold text-slate-500 uppercase block mb-1">Storage (%)</label><input v-model.number="est.s" type="number"></div>
                         </div>
                     </div>
-
                     <div class="res-box border-orange-400/20">
-                        <label class="text-[9px] font-black uppercase opacity-40 block mb-1">Estimasi Waktu Habis</label>
-                        <p class="text-3xl font-black text-white leading-tight">{{ estRes }}</p>
-                    </div>
-                </div>
-            </div>
-
-            <div v-if="activeId === 'f-atago'" class="glass-card p-8 rounded-[3rem] border-white/10 relative overflow-hidden">
-                <h3 class="text-center text-[#f1c40f] font-black italic mb-8 uppercase text-xs">Atago Temperature Correction</h3>
-                <div class="space-y-6">
-                    <input type="number" v-model.number="atago.brix" placeholder="Brix (%)" class="text-2xl py-5">
-                    <input type="number" v-model.number="atago.temp" placeholder="Temp (°C)" class="text-2xl py-5">
-                    <div class="res-box border-2" :class="atagoStatus">
-                        <label class="text-[9px] font-black uppercase opacity-60 block mb-1">Corrected Solid</label>
-                        <p class="text-5xl font-black">{{ atagoRes }}</p>
+                        <label class="text-[9px] font-black uppercase opacity-40 block mb-1">Estimasi Sisa Waktu</label>
+                        <p class="text-4xl font-black text-white leading-tight">{{ estRes }}</p>
                     </div>
                 </div>
             </div>
 
             <div v-if="activeId === 'f-alum'" class="glass-card p-8 rounded-[3rem]">
-                <h3 class="text-center text-blue-400 font-black italic mb-8 uppercase text-xs">Alum Consumption</h3>
+                <h3 class="text-center text-blue-400 font-black italic mb-8 uppercase text-xs">Alum Consumption (170162)</h3>
                 <div class="space-y-4">
-                    <input type="number" v-model.number="alum.l1" placeholder="Level Awal (%)" class="text-xl py-4">
-                    <input type="number" v-model.number="alum.l2" placeholder="Level Akhir (%)" class="text-xl py-4">
+                    <input type="number" v-model.number="alum.l1" placeholder="Lvl Awal (%)" class="text-xl py-4">
+                    <input type="number" v-model.number="alum.l2" placeholder="Lvl Akhir (%)" class="text-xl py-4">
                     <div class="res-box bg-blue-500/5 border-blue-400/30">
                         <p class="text-5xl font-black text-white">{{ alumRes }} <span class="text-sm">kg</span></p>
                         <p class="text-[10px] mt-2 font-bold opacity-40 uppercase tracking-widest">Δ {{ (alum.l1 - alum.l2).toFixed(1) }} %</p>
@@ -158,28 +134,51 @@
                 </div>
             </div>
 
-            <div v-if="activeId === 'f-wiki'" class="animate-fade-in">
+            <div v-if="activeId === 'f-wiki'" class="animate-fade-in space-y-4">
                 <div class="text-center mb-8">
                     <h3 class="text-2xl font-black text-cyan-400 tracking-tighter">Formula Encyclopedia</h3>
-                    <p class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Reference Library</p>
+                    <p class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">DCS PM1 Technical Reference</p>
                 </div>
+                <div v-for="(f, i) in wiki" :key="i" class="glass-card p-5 rounded-2xl border-white/5 hover:border-cyan-500/30 transition-all">
+                    <div class="flex justify-between items-center mb-3">
+                        <h4 class="text-[11px] font-black text-white uppercase tracking-tighter">{{ i+1 }}. {{ f.name }}</h4>
+                        <span class="text-[8px] bg-cyan-500/10 text-cyan-400 px-2 py-0.5 rounded-full font-bold uppercase">{{ f.tag }}</span>
+                    </div>
+                    <code class="block text-[10px] bg-black/50 p-4 rounded-xl text-cyan-200 font-mono mb-4 border border-white/5 leading-relaxed">{{ f.code }}</code>
+                </div>
+            </div>
+
+            <div v-if="activeId === 'f-cons'" class="glass-card p-8 rounded-[3rem]">
+                <h3 class="text-center text-green-400 font-black italic mb-8 uppercase text-xs">Starch Consumption</h3>
+                <div class="space-y-3">
+                    <div class="grid grid-cols-2 gap-3"><input v-model.number="con.ft" type="number" placeholder="FTop"><input v-model.number="con.st" type="number" placeholder="STop%"></div>
+                    <div class="grid grid-cols-2 gap-3"><input v-model.number="con.fb" type="number" placeholder="FBot"><input v-model.number="con.sb" type="number" placeholder="SBot%"></div>
+                    <input v-model.number="con.pr" type="number" placeholder="Paper Rate (t/h)">
+                    <div class="res-box border-green-400/20"><p class="text-4xl font-black">{{ ((((con.st*con.ft)+(con.sb*con.fb))*11)/con.pr).toFixed(2) }} kg/ton</p></div>
+                </div>
+            </div>
+
+            <div v-if="activeId === 'f-atago'" class="glass-card p-8 rounded-[3rem]">
+                <h3 class="text-center text-[#f1c40f] font-black italic mb-8 uppercase text-xs">Atago Solid Correction</h3>
                 <div class="space-y-4">
-                    <div v-for="formula in wiki" :key="formula.name" class="glass-card p-5 rounded-2xl">
-                        <h4 class="text-xs font-black text-white uppercase mb-2 border-l-4 border-cyan-500 pl-3">{{ formula.name }}</h4>
-                        <code class="block text-[10px] bg-black/50 p-3 rounded-lg text-cyan-200 font-mono">{{ formula.code }}</code>
+                    <input type="number" v-model.number="atago.brix" placeholder="Brix %" class="text-2xl py-4">
+                    <input type="number" v-model.number="atago.temp" placeholder="Temp °C" class="text-2xl py-4">
+                    <div class="res-box border-2" :class="atago.brix && atago.temp ? 'border-[#f1c40f]/40 bg-[#f1c40f]/5' : 'border-white/5'">
+                        <p class="text-5xl font-black">{{ atagoRes }}</p>
                     </div>
                 </div>
             </div>
 
-            <button @click="scrollToMenu" class="mt-8 w-full py-4 bg-[#f1c40f] text-black rounded-3xl text-xs font-black uppercase tracking-widest active:scale-95 transition-all">
-                <i class="bi bi-arrow-up-circle-fill mr-1"></i> Kembali ke Atas
+            <button @click="scrollToMenu" class="mt-10 w-full py-4 bg-[#f1c40f] text-black rounded-3xl text-xs font-black uppercase tracking-widest active:scale-95 transition-all">
+                <i class="bi bi-arrow-up-circle-fill mr-1"></i> Kembali ke Menu Utama
             </button>
         </div>
     </transition>
 
-    <button v-show="showTop && activeId" @click="scrollToMenu" class="fixed bottom-6 right-6 w-12 h-12 bg-[#f1c40f] text-black rounded-full shadow-2xl flex items-center justify-center animate-bounce z-[200]">
-        <i class="bi bi-chevron-up font-black"></i>
-    </button>
+    <footer class="mt-20 py-10 border-t border-white/5 text-center opacity-30 text-[9px] font-black uppercase tracking-[0.4em]">
+        StarchPrep Industrial SPA v8.0 — Industrial Excellence<br>
+        &copy; 2026 Ardita Rizki Fauzi | DCS Operator PM1
+    </footer>
 
 </div>
 
@@ -190,10 +189,10 @@ createApp({
         return {
             searchQuery: '', activeId: null, showTop: false,
             tools: [
+                { id: 'f-enz-batch', title: 'Batch Enzim', icon: 'bi-bezier2', color: '#a855f7' },
+                { id: 'f-est', title: 'Est. Waktu', icon: 'bi-hourglass-split', color: '#fb923c' },
                 { id: 'f-atago', title: 'Atago Solid', icon: 'bi-eyedropper', color: '#f1c40f' },
                 { id: 'f-alum', title: 'Alum Cons.', icon: 'bi-droplet-half', color: '#3b82f6' },
-                { id: 'f-enz-batch', title: 'Batch Enzim', icon: 'bi-bezier2', color: '#a855f7' },
-                { id: 'f-est', title: 'Est. Stok', icon: 'bi-hourglass-split', color: '#fb923c' },
                 { id: 'f-cons', title: 'Starch Cons.', icon: 'bi-bar-chart', color: '#4ade80' },
                 { id: 'f-ssa', title: 'SSA System', icon: 'bi-diagram-3', color: '#f472b6' },
                 { id: 'f-naoh', title: 'NaOH Solid', icon: 'bi-cup-straw', color: '#60a5fa' },
@@ -201,41 +200,53 @@ createApp({
                 { id: 'f-total', title: 'Totalizer', icon: 'bi-speedometer2', color: '#10b981' },
                 { id: 'f-ppm', title: 'Dosis PPM', icon: 'bi-percent', color: '#818cf8' }
             ],
+            wiki: [
+                { name: 'Solid Content', code: 'Solid = Starch / (Starch + Water) * 100', tag: 'Basic' },
+                { name: 'Density Starch', code: 'Density = 100 / (100 - Solid + (Solid/1.65))', tag: 'Basic' },
+                { name: 'Flow Elevator', code: 'Flow = [Solid × Flow Water / (1 - Solid)] × 1.1', tag: 'Flow' },
+                { name: 'Retention Time', code: 'Time (min) = (Volume × Level%) / (Flow / 60)', tag: 'Process' },
+                { name: 'NaOH Solid', code: 'Solid = (NaOH_Liter * 48%) / Total_Liter * 100', tag: 'Chemical' },
+                { name: 'Starch Consumption', code: 'Cons (kg/t) = Bonedry_Flow / Paper_Prod_Rate', tag: 'Prod' },
+                { name: 'Bonedry Flow', code: 'BD = [(Stop·Ftop) + (Sbot·Fbot)] × Density × 10', tag: 'Prod' },
+                { name: 'SSA cc/min', code: 'Flow = (Target_kg/t * Prod_Rate_t/h) / 0.06', tag: 'Sizing' },
+                { name: 'Dilution Air', code: 'Water = [Flow × (S_awal - S_target)] / S_target', tag: 'Flow' },
+                { name: 'Enzyme Dosage', code: 'PPM = (Flow Enz / Flow Starch) * 1000', tag: 'Dosage' }
+            ],
             atago: { brix: null, temp: null },
             alum: { l1: null, l2: null },
             enz: { t1: '', t2: '', rate: null, list: [] },
             est: { flow: null, c: 0, r: 0, s: 0, empty: false },
-            wiki: [
-                { name: 'Solid Content', code: 'Solid = Starch / (Starch + Water)' },
-                { name: 'Density Starch', code: 'Density = 100 / (100 - S + (S/1.65))' },
-                { name: 'NaOH Solid', code: 'Solid = (NaOH * 0.48) / (NaOH + Air) * 100' },
-                { name: 'Enzyme PPM', code: 'PPM = (Flow Enz / Flow Starch) * 1000' }
-            ],
+            con: { ft: null, st: null, fb: null, sb: null, pr: null },
+            ssa: { kgt: null, pr: null },
+            tot: { h: 0, c: 0, r: 0, s: 0, f1: 0, f2: 0 },
             matrix: [ [0.29, 0.24, 0.18, 0.12, 0.06, 0.00, 0.06, 0.13, 0.20, 0.27, 0.34, 0.42, 0.50, 0.58, 0.66, 0.74, 0.83, 0.92, 1.01, 1.10, 1.19, 1.29, 1.39, 1.49, 1.59, 1.69], [0.30, 0.25, 0.19, 0.13, 0.06, 0.00, 0.07, 0.14, 0.21, 0.28, 0.35, 0.43, 0.51, 0.59, 0.67, 0.76, 0.84, 0.93, 1.02, 1.11, 1.21, 1.30, 1.40, 1.50, 1.60, 1.70], [0.32, 0.26, 0.20, 0.13, 0.07, 0.00, 0.07, 0.14, 0.21, 0.29, 0.36, 0.44, 0.52, 0.60, 0.68, 0.77, 0.85, 0.94, 1.03, 1.13, 1.22, 1.31, 1.41, 1.51, 1.61, 1.71], [0.33, 0.27, 0.20, 0.14, 0.07, 0.00, 0.07, 0.14, 0.22, 0.29, 0.37, 0.45, 0.53, 0.61, 0.70, 0.78, 0.87, 0.96, 1.05, 1.14, 1.23, 1.33, 1.42, 1.52, 1.62, 1.72], [0.34, 0.28, 0.21, 0.14, 0.07, 0.00, 0.07, 0.15, 0.22, 0.30, 0.38, 0.46, 0.54, 0.62, 0.71, 0.79, 0.88, 0.97, 1.06, 1.15, 1.24, 1.34, 1.43, 1.53, 1.63, 1.73], [0.35, 0.28, 0.21, 0.14, 0.07, 0.00, 0.07, 0.15, 0.23, 0.30, 0.38, 0.46, 0.55, 0.63, 0.71, 0.80, 0.89, 0.98, 1.07, 1.16, 1.25, 1.34, 1.44, 1.53, 1.63, 1.73], [0.36, 0.29, 0.22, 0.15, 0.07, 0.00, 0.08, 0.15, 0.23, 0.31, 0.39, 0.47, 0.55, 0.64, 0.72, 0.81, 0.89, 0.98, 1.07, 1.16, 1.25, 1.35, 1.44, 1.54, 1.63, 1.73], [0.37, 0.30, 0.22, 0.15, 0.08, 0.00, 0.08, 0.15, 0.23, 0.31, 0.39, 0.47, 0.56, 0.64, 0.73, 0.81, 0.90, 0.99, 1.08, 1.17, 1.26, 1.35, 1.44, 1.54, 1.63, 1.73], [0.37, 0.30, 0.23, 0.15, 0.08, 0.00, 0.08, 0.16, 0.23, 0.31, 0.40, 0.48, 0.56, 0.64, 0.73, 0.82, 0.90, 0.99, 1.08, 1.17, 1.26, 1.35, 1.44, 1.53, 1.63, 1.72], [0.38, 0.30, 0.23, 0.15, 0.08, 0.00, 0.08, 0.16, 0.24, 0.32, 0.40, 0.48, 0.56, 0.65, 0.73, 0.82, 0.90, 0.99, 1.08, 1.16, 1.26, 1.35, 1.44, 1.53, 1.63, 1.72], [0.38, 0.31, 0.23, 0.15, 0.08, 0.00, 0.08, 0.16, 0.24, 0.32, 0.40, 0.48, 0.56, 0.65, 0.73, 0.82, 0.90, 0.99, 1.08, 1.16, 1.25, 1.34, 1.43, 1.53, 1.62, 1.71], [0.38, 0.31, 0.23, 0.15, 0.08, 0.00, 0.08, 0.16, 0.24, 0.32, 0.40, 0.48, 0.56, 0.64, 0.73, 0.81, 0.89, 0.98, 1.07, 1.15, 1.24, 1.33, 1.41, 1.52, 1.61, 1.70], [0.38, 0.31, 0.23, 0.15, 0.08, 0.00, 0.08, 0.16, 0.24, 0.32, 0.40, 0.48, 0.56, 0.64, 0.73, 0.81, 0.89, 0.98, 1.07, 1.15, 1.24, 1.33, 1.41, 1.52, 1.59, 1.68], [0.38, 0.31, 0.23, 0.15, 0.08, 0.00, 0.08, 0.16, 0.24, 0.32, 0.40, 0.48, 0.56, 0.64, 0.72, 0.80, 0.89, 0.97, 1.06, 1.14, 1.23, 1.31, 1.40, 1.48, 1.57, 1.66], [0.38, 0.31, 0.23, 0.15, 0.08, 0.00, 0.08, 0.16, 0.23, 0.31, 0.39, 0.47, 0.55, 0.63, 0.72, 0.80, 0.88, 0.96, 1.04, 1.13, 1.21, 1.29, 1.38, 1.46, 1.55, 1.63], [0.38, 0.31, 0.23, 0.15, 0.08, 0.00, 0.08, 0.15, 0.23, 0.31, 0.39, 0.47, 0.55, 0.63, 0.71, 0.79, 0.87, 0.95, 1.03, 1.11, 1.19, 1.28, 1.36, 1.44, 1.52, 1.61], [0.38, 0.30, 0.23, 0.15, 0.08, 0.00, 0.08, 0.15, 0.23, 0.31, 0.38, 0.46, 0.54, 0.62, 0.70, 0.78, 0.86, 0.93, 1.01, 1.09, 1.17, 1.25, 1.33, 1.42, 1.50, 1.58], [0.37, 0.30, 0.23, 0.15, 0.08, 0.00, 0.08, 0.15, 0.22, 0.30, 0.37, 0.45, 0.52, 0.60, 0.67, 0.75, 0.82, 0.90, 0.98, 1.05, 1.13, 1.20, 1.28, 1.36, 1.43, 1.51] ]
         }
     },
     mounted() { 
-        window.addEventListener('scroll', () => { this.showTop = window.scrollY > 400; });
-        const saved = localStorage.getItem('enz_batch');
-        if(saved) this.enz.list = JSON.parse(saved);
+        const s = localStorage.getItem('enz_pro'); if(s) this.enz.list = JSON.parse(s);
+        window.addEventListener('scroll', () => { this.showTop = window.scrollY > 500; });
     },
     computed: {
-        getActiveTitle() { return this.tools.find(t => t.id === this.activeId)?.title || 'Modul'; },
+        getActiveTitle() { return this.tools.find(t => t.id === this.activeId)?.title || 'Formula Modul'; },
         alumRes() { return (this.alum.l1 && this.alum.l2) ? (((this.alum.l1 - this.alum.l2) * 170162) / 100).toFixed(0) : 0; },
+        enzTotal() { return this.enz.list.reduce((a, b) => a + b.ml, 0); },
         atagoRes() {
             if(!this.atago.brix || !this.atago.temp) return "-- %";
             let c = this.getCorr(this.atago.brix, this.atago.temp);
             return (this.atago.brix + (this.atago.temp > 20 ? c : -c)).toFixed(2) + " %";
         },
         atagoStatus() { return (!this.atago.brix || !this.atago.temp) ? 'border-white/5 opacity-30' : 'border-[#f1c40f]/40 bg-[#f1c40f]/5'; },
-        enzTotal() { return this.enz.list.reduce((a, b) => a + b.ml, 0); },
         estRes() {
             if(!this.est.flow) return "Isi Flow..";
             let fLpm = this.est.flow / 60 * 1000;
             let vC = this.est.empty ? (this.est.c/100*7000) : (1200 + (this.est.c/100*5800));
-            let totalV = vC + (this.est.r/100*7000) + (this.est.s/100*15000);
+            let totalV = vC + (this.est.r/100*7000) + (this.est.s/100*15000); // NO F1/F2
             let mins = totalV / fLpm;
-            return isNaN(mins) ? '...' : `${Math.floor(mins/60)}j ${Math.floor(mins%60)}m ${Math.round((mins%1)*60)}d`;
+            return `${Math.floor(mins/60)}j ${Math.floor(mins%60)}m ${Math.round((mins%1)*60)}d`;
+        },
+        totRes() {
+            let h = (this.tot.h * 3180) / 100;
+            return (h + (this.tot.c||0) + (this.tot.r||0) + (this.tot.s||0) + (this.tot.f1||0) + (this.tot.f2||0)).toFixed(0);
         }
     },
     methods: {
@@ -246,20 +257,19 @@ createApp({
             if(v.length > 2) v = v.slice(0, v.length-2) + ':' + v.slice(v.length-2);
             this.enz[key] = v.slice(0, 5);
         },
+        getOrdinal(n) { return ["Pertama", "Kedua", "Ketiga", "Keempat", "Kelima", "Keenam"][n-1] || 'Ke-'+n; },
         addEnzBatch() {
-            if(!this.enz.t1 || !this.enz.t2 || !this.enz.rate) return alert('Lengkapi data!');
-            const p = (t) => { let a = t.split(':'); return parseInt(a[0])*60 + parseInt(a[1]); };
-            let d = p(this.enz.t2) - p(this.enz.t1);
+            if(!this.enz.t1 || !this.enz.t2 || !this.enz.rate) return alert('Data Belum Lengkap!');
+            const parseMin = (s) => { let a = s.split(':'); return parseInt(a[0])*60 + parseInt(a[1]); };
+            let d = parseMin(this.enz.t2) - parseMin(this.enz.t1);
             if(d < 0) d += 1440;
-            let res = Math.round(d * this.enz.rate);
-            this.enz.list.push({ ml: res, dur: d });
-            this.saveEnz();
+            let ml = Math.round(d * this.enz.rate);
+            this.enz.list.push({ ml, dur: d });
+            localStorage.setItem('enz_pro', JSON.stringify(this.enz.list));
             this.enz.t1 = this.enz.t2 = '';
         },
-        removeEnz(i) { this.enz.list.splice(i,1); this.saveEnz(); },
-        resetEnz() { if(confirm('Hapus semua history?')) { this.enz.list = []; localStorage.removeItem('enz_batch'); } },
-        saveEnz() { localStorage.setItem('enz_batch', JSON.stringify(this.enz.list)); },
-        angkaKeUrutan(n) { return ["Pertama", "Kedua", "Ketiga", "Keempat", "Kelima"][n-1] || 'Ke-'+n; },
+        removeEnz(i) { this.enz.list.splice(i,1); localStorage.setItem('enz_pro', JSON.stringify(this.enz.list)); },
+        resetEnz() { this.enz.list = []; localStorage.removeItem('enz_pro'); },
         getCorr(b, t) {
             let bi = Math.min(Math.floor(b/5), 17), ti = Math.min(Math.max(Math.floor(t)-15, 0), 25);
             let q11 = this.matrix[bi][ti], q21 = this.matrix[bi+1][ti], q12 = this.matrix[bi][ti+1], q22 = this.matrix[bi+1][ti+1];
