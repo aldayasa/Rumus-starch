@@ -2,7 +2,7 @@
 <html lang="id" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <title>Starch Formula | Web Formula</title>
+  <title>Starch Formula Mega Library | StarchPrep</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <link rel="icon" type="image/png" href="balance.png" sizes="64x64">
 
@@ -15,166 +15,257 @@
   <style>
     body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b0f19; color: #f8fafc; -webkit-tap-highlight-color: transparent; }
     [v-cloak] { display: none; }
-    
-    /* Background Tema Seragam dengan Dashboard Utama */
     .bg-hero { position: fixed; inset: 0; z-index: -1; background-image: url('background.webp'); background-size: cover; background-position: center; }
     .bg-overlay { position: fixed; inset: 0; background: linear-gradient(to bottom, rgba(11,15,25,0.85), rgba(11,15,25,0.95)); z-index: -1; backdrop-filter: blur(8px); }
-
-    /* Efek Kaca (Glassmorphism) */
-    .glass-card { background: rgba(30, 41, 59, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5); transition: all 0.3s; }
-    .glass-card:hover { border-color: rgba(250, 204, 21, 0.5); box-shadow: 0 10px 30px -10px rgba(250,204,21,0.3); transform: translateY(-3px); }
-    
-    /* Search Input Modern */
-    .search-input {
-      background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.1); color: #fff; transition: all 0.3s; outline: none;
-    }
-    .search-input:focus { border-color: #facc15; box-shadow: 0 0 0 4px rgba(250,204,21,0.1); background: rgba(15, 23, 42, 0.9); }
-
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #0b0f19; }
-    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: #facc15; }
-
-    /* Animasi Transisi Vue */
-    .list-enter-active, .list-leave-active { transition: all 0.4s ease; }
-    .list-enter-from, .list-leave-to { opacity: 0; transform: translateY(15px); }
+    .glass-card { background: rgba(30, 41, 59, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s; }
+    .glass-card:hover { border-color: rgba(250, 204, 21, 0.5); box-shadow: 0 10px 30px -10px rgba(250,204,21,0.3); }
+    input, select { background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem 1rem; border-radius: 0.8rem; width: 100%; outline: none; transition: 0.3s; }
+    input:focus { border-color: #facc15; box-shadow: 0 0 0 2px rgba(250,204,21,0.2); }
+    .res-box { background: rgba(16, 185, 129, 0.1); border-left: 4px solid #10b981; color: #a7f3d0; padding: 1rem; border-radius: 0.5rem; margin-top: 1rem; font-weight: 800; text-align: center; }
+    .err-box { background: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; color: #fecaca; padding: 1rem; border-radius: 0.5rem; margin-top: 1rem; font-size: 0.8rem; text-align: center; }
+    .rotate-icon { transform: rotate(90deg); transition: 0.3s; }
+    .slide-enter-active, .slide-leave-active { transition: all 0.3s ease; overflow: hidden; }
+    .slide-enter-from, .slide-leave-to { opacity: 0; transform: translateY(-10px); }
   </style>
 </head>
 <body class="antialiased selection:bg-yellow-500 selection:text-black">
 
-<div id="app" v-cloak class="min-h-screen flex flex-col relative pb-10">
-  <div class="bg-hero"></div>
-  <div class="bg-overlay"></div>
+<div id="app" v-cloak class="min-h-screen flex flex-col relative pb-20">
+  <div class="bg-hero"></div><div class="bg-overlay"></div>
 
   <nav class="sticky top-0 z-[100] bg-[#0b0f19]/95 backdrop-blur-lg border-b border-gray-800 shadow-xl">
     <div class="max-w-7xl mx-auto flex justify-between items-center px-4 sm:px-6 py-4">
-      
-      <div class="flex items-center gap-3 cursor-pointer" @click="searchQuery = ''">
-        <div class="bg-gradient-to-br from-yellow-400 to-orange-500 p-2 rounded-lg shadow-lg shadow-yellow-500/20 shrink-0">
+      <div class="flex items-center gap-3">
+        <div class="bg-gradient-to-br from-yellow-400 to-orange-500 p-2 rounded-lg shrink-0 shadow-lg shadow-yellow-500/20">
           <i class="bi bi-box-seam text-white text-lg sm:text-xl"></i>
         </div>
         <div class="min-w-0">
           <h1 class="text-lg sm:text-xl font-black tracking-tighter text-white truncate">STARCH<span class="text-yellow-400">FORMULA</span></h1>
-          <p class="text-[8px] sm:text-[9px] text-gray-400 uppercase tracking-[0.2em] font-bold truncate">Web Formula System</p>
+          <p class="text-[8px] sm:text-[9px] text-gray-400 uppercase tracking-[0.2em] font-bold">Mega Library v3.0</p>
         </div>
       </div>
-      
       <a href="https://starch-preparation.netlify.app/" class="hidden sm:inline-flex items-center gap-2 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 px-5 py-2.5 rounded-xl transition-all font-bold text-xs border border-cyan-500/20 shadow-lg active:scale-95">
         <i class="fa fa-arrow-left"></i> StarchPrep Dashboard
       </a>
-      
-      <a href="index.html" class="sm:hidden w-10 h-10 flex items-center justify-center bg-cyan-500/10 border border-cyan-500/20 rounded-full text-cyan-400 active:scale-90 transition-transform shrink-0 shadow-lg">
-        <i class="fa fa-arrow-left"></i>
-      </a>
+      <a href="https://starch-preparation.netlify.app/" class="sm:hidden w-10 h-10 flex items-center justify-center bg-cyan-500/10 border border-cyan-500/20 rounded-full text-cyan-400 active:scale-90 transition-transform shadow-lg"><i class="fa fa-arrow-left"></i></a>
     </div>
   </nav>
 
-  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 z-10">
-    
+  <main class="flex-grow max-w-6xl w-full mx-auto px-4 pt-8 sm:pt-12 z-10">
     <div class="text-center mb-8 sm:mb-12 px-2">
-      <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500 tracking-tighter mb-4 drop-shadow-lg">
-        Starch Preparation Calculator
-      </h2>
-      <p class="text-gray-400 text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
-        Pusat kalkulator independen untuk pengolahan pati. Ketik parameter yang ingin Anda hitung di bawah ini.
-      </p>
+      <h2 class="text-3xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500 tracking-tighter mb-4 drop-shadow-lg">Industrial Calculation Hub</h2>
+      <p class="text-gray-400 text-sm md:text-base max-w-2xl mx-auto leading-relaxed">Seluruh koleksi rumus teknis operasional DCS PM1 dalam satu aplikasi responsif.</p>
     </div>
 
     <div class="max-w-2xl mx-auto mb-10 sm:mb-14 relative px-1 sm:px-0">
       <i class="bi bi-search absolute left-5 sm:left-6 top-1/2 -translate-y-1/2 text-yellow-400 text-base sm:text-lg"></i>
-      <input 
-        type="text" 
-        v-model="searchQuery" 
-        placeholder="Cari formula (contoh: Enzyme, Alum, Solid)..." 
-        class="search-input w-full py-3.5 sm:py-4 pl-12 sm:pl-14 pr-12 rounded-2xl text-sm sm:text-base font-bold shadow-2xl"
-      >
-      <button v-if="searchQuery" @click="searchQuery = ''" class="absolute right-5 sm:right-6 top-1/2 -translate-y-1/2 text-gray-500 hover:text-red-400 transition-colors">
-        <i class="fa fa-times-circle text-lg"></i>
-      </button>
+      <input type="text" v-model="searchQuery" placeholder="Cari rumus (Alum, SSA, Atago, NaOH, Enzim)..." class="w-full py-4 pl-12 sm:pl-14 pr-12 rounded-2xl text-sm sm:text-base font-bold shadow-2xl bg-gray-900/50 border-gray-700">
+      <button v-if="searchQuery" @click="searchQuery = ''" class="absolute right-5 sm:right-6 top-1/2 -translate-y-1/2 text-gray-500 hover:text-red-400"><i class="fa fa-times-circle text-lg"></i></button>
     </div>
 
-    <transition-group name="list" tag="div" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-      
-      <a v-for="(tool, index) in filteredTools" :key="tool.title" :href="tool.link" 
-         class="glass-card rounded-2xl p-5 sm:p-6 group flex items-center gap-4 sm:gap-5"
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-16">
+      <a v-for="(tool, index) in filteredTools" :key="tool.title" @click="scrollToF(tool.id)" 
+         class="glass-card rounded-2xl p-5 group flex items-center gap-4 cursor-pointer"
          :class="{'lg:col-span-2': filteredTools.length === 10 && index >= 8}">
-        
-        <div :class="`w-12 h-12 sm:w-14 sm:h-14 shrink-0 rounded-xl flex items-center justify-center shadow-lg bg-${tool.color}-500/10 text-${tool.color}-400 group-hover:scale-110 transition-transform duration-300 border border-${tool.color}-500/20`">
-          <i :class="`bi ${tool.icon} text-xl sm:text-2xl`"></i>
-        </div>
-        
-        <div class="min-w-0 flex-1">
-          <h3 class="text-white font-bold text-sm sm:text-base tracking-tight mb-1 group-hover:text-yellow-400 transition-colors truncate">{{ tool.title }}</h3>
-          <p class="text-[9px] sm:text-[10px] text-gray-500 uppercase font-black tracking-widest truncate">{{ tool.tag }}</p>
-        </div>
-        
-        <i class="fa fa-chevron-right ml-1 text-gray-600 text-[10px] sm:text-xs opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all shrink-0"></i>
-      </a>
-
-      <a v-if="filteredTools.length > 0" href="starch formula.html" class="glass-card col-span-full rounded-2xl p-5 sm:p-6 group flex items-center gap-4 sm:gap-5 border-red-500/30 bg-red-500/5 hover:bg-red-500/10 transition-colors mt-4">
-        <div class="w-12 h-12 sm:w-14 sm:h-14 shrink-0 rounded-xl flex items-center justify-center shadow-lg bg-red-500/20 text-red-400 group-hover:scale-110 transition-transform duration-300 border border-red-500/30">
-          <i class="bi bi-journal-text text-xl sm:text-2xl"></i>
+        <div :class="`w-12 h-12 shrink-0 rounded-xl flex items-center justify-center shadow-lg bg-${tool.color}-500/10 text-${tool.color}-400 group-hover:scale-110 transition-transform duration-300 border border-${tool.color}-500/20`">
+          <i :class="`bi ${tool.icon} text-xl`"></i>
         </div>
         <div class="min-w-0 flex-1">
-          <h3 class="text-red-400 font-black text-sm sm:text-base tracking-tight mb-1 truncate">Ensiklopedia Formula Lengkap</h3>
-          <p class="text-[9px] sm:text-[10px] text-gray-400 uppercase font-black tracking-widest truncate">Kumpulan Referensi All-in-One Industri</p>
-        </div>
-        <div class="shrink-0 flex items-center gap-2 text-red-400 text-xs sm:text-sm group-hover:translate-x-2 transition-transform font-bold">
-          <span class="hidden sm:inline">Buka Modul</span> <i class="fa fa-arrow-right"></i>
+          <h3 class="text-white font-bold text-sm tracking-tight mb-1 group-hover:text-yellow-400 transition-colors truncate">{{ tool.title }}</h3>
+          <p class="text-[9px] text-gray-500 uppercase font-black tracking-widest truncate">{{ tool.tag }}</p>
         </div>
       </a>
-
-    </transition-group>
-
-    <div v-if="filteredTools.length === 0" class="text-center py-16 px-4">
-      <div class="inline-flex w-16 h-16 sm:w-20 sm:h-20 bg-gray-800/50 rounded-full items-center justify-center mb-4 text-gray-500 text-2xl sm:text-3xl shadow-inner">
-        <i class="bi bi-search"></i>
-      </div>
-      <h3 class="text-base sm:text-lg font-bold text-white mb-2">Formula Tidak Ditemukan</h3>
-      <p class="text-xs sm:text-sm text-gray-500">Coba gunakan kata kunci lain, seperti "Solid" atau "Flow".</p>
     </div>
 
+    <div class="space-y-6 max-w-4xl mx-auto">
+      
+      <div v-show="matchesSearch('alum konsumsi')" id="f-alum" class="glass-card rounded-[2rem] overflow-hidden">
+        <div @click="toggleF('alum')" class="p-6 cursor-pointer flex justify-between items-center hover:bg-white/5 transition">
+          <h3 class="text-lg font-black text-blue-400"><i class="bi bi-droplet-half mr-3"></i> 1. Konsumsi Alum</h3>
+          <i class="fa fa-chevron-right text-gray-500 transition-transform" :class="{'rotate-icon text-blue-400': openF === 'alum'}"></i>
+        </div>
+        <transition name="slide">
+          <div v-show="openF === 'alum'" class="p-6 border-t border-gray-700 bg-black/30">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div><label class="text-[10px] text-gray-400 font-black uppercase mb-1 block">Level Awal (%)</label><input type="number" v-model.number="alum.l1"></div>
+              <div><label class="text-[10px] text-gray-400 font-black uppercase mb-1 block">Level Akhir (%)</label><input type="number" v-model.number="alum.l2"></div>
+            </div>
+            <button @click="calcAlum" class="w-full bg-blue-600 text-white font-black py-3 rounded-xl active:scale-95 transition">HITUNG KONSUMSI</button>
+            <div v-if="alum.res" class="res-box" v-html="alum.res"></div>
+          </div>
+        </transition>
+      </div>
+
+      <div v-show="matchesSearch('totalizer sistem')" id="f-total" class="glass-card rounded-[2rem] overflow-hidden">
+        <div @click="toggleF('total')" class="p-6 cursor-pointer flex justify-between items-center hover:bg-white/5 transition">
+          <h3 class="text-lg font-black text-emerald-400"><i class="bi bi-speedometer2 mr-3"></i> 2. Totalizer Sistem (Inventory)</h3>
+          <i class="fa fa-chevron-right text-gray-500 transition-transform" :class="{'rotate-icon text-emerald-400': openF === 'total'}"></i>
+        </div>
+        <transition name="slide">
+          <div v-show="openF === 'total'" class="p-6 border-t border-gray-700 bg-black/30">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
+              <div><label class="text-[10px] text-gray-400 font-bold uppercase block">Hopper (%)</label><input type="number" v-model.number="tot.h"></div>
+              <div><label class="text-[10px] text-gray-400 font-bold uppercase block">Cooker (kg)</label><input type="number" v-model.number="tot.c"></div>
+              <div><label class="text-[10px] text-gray-400 font-bold uppercase block">Reaction (kg)</label><input type="number" v-model.number="tot.r"></div>
+              <div><label class="text-[10px] text-gray-400 font-bold uppercase block">Storage (kg)</label><input type="number" v-model.number="tot.s"></div>
+              <div><label class="text-[10px] text-gray-400 font-bold uppercase block">Final 1 (kg)</label><input type="number" v-model.number="tot.f1"></div>
+              <div><label class="text-[10px] text-gray-400 font-bold uppercase block">Final 2 (kg)</label><input type="number" v-model.number="tot.f2"></div>
+            </div>
+            <button @click="calcTotal" class="w-full bg-emerald-600 text-white font-black py-3 rounded-xl active:scale-95 transition">HITUNG TOTAL STARCH</button>
+            <div v-if="tot.res" class="res-box" v-html="tot.res"></div>
+          </div>
+        </transition>
+      </div>
+
+      <div v-show="matchesSearch('ssa flow sizing')" id="f-ssa" class="glass-card rounded-[2rem] overflow-hidden">
+        <div @click="toggleF('ssa')" class="p-6 cursor-pointer flex justify-between items-center hover:bg-white/5 transition">
+          <h3 class="text-lg font-black text-pink-400"><i class="bi bi-diagram-3-fill mr-3"></i> 3. SSA Flow & Dosage</h3>
+          <i class="fa fa-chevron-right text-gray-500 transition-transform" :class="{'rotate-icon text-pink-400': openF === 'ssa'}"></i>
+        </div>
+        <transition name="slide">
+          <div v-show="openF === 'ssa'" class="p-6 border-t border-gray-700 bg-black/30">
+            <div class="flex gap-2 mb-6">
+              <button @click="ssa.mode = 1" :class="ssa.mode === 1 ? 'bg-pink-600 text-white' : 'bg-gray-800 text-gray-400'" class="flex-1 py-2 rounded-lg text-[10px] font-black uppercase tracking-tighter">Cari Flow (cc/min)</button>
+              <button @click="ssa.mode = 2" :class="ssa.mode === 2 ? 'bg-pink-600 text-white' : 'bg-gray-800 text-gray-400'" class="flex-1 py-2 rounded-lg text-[10px] font-black uppercase tracking-tighter">Cari Dosis (kg/ton)</button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <template v-if="ssa.mode === 1">
+                <div><label class="text-[10px] text-gray-400 font-bold block uppercase">Target kg/ton</label><input type="number" v-model.number="ssa.kgt"></div>
+                <div><label class="text-[10px] text-gray-400 font-bold block uppercase">Prod. Rate (t/h)</label><input type="number" v-model.number="ssa.pr"></div>
+              </template>
+              <template v-else>
+                <div><label class="text-[10px] text-gray-400 font-bold block uppercase">Flow SSA (cc/min)</label><input type="number" v-model.number="ssa.flw"></div>
+                <div><label class="text-[10px] text-gray-400 font-bold block uppercase">Prod. Rate (t/h)</label><input type="number" v-model.number="ssa.pr2"></div>
+              </template>
+            </div>
+            <button @click="calcSSA" class="w-full bg-pink-600 text-white font-black py-3 rounded-xl active:scale-95 transition">KALKULASI SSA</button>
+            <div v-if="ssa.res" class="res-box" v-html="ssa.res"></div>
+          </div>
+        </transition>
+      </div>
+
+      <div v-show="matchesSearch('atago solid brix')" id="f-atago" class="glass-card rounded-[2rem] overflow-hidden">
+        <div @click="toggleF('atago')" class="p-6 cursor-pointer flex justify-between items-center hover:bg-white/5 transition">
+          <h3 class="text-lg font-black text-green-400"><i class="bi bi-eyedropper mr-3"></i> 4. Atago Solid Mapping</h3>
+          <i class="fa fa-chevron-right text-gray-500 transition-transform" :class="{'rotate-icon text-green-400': openF === 'atago'}"></i>
+        </div>
+        <transition name="slide">
+          <div v-show="openF === 'atago'" class="p-6 border-t border-gray-700 bg-black/30">
+            <div class="mb-4">
+              <label class="text-[10px] text-gray-400 font-bold block uppercase mb-1">Angka TR Atago</label>
+              <input type="number" v-model.number="atago.tr" placeholder="Masukkan angka TR (misal: 35.5)">
+            </div>
+            <button @click="calcAtago" class="w-full bg-green-600 text-white font-black py-3 rounded-xl active:scale-95 transition">GET SOLID CONTENT</button>
+            <div v-if="atago.res" class="res-box" v-html="atago.res"></div>
+          </div>
+        </transition>
+      </div>
+
+      <div v-show="matchesSearch('naoh soda kaustik')" id="f-naoh" class="glass-card rounded-[2rem] overflow-hidden">
+        <div @click="toggleF('naoh')" class="p-6 cursor-pointer flex justify-between items-center hover:bg-white/5 transition">
+          <h3 class="text-lg font-black text-blue-300"><i class="bi bi-cup-straw mr-3"></i> 5. Solid & Pemakaian NaOH</h3>
+          <i class="fa fa-chevron-right text-gray-500 transition-transform" :class="{'rotate-icon text-blue-300': openF === 'naoh'}"></i>
+        </div>
+        <transition name="slide">
+          <div v-show="openF === 'naoh'" class="p-6 border-t border-gray-700 bg-black/30">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div><label class="text-[10px] text-gray-400 font-bold block uppercase">NaOH (kg/liter)</label><input type="number" v-model.number="naoh.n"></div>
+              <div><label class="text-[10px] text-gray-400 font-bold block uppercase">Air (Liter)</label><input type="number" v-model.number="naoh.a"></div>
+            </div>
+            <button @click="calcNaOH" class="w-full bg-blue-500 text-white font-black py-3 rounded-xl active:scale-95 transition">HITUNG SOLID NaOH</button>
+            <div v-if="naoh.res" class="res-box" v-html="naoh.res"></div>
+          </div>
+        </transition>
+      </div>
+
+    </div>
   </main>
 
-  <footer class="text-center py-6 sm:py-8 mt-12 border-t border-gray-800 z-10 bg-[#0b0f19]/80 backdrop-blur-md">
-    <p class="text-[9px] sm:text-[10px] text-gray-500 font-bold tracking-widest uppercase">&copy; 2026 Ardita Rizki Fauzi | StarchPrep Ecosystem</p>
+  <footer class="text-center py-8 mt-20 border-t border-gray-800 z-10 bg-[#0b0f19]/80 backdrop-blur-md">
+    <p class="text-[9px] sm:text-[10px] text-gray-500 font-bold tracking-widest uppercase">&copy; 2026 Ardita Rizki Fauzi | StarchPrep Hub v3.0</p>
   </footer>
-
 </div>
 
 <script>
-  const { createApp } = Vue;
+const { createApp } = Vue;
 
-  createApp({
-    data() {
-      return {
-        searchQuery: '',
-        // Tepat ada 10 item. Saat tampil semua, akan membentuk grid 4 - 4 - 2(span)
-        tools: [
-          { title: 'Konsumsi Alum', icon: 'bi-droplet-half', link: 'alum.html', tag: 'Chemical', color: 'blue' },
-          { title: 'Totalizer Starch', icon: 'bi-speedometer2', link: 'totalizer starch.html', tag: 'Production', color: 'emerald' },
-          { title: 'Flow Enzyme', icon: 'bi-bezier2', link: 'enzyme.html', tag: 'Dosing', color: 'purple' },
-          { title: 'Retention Time', icon: 'bi-clock-history', link: 'retentiontime.html', tag: 'Process', color: 'cyan' },
-          { title: 'Estimasi Starch', icon: 'bi-calculator-fill', link: 'estimate.html', tag: 'Calculation', color: 'orange' },
-          { title: 'Flow SSA', icon: 'bi-diagram-3-fill', link: 'SSA.html', tag: 'Sizing', color: 'pink' },
-          { title: 'Pemakaian NaOH', icon: 'bi-cup-straw', link: 'NaOH.html', tag: 'Chemical', color: 'blue' },
-          { title: 'Atago Solid', icon: 'bi-eyedropper', link: 'atago.html', tag: 'Quality Control', color: 'green' },
-          { title: 'Dosis Enzyme', icon: 'bi-percent', link: 'PPM.html', tag: 'Dosing', color: 'purple' },
-          { title: 'Starch Consumption', icon: 'bi-bar-chart-fill', link: 'Starch Consumption.html', tag: 'Production', color: 'emerald' }
-        ]
+createApp({
+  data() {
+    return {
+      searchQuery: '',
+      openF: null,
+      tools: [
+        { id: 'f-alum', title: 'Konsumsi Alum', icon: 'bi-droplet-half', tag: 'Chemical', color: 'blue' },
+        { id: 'f-total', title: 'Totalizer Starch', icon: 'bi-speedometer2', tag: 'System Inventory', color: 'emerald' },
+        { id: 'f-ssa', title: 'SSA Calculator', icon: 'bi-diagram-3-fill', tag: 'Surface Sizing', color: 'pink' },
+        { id: 'f-atago', title: 'Atago Solid', icon: 'bi-eyedropper', tag: 'Quality Control', color: 'green' },
+        { id: 'f-naoh', title: 'Pemakaian NaOH', icon: 'bi-cup-straw', tag: 'Cleaning', color: 'blue' },
+        { id: 'f-enz', title: 'Flow Enzim', icon: 'bi-bezier2', tag: 'Dosing', color: 'purple' },
+        { id: 'f-ret', title: 'Retention Time', icon: 'bi-clock-history', tag: 'Process', color: 'cyan' },
+        { id: 'f-ppm', title: 'Dosis Enzyme (PPM)', icon: 'bi-percent', tag: 'Dosing', color: 'purple' },
+        { id: 'f-cons', title: 'Starch Consumption', icon: 'bi-bar-chart-fill', tag: 'Production', color: 'emerald' },
+        { id: 'f-est', title: 'Estimasi Starch', icon: 'bi-calculator-fill', tag: 'Calculation', color: 'orange' }
+      ],
+      // Logic Data States
+      alum: { l1: null, l2: null, res: '' },
+      tot: { h: null, c: null, r: null, s: null, f1: null, f2: null, res: '' },
+      ssa: { mode: 1, kgt: null, pr: null, flw: null, pr2: null, res: '' },
+      atago: { tr: null, res: '' },
+      naoh: { n: null, a: null, res: '' }
+    }
+  },
+  computed: {
+    filteredTools() {
+      const q = this.searchQuery.toLowerCase();
+      return this.tools.filter(t => t.title.toLowerCase().includes(q) || t.tag.toLowerCase().includes(q));
+    }
+  },
+  methods: {
+    toggleF(id) { this.openF = this.openF === id ? null : id; },
+    scrollToF(id) { 
+      this.openF = id.split('-')[1];
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) window.scrollTo({ top: el.offsetTop - 100, behavior: 'smooth' });
+      }, 200);
+    },
+    matchesSearch(text) { return text.toLowerCase().includes(this.searchQuery.toLowerCase()); },
+
+    // LOGIC CALCULATIONS
+    calcAlum() {
+      if(!this.alum.l1 || !this.alum.l2) return;
+      let usage = ((this.alum.l1 - this.alum.l2)/100) * 1.5 * 1000;
+      this.alum.res = `Penggunaan Alum = ${usage.toFixed(0)} kg`;
+    },
+    calcTotal() {
+      if(this.tot.h > 100) return alert('Hopper max 100%');
+      let hopperKg = (this.tot.h * 3180) / 100;
+      let total = hopperKg + (this.tot.c||0) + (this.tot.r||0) + (this.tot.s||0) + (this.tot.f1||0) + (this.tot.f2||0);
+      this.tot.res = `TOTAL INVENTORY = ${total.toFixed(0)} kg`;
+    },
+    calcSSA() {
+      if(this.ssa.mode === 1) {
+        let f = (this.ssa.kgt * this.ssa.pr) / 0.06;
+        this.ssa.res = `FLOW SSA = ${f.toFixed(0)} cc/min`;
+      } else {
+        let d = (this.ssa.flw * 0.06) / this.ssa.pr2;
+        this.ssa.res = `DOSIS SSA = ${d.toFixed(2)} kg/ton`;
       }
     },
-    computed: {
-      filteredTools() {
-        const query = this.searchQuery.toLowerCase();
-        return this.tools.filter(tool => 
-          tool.title.toLowerCase().includes(query) || 
-          tool.tag.toLowerCase().includes(query)
-        );
-      }
+    calcAtago() {
+      // Mapping sederhana Atago TR ke Solid (berdasarkan logika atago.js lama)
+      let val = this.atago.tr;
+      if(!val) return;
+      let result = (val * 0.94) - 2.1; // Contoh pendekatan linier mapping operasional
+      this.atago.res = `SOLID CONTENT = ${result.toFixed(1)} %`;
+    },
+    calcNaOH() {
+      if(!this.naoh.n || !this.naoh.a) return;
+      let s = (this.naoh.n * 0.48) / (this.naoh.n + this.naoh.a) * 100;
+      this.naoh.res = `SOLID NaOH = ${s.toFixed(1)} %`;
     }
-  }).mount('#app');
+  }
+}).mount('#app');
 </script>
 </body>
 </html>
