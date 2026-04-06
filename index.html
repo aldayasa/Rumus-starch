@@ -21,8 +21,6 @@
         .fade-enter-from, .fade-leave-to { opacity: 0; transform: translateY(10px); }
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
-        .rose-btn { background: rgba(225, 29, 72, 0.1); border: 1px solid rgba(225, 29, 72, 0.2); color: #fb7185; }
-        .rose-btn:hover { background: #e11d48; color: white; border-color: #e11d48; }
     </style>
 </head>
 <body class="min-h-screen pb-32">
@@ -58,34 +56,6 @@
                  class="glass-card p-6 rounded-[2.5rem] text-center cursor-pointer hover:border-[#f1c40f]/60 transition-all group active:scale-95">
                 <i :class="tool.icon + ' text-3xl mb-3 block'" :style="{color: tool.color}"></i>
                 <span class="text-[9px] font-black uppercase tracking-[0.15em] text-slate-400 group-hover:text-white">{{ tool.title }}</span>
-            </div>
-        </div>
-
-        <div class="mt-12 border-t border-white/5 pt-10">
-            <div class="text-left mb-6 px-2">
-                <h3 class="text-[10px] font-black text-rose-500 uppercase tracking-[0.4em]">Quick Access & System Link</h3>
-            </div>
-            <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
-                <a href="starch-formula.html" class="rose-btn p-5 rounded-[2rem] text-center transition-all active:scale-95 flex flex-col items-center gap-2">
-                    <i class="bi bi-file-earmark-medical text-2xl"></i>
-                    <span class="text-[9px] font-black uppercase tracking-widest">Starch Formula</span>
-                </a>
-                <button @click="openTool('f-ssa')" class="rose-btn p-5 rounded-[2rem] text-center transition-all active:scale-95 flex flex-col items-center gap-2">
-                    <i class="bi bi-lightning-charge text-2xl"></i>
-                    <span class="text-[9px] font-black uppercase tracking-widest">SSA System</span>
-                </button>
-                <button @click="openTool('f-total')" class="rose-btn p-5 rounded-[2rem] text-center transition-all active:scale-95 flex flex-col items-center gap-2">
-                    <i class="bi bi-calculator text-2xl"></i>
-                    <span class="text-[9px] font-black uppercase tracking-widest">Totalizer</span>
-                </button>
-                <button @click="openTool('f-naoh')" class="rose-btn p-5 rounded-[2rem] text-center transition-all active:scale-95 flex flex-col items-center gap-2">
-                    <i class="bi bi-pXS-circle text-2xl"></i>
-                    <span class="text-[9px] font-black uppercase tracking-widest">NaOH Solid</span>
-                </button>
-                <button @click="openTool('f-ppm')" class="rose-btn p-5 rounded-[2rem] text-center transition-all active:scale-95 flex flex-col items-center gap-2">
-                    <i class="bi bi-speedometer text-2xl"></i>
-                    <span class="text-[9px] font-black uppercase tracking-widest">Dosis PPM</span>
-                </button>
             </div>
         </div>
     </div>
@@ -217,7 +187,7 @@ const { createApp } = Vue;
 createApp({
     data() {
         return {
-            activeId: null,
+            searchQuery: '', activeId: null, showTop: false,
             tools: [
                 { id: 'f-enz-batch', title: 'Batch Enzim', icon: 'bi-bezier2', color: '#a855f7' },
                 { id: 'f-est', title: 'Est. Waktu', icon: 'bi-hourglass-split', color: '#fb923c' },
@@ -247,11 +217,14 @@ createApp({
             enz: { t1: '', t2: '', rate: null, list: [] },
             est: { flow: null, c: 0, r: 0, s: 0, empty: false },
             con: { ft: null, st: null, fb: null, sb: null, pr: null },
+            ssa: { kgt: null, pr: null },
+            tot: { h: 0, c: 0, r: 0, s: 0, f1: 0, f2: 0 },
             matrix: [ [0.29, 0.24, 0.18, 0.12, 0.06, 0.00, 0.06, 0.13, 0.20, 0.27, 0.34, 0.42, 0.50, 0.58, 0.66, 0.74, 0.83, 0.92, 1.01, 1.10, 1.19, 1.29, 1.39, 1.49, 1.59, 1.69], [0.30, 0.25, 0.19, 0.13, 0.06, 0.00, 0.07, 0.14, 0.21, 0.28, 0.35, 0.43, 0.51, 0.59, 0.67, 0.76, 0.84, 0.93, 1.02, 1.11, 1.21, 1.30, 1.40, 1.50, 1.60, 1.70], [0.32, 0.26, 0.20, 0.13, 0.07, 0.00, 0.07, 0.14, 0.21, 0.29, 0.36, 0.44, 0.52, 0.60, 0.68, 0.77, 0.85, 0.94, 1.03, 1.13, 1.22, 1.31, 1.41, 1.51, 1.61, 1.71], [0.33, 0.27, 0.20, 0.14, 0.07, 0.00, 0.07, 0.14, 0.22, 0.29, 0.37, 0.45, 0.53, 0.61, 0.70, 0.78, 0.87, 0.96, 1.05, 1.14, 1.23, 1.33, 1.42, 1.52, 1.62, 1.72], [0.34, 0.28, 0.21, 0.14, 0.07, 0.00, 0.07, 0.15, 0.22, 0.30, 0.38, 0.46, 0.54, 0.62, 0.71, 0.79, 0.88, 0.97, 1.06, 1.15, 1.24, 1.34, 1.43, 1.53, 1.63, 1.73], [0.35, 0.28, 0.21, 0.14, 0.07, 0.00, 0.07, 0.15, 0.23, 0.30, 0.38, 0.46, 0.55, 0.63, 0.71, 0.80, 0.89, 0.98, 1.07, 1.16, 1.25, 1.34, 1.44, 1.53, 1.63, 1.73], [0.36, 0.29, 0.22, 0.15, 0.07, 0.00, 0.08, 0.15, 0.23, 0.31, 0.39, 0.47, 0.55, 0.64, 0.72, 0.81, 0.89, 0.98, 1.07, 1.16, 1.25, 1.35, 1.44, 1.54, 1.63, 1.73], [0.37, 0.30, 0.22, 0.15, 0.08, 0.00, 0.08, 0.15, 0.23, 0.31, 0.39, 0.47, 0.56, 0.64, 0.73, 0.81, 0.90, 0.99, 1.08, 1.17, 1.26, 1.35, 1.44, 1.54, 1.63, 1.73], [0.37, 0.30, 0.23, 0.15, 0.08, 0.00, 0.08, 0.16, 0.23, 0.31, 0.40, 0.48, 0.56, 0.64, 0.73, 0.82, 0.90, 0.99, 1.08, 1.17, 1.26, 1.35, 1.44, 1.53, 1.63, 1.72], [0.38, 0.30, 0.23, 0.15, 0.08, 0.00, 0.08, 0.16, 0.24, 0.32, 0.40, 0.48, 0.56, 0.65, 0.73, 0.82, 0.90, 0.99, 1.08, 1.16, 1.26, 1.35, 1.44, 1.53, 1.63, 1.72], [0.38, 0.31, 0.23, 0.15, 0.08, 0.00, 0.08, 0.16, 0.24, 0.32, 0.40, 0.48, 0.56, 0.65, 0.73, 0.82, 0.90, 0.99, 1.08, 1.16, 1.25, 1.34, 1.43, 1.53, 1.62, 1.71], [0.38, 0.31, 0.23, 0.15, 0.08, 0.00, 0.08, 0.16, 0.24, 0.32, 0.40, 0.48, 0.56, 0.64, 0.73, 0.81, 0.89, 0.98, 1.07, 1.15, 1.24, 1.33, 1.41, 1.52, 1.61, 1.70], [0.38, 0.31, 0.23, 0.15, 0.08, 0.00, 0.08, 0.16, 0.24, 0.32, 0.40, 0.48, 0.56, 0.64, 0.73, 0.81, 0.89, 0.98, 1.07, 1.15, 1.24, 1.33, 1.41, 1.52, 1.59, 1.68], [0.38, 0.31, 0.23, 0.15, 0.08, 0.00, 0.08, 0.16, 0.24, 0.32, 0.40, 0.48, 0.56, 0.64, 0.72, 0.80, 0.89, 0.97, 1.06, 1.14, 1.23, 1.31, 1.40, 1.48, 1.57, 1.66], [0.38, 0.31, 0.23, 0.15, 0.08, 0.00, 0.08, 0.16, 0.23, 0.31, 0.39, 0.47, 0.55, 0.63, 0.72, 0.80, 0.88, 0.96, 1.04, 1.13, 1.21, 1.29, 1.38, 1.46, 1.55, 1.63], [0.38, 0.31, 0.23, 0.15, 0.08, 0.00, 0.08, 0.15, 0.23, 0.31, 0.39, 0.47, 0.55, 0.63, 0.71, 0.79, 0.87, 0.95, 1.03, 1.11, 1.19, 1.28, 1.36, 1.44, 1.52, 1.61], [0.38, 0.30, 0.23, 0.15, 0.08, 0.00, 0.08, 0.15, 0.23, 0.31, 0.38, 0.46, 0.54, 0.62, 0.70, 0.78, 0.86, 0.93, 1.01, 1.09, 1.17, 1.25, 1.33, 1.42, 1.50, 1.58], [0.37, 0.30, 0.23, 0.15, 0.08, 0.00, 0.08, 0.15, 0.22, 0.30, 0.37, 0.45, 0.52, 0.60, 0.67, 0.75, 0.82, 0.90, 0.98, 1.05, 1.13, 1.20, 1.28, 1.36, 1.43, 1.51] ]
         }
     },
     mounted() { 
         const s = localStorage.getItem('enz_pro'); if(s) this.enz.list = JSON.parse(s);
+        window.addEventListener('scroll', () => { this.showTop = window.scrollY > 500; });
     },
     computed: {
         getActiveTitle() { return this.tools.find(t => t.id === this.activeId)?.title || 'Formula Modul'; },
@@ -259,21 +232,21 @@ createApp({
         enzTotal() { return this.enz.list.reduce((a, b) => a + b.ml, 0); },
         atagoRes() {
             if(!this.atago.brix || !this.atago.temp) return "-- %";
-            let b = this.atago.brix; let t = this.atago.temp;
-            let bi = Math.min(Math.floor(b/5), 17); let ti = Math.min(Math.max(Math.floor(t)-15, 0), 25);
-            let q11 = this.matrix[bi][ti]; let q21 = this.matrix[bi+1][ti];
-            let q12 = this.matrix[bi][ti+1]; let q22 = this.matrix[bi+1][ti+1];
-            let r1 = q11+(b-bi*5)*((q21-q11)/5); let r2 = q12+(b-bi*5)*((q22-q12)/5);
-            let corr = r1+(t-(ti+15))*(r2-r1);
-            return (b + (t > 20 ? corr : -corr)).toFixed(2) + " %";
+            let c = this.getCorr(this.atago.brix, this.atago.temp);
+            return (this.atago.brix + (this.atago.temp > 20 ? c : -c)).toFixed(2) + " %";
         },
+        atagoStatus() { return (!this.atago.brix || !this.atago.temp) ? 'border-white/5 opacity-30' : 'border-[#f1c40f]/40 bg-[#f1c40f]/5'; },
         estRes() {
             if(!this.est.flow) return "Isi Flow..";
             let fLpm = this.est.flow / 60 * 1000;
             let vC = this.est.empty ? (this.est.c/100*7000) : (1200 + (this.est.c/100*5800));
-            let totalV = vC + (this.est.r/100*7000) + (this.est.s/100*15000);
+            let totalV = vC + (this.est.r/100*7000) + (this.est.s/100*15000); // NO F1/F2
             let mins = totalV / fLpm;
             return `${Math.floor(mins/60)}j ${Math.floor(mins%60)}m ${Math.round((mins%1)*60)}d`;
+        },
+        totRes() {
+            let h = (this.tot.h * 3180) / 100;
+            return (h + (this.tot.c||0) + (this.tot.r||0) + (this.tot.s||0) + (this.tot.f1||0) + (this.tot.f2||0)).toFixed(0);
         }
     },
     methods: {
@@ -290,12 +263,19 @@ createApp({
             const parseMin = (s) => { let a = s.split(':'); return parseInt(a[0])*60 + parseInt(a[1]); };
             let d = parseMin(this.enz.t2) - parseMin(this.enz.t1);
             if(d < 0) d += 1440;
-            this.enz.list.push({ ml: Math.round(d * this.enz.rate), dur: d });
+            let ml = Math.round(d * this.enz.rate);
+            this.enz.list.push({ ml, dur: d });
             localStorage.setItem('enz_pro', JSON.stringify(this.enz.list));
             this.enz.t1 = this.enz.t2 = '';
         },
         removeEnz(i) { this.enz.list.splice(i,1); localStorage.setItem('enz_pro', JSON.stringify(this.enz.list)); },
-        resetEnz() { this.enz.list = []; localStorage.removeItem('enz_pro'); }
+        resetEnz() { this.enz.list = []; localStorage.removeItem('enz_pro'); },
+        getCorr(b, t) {
+            let bi = Math.min(Math.floor(b/5), 17), ti = Math.min(Math.max(Math.floor(t)-15, 0), 25);
+            let q11 = this.matrix[bi][ti], q21 = this.matrix[bi+1][ti], q12 = this.matrix[bi][ti+1], q22 = this.matrix[bi+1][ti+1];
+            let r1 = q11+(b-bi*5)*((q21-q11)/5), r2 = q12+(b-bi*5)*((q22-q12)/5);
+            return r1+(t-(ti+15))*(r2-r1);
+        }
     }
 }).mount('#app');
 </script>
