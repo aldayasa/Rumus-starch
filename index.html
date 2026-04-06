@@ -235,18 +235,18 @@ createApp({
     calcAlum() {
       if(!this.alum.l1 || !this.alum.l2) return;
       let usage = ((this.alum.l1 - this.alum.l2)/100) * 1.5 * 1000;
-      this.alum.res = `Penggunaan Alum = ${usage.toFixed(0)} kg`;
+      this.alum.res = `Penggunaan Alum = ${usage.toFixed(2)} kg`;
     },
     calcTotal() {
       if(this.tot.h > 100) return alert('Hopper max 100%');
       let hopperKg = (this.tot.h * 3180) / 100;
       let total = hopperKg + (this.tot.c||0) + (this.tot.r||0) + (this.tot.s||0) + (this.tot.f1||0) + (this.tot.f2||0);
-      this.tot.res = `TOTAL INVENTORY = ${total.toFixed(0)} kg`;
+      this.tot.res = `TOTAL INVENTORY = ${total.toFixed(2)} kg`;
     },
     calcSSA() {
       if(this.ssa.mode === 1) {
         let f = (this.ssa.kgt * this.ssa.pr) / 0.06;
-        this.ssa.res = `FLOW SSA = ${f.toFixed(0)} cc/min`;
+        this.ssa.res = `FLOW SSA = ${f.toFixed(2)} cc/min`;
       } else {
         let d = (this.ssa.flw * 0.06) / this.ssa.pr2;
         this.ssa.res = `DOSIS SSA = ${d.toFixed(2)} kg/ton`;
