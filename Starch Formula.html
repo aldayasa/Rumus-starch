@@ -1,1150 +1,533 @@
-﻿<!DOCTYPE html>
-<html lang="id">
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
 <head>
-  <title>Kumpulan Rumus</title>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Starch Formula | Professional Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="icon" type="image/png" href="balance.png" sizes="64x64">
 
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-  <!-- Tailwind CSS -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Bootstrap Icons (versi 1.10.5) -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-
-  <!-- Font Awesome (versi stabil) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FYZ91YW3FC"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-FYZ91YW3FC');
-</script>
 
   <style>
-    /* Gaya Umum */
-    body {
-      font-family: 'Inter', sans-serif;
-    }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b0f19; color: #f8fafc; -webkit-tap-highlight-color: transparent; }
+    [v-cloak] { display: none; }
+    
+    /* Background Tema Seragam */
+    .bg-hero { position: fixed; inset: 0; z-index: -1; background-image: url('background.webp'); background-size: cover; background-position: center; }
+    .bg-overlay { position: fixed; inset: 0; background: linear-gradient(to bottom, rgba(11,15,25,0.85), rgba(11,15,25,0.95)); z-index: -1; backdrop-filter: blur(8px); }
 
-    /* Latar Belakang Tema Selamat Datang */
-    .welcome-bg-dark {
-      background: radial-gradient(circle at center, rgba(30, 41, 59, 0.8) 0%, rgba(17, 24, 39, 0.9) 70%, rgba(17, 24, 39, 1) 100%);
-    }
-    .welcome-bg-light {
-      background: radial-gradient(circle at center, rgba(200, 220, 255, 0.8) 0%, rgba(240, 245, 255, 0.9) 70%, rgba(255, 255, 255, 1) 100%);
-    }
+    /* Efek Kaca (Glassmorphism) */
+    .glass-card { background: rgba(30, 41, 59, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5); transition: all 0.3s; }
+    .glass-card:hover { border-color: rgba(250, 204, 21, 0.5); box-shadow: 0 10px 30px -10px rgba(250,204,21,0.3); transform: translateY(-3px); }
+    
+    /* Search Input Modern */
+    .search-input { background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.1); color: #fff; transition: all 0.3s; outline: none; }
+    .search-input:focus { border-color: #facc15; box-shadow: 0 0 0 4px rgba(250,204,21,0.1); background: rgba(15, 23, 42, 0.9); }
 
-    /* Animasi Fade In Up */
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fade-in-up {
-      animation: fadeInUp 0.7s ease-out forwards;
-    }
+    /* Utilities Input & Kalkulator */
+    input[type="number"], input[type="text"], input[type="time"], select { background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #fff; padding: 0.75rem 1rem; border-radius: 0.5rem; width: 100%; transition: all 0.3s; outline: none; }
+    input:focus, select:focus { border-color: #06b6d4; box-shadow: 0 0 0 2px rgba(6,182,212,0.2); }
+    .res-box { background: rgba(16, 185, 129, 0.1); border-left: 4px solid #10b981; color: #a7f3d0; padding: 1rem; border-radius: 0.5rem; margin-top: 1rem; font-weight: 700; text-align: center; }
+    .err-box { background: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; color: #fecaca; padding: 1rem; border-radius: 0.5rem; margin-top: 1rem; font-style: italic; font-size: 0.875rem; text-align: center; }
 
-    /* Bayangan Kustom */
-    .custom-shadow-dark {
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    }
-    .custom-shadow-light {
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0b0f19; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #facc15; }
 
-    /* Warna Border Fokus Input */
-    .focus-border-yellow-dark:focus { outline: none; border-color: #f1c40f; }
-    .focus-border-yellow-light:focus { outline: none; border-color: #d4ac0d; }
-
-    /* Hover Tombol Biru */
-    .btn-blue-hover-dark:hover { background-color: #1976D2; transform: scale(1.03); }
-    .btn-blue-hover-light:hover { background-color: #1976D2; transform: scale(1.03); }
-
-    /* Hover Tombol Merah */
-    .btn-red-hover-dark:hover { background-color: #c0392b; transform: scale(1.03); }
-    .btn-red-hover-light:hover { background-color: #c0392b; transform: scale(1.03); }
-
-    /* Hover Tombol Emerald/Teal */
-    .btn-emerald-hover-dark:hover { background: linear-gradient(to right, #059669, #0d9488); transform: scale(1.05); }
-    .btn-emerald-hover-light:hover { background: linear-gradient(to right, #059669, #0d9488); transform: scale(1.05); }
-
-    /* Gaya Accordion */
-    .formula-content {
-      max-height: 0;
-      overflow: hidden;
-      opacity: 0;
-      transition: max-height 0.5s ease, opacity 0.5s ease;
-      pointer-events: none; /* Mencegah interaksi saat tersembunyi */
-    }
-    .formula-content.show {
-      max-height: 2000px; /* Cukup besar untuk menampung semua konten */
-      opacity: 1;
-      margin-bottom: 1rem; /* mb-4 */
-      pointer-events: auto; /* Mengizinkan interaksi saat terlihat */
-    }
-    .toggle-icon.rotate {
-      transform: rotate(90deg);
-    }
-
-    /* Gaya Menu Navbar */
-    .navbar-menu {
-      max-height: 0; /* Tersembunyi secara default untuk animasi */
-      opacity: 0;
-      transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
-    }
-    .navbar-menu.show {
-      max-height: 288px; /* Menampilkan sekitar 8 item (36px tinggi per item * 8) */
-      opacity: 1;
-      overflow-y: scroll; /* Mengaktifkan scroll untuk item lebih banyak */
-    }
-
-    /* Gaya untuk pesan error input */
-    .input-error {
-      border-color: #ef4444 !important; /* border-red-500 */
-    }
-    .error-message {
-      color: #ef4444; /* text-red-500 */
-      font-size: 0.875rem; /* text-sm */
-      margin-top: 0.25rem; /* mt-1 */
-    }
+    /* Animasi Vue */
+    .list-enter-active, .list-leave-active { transition: all 0.4s ease; }
+    .list-enter-from, .list-leave-to { opacity: 0; transform: translateY(15px); }
+    .slide-enter-active, .slide-leave-active { transition: all 0.3s ease; overflow: hidden; }
+    .slide-enter-from, .slide-leave-to { opacity: 0; transform: translateY(-10px); }
+    .rotate-icon { transform: rotate(90deg); transition: transform 0.3s ease; }
+    .norm-icon { transition: transform 0.3s ease; }
   </style>
 </head>
-<body class="bg-gray-950 text-gray-100 min-h-screen flex flex-col p-2.5">
+<body class="antialiased selection:bg-yellow-500 selection:text-black">
 
-  <header class="navbar fixed top-0 left-0 right-0 bg-gray-900 shadow-lg z-50 header-bg">
-    <div class="navbar-container relative flex justify-between items-center px-4 py-2.5">
-      <div class="navbar-brand text-yellow-400 text-2xl font-bold cursor-pointer" onclick="window.location.href='index.html'">StarchPrep</div>
-      <button id="theme-toggle"
-              class="p-2 rounded-full bg-gray-700 text-gray-200 hover:bg-gray-600 transition-colors duration-300
-                     shadow-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-opacity-75 ml-auto"
-              aria-label="Toggle tema gelap/terang">
-        <i id="theme-icon" class="bi bi-moon-fill text-xl"></i>
+<div id="app" v-cloak class="min-h-screen flex flex-col relative pb-10">
+  <div class="bg-hero"></div>
+  <div class="bg-overlay"></div>
+
+  <nav class="sticky top-0 z-[100] bg-[#0b0f19]/95 backdrop-blur-lg border-b border-gray-800 shadow-xl">
+    <div class="max-w-7xl mx-auto flex justify-between items-center px-4 sm:px-6 py-4">
+      <div class="flex items-center gap-3 cursor-pointer" @click="searchQuery = ''; window.scrollTo({top:0, behavior:'smooth'})">
+        <div class="bg-gradient-to-br from-yellow-400 to-orange-500 p-2 rounded-lg shadow-lg shadow-yellow-500/20 shrink-0">
+          <i class="bi bi-box-seam text-white text-lg sm:text-xl"></i>
+        </div>
+        <div class="min-w-0">
+          <h1 class="text-lg sm:text-xl font-black tracking-tighter text-white truncate">STARCH<span class="text-yellow-400">FORMULA</span></h1>
+          <p class="text-[8px] sm:text-[9px] text-gray-400 uppercase tracking-[0.2em] font-bold truncate">Web Formula System</p>
+        </div>
+      </div>
+      <a href="https://starch-preparation.netlify.app/" class="hidden sm:inline-flex items-center gap-2 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 px-5 py-2.5 rounded-xl transition-all font-bold text-xs border border-cyan-500/20 shadow-lg active:scale-95">
+        <i class="fa fa-arrow-left"></i> StarchPrep Dashboard
+      </a>
+      <a href="index.html" class="sm:hidden w-10 h-10 flex items-center justify-center bg-cyan-500/10 border border-cyan-500/20 rounded-full text-cyan-400 active:scale-90 transition-transform shrink-0 shadow-lg">
+        <i class="fa fa-arrow-left"></i>
+      </a>
+    </div>
+  </nav>
+
+  <main class="flex-grow max-w-5xl w-full mx-auto px-4 sm:px-6 pt-8 sm:pt-12 z-10">
+    
+    <div class="text-center mb-8 sm:mb-12 px-2">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500 tracking-tighter mb-4 drop-shadow-lg">
+        Starch Preparation Calculator
+      </h2>
+      <p class="text-gray-400 text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
+        Pusat navigasi dan ensiklopedia formula pengolahan pati. Gunakan fitur pencarian untuk menemukan rumus dengan cepat.
+      </p>
+    </div>
+
+    <div class="max-w-2xl mx-auto mb-10 sm:mb-14 relative px-1 sm:px-0">
+      <i class="bi bi-search absolute left-5 sm:left-6 top-1/2 -translate-y-1/2 text-yellow-400 text-base sm:text-lg"></i>
+      <input 
+        type="text" 
+        v-model="searchQuery" 
+        placeholder="Cari formula atau menu kalkulator..." 
+        class="search-input w-full py-3.5 sm:py-4 pl-12 sm:pl-14 pr-12 rounded-2xl text-sm sm:text-base font-bold shadow-2xl"
+      >
+      <button v-if="searchQuery" @click="searchQuery = ''" class="absolute right-5 sm:right-6 top-1/2 -translate-y-1/2 text-gray-500 hover:text-red-400 transition-colors">
+        <i class="fa fa-times-circle text-lg"></i>
       </button>
-      <div class="navbar-toggle text-2xl cursor-pointer ml-4" onclick="toggleMenu()">☰</div>
-      <div class="navbar-menu absolute top-full right-0 w-50 bg-gray-800 rounded-lg shadow-xl z-40 hidden" id="navbarMenu">
-        <a href="index.html" class="home-link bg-yellow-400 text-gray-900 font-bold rounded m-2 p-2.5 flex items-center no-underline">
-          <i class="bi bi-house-door mr-2"></i> Home
-        </a>
-        <a href="alum.html" class="block px-4 py-2.5 text-gray-100 no-underline text-left hover:bg-gray-700 nav-menu-link">Konsumsi Alum</a>
-        <a href="totalizer starch.html" class="block px-4 py-2.5 text-gray-100 no-underline text-left hover:bg-gray-700 nav-menu-link">Totalizer Starch</a>
-        <a href="enzyme.html" class="block px-4 py-2.5 text-gray-100 no-underline text-left hover:bg-gray-700 nav-menu-link">Flow Enzyme</a>
-        <a href="retentiontime.html" class="block px-4 py-2.5 text-gray-100 no-underline text-left hover:bg-gray-700 nav-menu-link">Retention Time</a>
-        <a href="estimate.html" class="block px-4 py-2.5 text-gray-100 no-underline text-left hover:bg-gray-700 nav-menu-link">Estimasi Starch</a>
-        <a href="SSA.html" class="block px-4 py-2.5 text-gray-100 no-underline text-left hover:bg-gray-700 nav-menu-link">Flow SSA</a>
-        <a href="atago.html" class="block px-4 py-2.5 text-gray-100 no-underline text-left hover:bg-gray-700 nav-menu-link">Atago Solid</a>
-        <a href="NaOH.html" class="block px-4 py-2.5 text-gray-100 no-underline text-left hover:bg-gray-700 nav-menu-link">Pemakaian NaOH</a>
-        <a href="PPM.html" class="block px-4 py-2.5 text-gray-100 no-underline text-left hover:bg-gray-700 nav-menu-link">Dosis Enzyme</a>
-        <a href="Starch Consumption.html" class="block px-4 py-2.5 text-gray-100 no-underline text-left hover:bg-gray-700 nav-menu-link">Starch Consumption</a>
-        <a href="starch formula.html" class="block px-4 py-2.5 text-gray-100 no-underline text-left hover:bg-gray-700 nav-menu-link">Ensiklopedia Formula</a>
-      </div>
     </div>
-  </header>
-  <br><br><br> <div class="bg-gray-800 rounded-xl shadow-lg p-5 mb-8 mx-auto max-w-xl rounded-lg shadow-md text-center header-info-box">
-    <h1 class="text-yellow-300 text-2xl mb-1 cursor-pointer hover:underline" onclick="window.location.href='index.html'">Starch Preparation Calculator</h1>
-    <p class="text-gray-300 text-xs">Kalkulator praktis & ensiklopedia formula untuk pengolahan pati</p>
-  </div>
 
-  <div class="max-w-xl mx-auto p-4 mt-8">
-    <div class="relative flex items-center rounded-xl custom-shadow-dark search-bar-container p-4.5">
-      <input type="text" id="search-input" placeholder="Cari formula atau kalkulator..."
-             class="w-full py-3 pl-5 pr-12 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-cyan-500
-                    border border-gray-600 bg-gray-700 text-gray-100 placeholder-gray-400 text-base focus-border-yellow-dark search-input-field"
-             aria-label="Kolom pencarian untuk formula atau kalkulator">
-      <i class="bi bi-search absolute right-5 text-xl text-gray-400 search-icon"></i>
-    </div>
-  </div>
-
-  <div class="max-w-xl mx-auto mt-8 p-4"> <h2 class="text-3xl font-bold text-yellow-400 mb-6 mt-10 text-center category-heading">Perhitungan Dasar Pati</h2>
-
-    <div class="formula-item bg-gray-800 rounded-xl shadow-lg p-5 mb-8">
-      <h3 class="formula-toggle flex items-center text-blue-200 cursor-pointer transition-colors duration-300 hover:text-blue-400">
-        <i class="bi bi-calculator-fill text-2xl mr-3"></i>  Rumus Solid &nbsp;
-        <i class="fa fa-chevron-right toggle-icon transition-transform duration-300"></i>
-      </h3>
-      <p class="text-gray-400 text-sm mt-2 formula-summary">Menghitung persentase solid dalam campuran pati dan air.</p>
-      <div class="formula-content bg-black/60 p-5 rounded-lg text-white backdrop-blur-sm custom-shadow-dark mt-4">
-        <p class="formula-desc bg-gray-900 text-gray-200 border-l-4 border-green-500 p-4 px-5 my-5 rounded-lg text-base leading-relaxed shadow-md max-w-full box-border break-words">
-          Menghitung persentase solid dalam campuran starch dan air untuk mengetahui konsentrasi larutan.
-        </p>
-        <pre><code class="bg-white/10 p-2.5 rounded-lg block whitespace-pre-wrap font-mono text-yellow-50 max-w-full overflow-x-auto box-border break-words">Solid = Starch / (Starch + Water)</code></pre>
-        <div class="example-box bg-white/10 p-4 border-l-4 border-blue-400 rounded-lg text-base text-blue-50 mt-2.5 block mb-3 w-full max-w-md">
-          <strong>Masukkan nilai:</strong><br>
-          <label>Starch (kg): <input type="number" id="starch1_1" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-starch1_1" class="error-message"></div>
-          <label>Water (liter): <input type="number" id="water1_1" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-water1_1" class="error-message"></div>
-          <button id="btn_1" class="bg-blue-600 text-white p-2.5 px-4.5 border-none rounded-lg font-bold cursor-pointer transition-all duration-300 text-base mt-2.5 btn-blue-hover-dark">Hitung</button>
-          <div id="result_1" class="mt-3 bg-white/10 p-2.5 px-3.5 rounded-md font-bold text-base text-center max-w-md"></div>
+    <transition-group name="list" tag="div" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-16">
+      
+      <a v-for="(tool, index) in filteredTools" :key="tool.title" :href="tool.link" 
+         class="glass-card rounded-2xl p-5 group flex items-center gap-4"
+         :class="{'lg:col-span-2': filteredTools.length === 10 && index >= 8}">
+        <div :class="`w-12 h-12 shrink-0 rounded-xl flex items-center justify-center shadow-lg bg-${tool.color}-500/10 text-${tool.color}-400 group-hover:scale-110 transition-transform duration-300 border border-${tool.color}-500/20`">
+          <i :class="`bi ${tool.icon} text-xl`"></i>
         </div>
-      </div>
-    </div>
-
-    <div class="formula-item bg-gray-800 rounded-xl shadow-lg p-5 mb-8">
-      <h3 class="formula-toggle flex items-center text-blue-200 cursor-pointer transition-colors duration-300 hover:text-blue-400">
-        <i class="bi bi-droplet-fill text-2xl mr-3"></i>  Density Starch (%)&nbsp;
-        <i class="fa fa-chevron-right toggle-icon transition-transform duration-300"></i>
-      </h3>
-      <p class="text-gray-400 text-sm mt-2 formula-summary">Menghitung densitas larutan pati berdasarkan nilai solid.</p>
-      <div class="formula-content bg-black/60 p-5 rounded-lg text-white backdrop-blur-sm custom-shadow-dark mt-4">
-        <p class="formula-desc bg-gray-900 text-gray-200 border-l-4 border-green-500 p-4 px-5 my-5 rounded-lg text-base leading-relaxed shadow-md max-w-full box-border break-words">
-          Menghitung densitas larutan starch berdasarkan nilai solid menggunakan pendekatan umum industri.
-        </p>
-        <pre><code class="bg-white/10 p-2.5 rounded-lg block whitespace-pre-wrap font-mono text-yellow-50 max-w-full overflow-x-auto box-border break-words">Density = 100 / (100 - solid + (solid / 1.65))</code></pre>
-        <div class="example-box bg-white/10 p-4 border-l-4 border-blue-400 rounded-lg text-base text-blue-50 mt-2.5 block mb-3 w-full max-w-md">
-          <strong>Masukkan nilai:</strong><br>
-          <label>Solid (%): <input type="number" id="solid13_13" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-solid13_13" class="error-message"></div>
-          <button id="btn_13" class="bg-blue-600 text-white p-2.5 px-4.5 border-none rounded-lg font-bold cursor-pointer transition-all duration-300 text-base mt-2.5 btn-blue-hover-dark">Hitung</button>
-          <div id="result_13" class="mt-3 bg-white/10 p-2.5 px-3.5 rounded-md font-bold text-base text-center max-w-md"></div>
+        <div class="min-w-0 flex-1">
+          <h3 class="text-white font-bold text-sm tracking-tight mb-1 group-hover:text-yellow-400 transition-colors truncate">{{ tool.title }}</h3>
+          <p class="text-[9px] text-gray-500 uppercase font-black tracking-widest truncate">{{ tool.tag }}</p>
         </div>
+        <i class="fa fa-external-link-alt ml-1 text-gray-600 text-[10px] opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all shrink-0"></i>
+      </a>
+
+    </transition-group>
+
+    <div v-if="filteredTools.length === 0 && !isAnyFormulaVisible" class="text-center py-16 px-4">
+      <div class="inline-flex w-16 h-16 bg-gray-800/50 rounded-full items-center justify-center mb-4 text-gray-500 text-2xl shadow-inner">
+        <i class="bi bi-search"></i>
       </div>
+      <h3 class="text-base sm:text-lg font-bold text-white mb-2">Formula Tidak Ditemukan</h3>
+      <p class="text-xs text-gray-500">Coba gunakan kata kunci lain, seperti "Solid" atau "Flow".</p>
     </div>
 
-    <h2 class="text-3xl font-bold text-yellow-400 mb-6 mt-10 text-center category-heading">Manajemen Aliran</h2>
-
-    <div class="formula-item bg-gray-800 rounded-xl shadow-lg p-5 mb-8">
-      <h3 class="formula-toggle flex items-center text-blue-200 cursor-pointer transition-colors duration-300 hover:text-blue-400">
-        <i class="bi bi-arrow-right-circle-fill text-2xl mr-3"></i>  Flow Starch Elevator &nbsp;
-        <i class="fa fa-chevron-right toggle-icon transition-transform duration-300"></i>
-      </h3>
-      <p class="text-gray-400 text-sm mt-2 formula-summary">Memperkirakan debit aliran pati berdasarkan nilai solid dan flow air.</p>
-      <div class="formula-content bg-black/60 p-5 rounded-lg text-white backdrop-blur-sm custom-shadow-dark mt-4">
-        <p class="formula-desc bg-gray-900 text-gray-200 border-l-4 border-green-500 p-4 px-5 my-5 rounded-lg text-base leading-relaxed shadow-md max-w-full box-border break-words">
-          Digunakan untuk memperkirakan debit aliran starch berdasarkan nilai solid dan flow air.
-        </p>
-        <pre><code class="bg-white/10 p-2.5 rounded-lg block whitespace-pre-wrap font-mono text-yellow-50 max-w-full overflow-x-auto box-border break-words">Flow = [Solid × Flow Water / (1 - Solid)] × 1.1</code></pre>
-        <div class="example-box bg-white/10 p-4 border-l-4 border-blue-400 rounded-lg text-base text-blue-50 mt-2.5 block mb-3 w-full max-w-md">
-          <strong>Masukkan nilai:</strong><br>
-          <label>Solid (%): <input type="number" id="solid2_2" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-solid2_2" class="error-message"></div>
-          <label>Flow Water (l/min): <input type="number" id="flowwater2_2" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-flowwater2_2" class="error-message"></div>
-          <button id="btn_2" class="bg-blue-600 text-white p-2.5 px-4.5 border-none rounded-lg font-bold cursor-pointer transition-all duration-300 text-base mt-2.5 btn-blue-hover-dark">Hitung</button>
-          <div id="result_2" class="mt-3 bg-white/10 p-2.5 px-3.5 rounded-md font-bold text-base text-center max-w-md"></div>
+    <div v-show="showCategory('dasar pati solid density')">
+      <h3 class="text-xs md:text-sm font-bold text-gray-500 uppercase tracking-widest mb-4 border-b border-gray-800 pb-2">Perhitungan Dasar Pati</h3>
+      
+      <div v-show="matchesSearch('solid starch water')" class="glass-card rounded-xl mb-4 overflow-hidden">
+        <div @click="toggleF('f1')" class="p-5 cursor-pointer flex justify-between items-center hover:bg-white/5 transition">
+          <h4 class="font-bold text-cyan-300"><i class="bi bi-calculator-fill mr-2"></i> 1. Rumus Solid Starch</h4>
+          <i class="fa fa-chevron-right text-gray-500 norm-icon" :class="{'rotate-icon text-cyan-400': openF === 'f1'}"></i>
         </div>
+        <transition name="slide">
+          <div v-show="openF === 'f1'" class="p-5 border-t border-gray-700 bg-black/30">
+            <code class="block text-center text-yellow-200 bg-black/50 p-2 rounded mb-4 font-mono text-xs border border-gray-700">Solid = Starch / (Starch + Water)</code>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div><label class="text-xs text-gray-400 font-bold mb-1 block uppercase">Starch (kg)</label><input type="number" v-model.number="f1.s" placeholder="Contoh: 1000"></div>
+              <div><label class="text-xs text-gray-400 font-bold mb-1 block uppercase">Water (Liter)</label><input type="number" v-model.number="f1.w" placeholder="Contoh: 3000"></div>
+            </div>
+            <button @click="calc1" class="w-full bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-bold py-3 rounded-lg active:scale-95 transition-transform">HITUNG SOLID</button>
+            <div v-if="f1.res" class="res-box" v-html="f1.res"></div><div v-if="f1.err" class="err-box" v-html="f1.err"></div>
+          </div>
+        </transition>
       </div>
-    </div>
 
-    <div class="formula-item bg-gray-800 rounded-xl shadow-lg p-5 mb-8">
-      <h3 class="formula-toggle flex items-center text-blue-200 cursor-pointer transition-colors duration-300 hover:text-blue-400">
-        <i class="bi bi-arrow-left-right text-2xl mr-3"></i>  Konversi Flow&nbsp;
-        <i class="fa fa-chevron-right toggle-icon transition-transform duration-300"></i>
-      </h3>
-      <p class="text-gray-400 text-sm mt-2 formula-summary">Melakukan konversi satuan antara liter/menit dan meter kubik/jam.</p>
-      <div class="formula-content bg-black/60 p-5 rounded-lg text-white backdrop-blur-sm custom-shadow-dark mt-4">
-        <p class="formula-desc bg-gray-900 text-gray-200 border-l-4 border-green-500 p-4 px-5 my-5 rounded-lg text-base leading-relaxed shadow-md max-w-full box-border break-words">
-          Melakukan konversi satuan antara liter/menit dan meter kubik/jam sesuai kebutuhan perhitungan.
-        </p>
-        <pre><code class="bg-white/10 p-2.5 rounded-lg block whitespace-pre-wrap font-mono text-yellow-50 max-w-full overflow-x-auto box-border break-words">l/min → m³/h = Flow × 60 ÷ 1000  
-m³/h → l/min = Flow × 1000 ÷ 60</code></pre>
-        <div class="example-box bg-white/10 p-4 border-l-4 border-blue-400 rounded-lg text-base text-blue-50 mt-2.5 block mb-3 w-full max-w-md">
-          <strong>Masukkan nilai:</strong><br>
-          <label>Flow (angka): <input type="number" id="flow9_9" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-flow9_9" class="error-message"></div>
-          <label>Pilih konversi:
-            <select id="conversionType9" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark">
-              <option value="lpm_to_m3h">l/min → m³/h</option>
-              <option value="m3h_to_lpm">m³/h → l/min</option>
-            </select>
-          </label><br>
-          <button id="btn_9" class="bg-blue-600 text-white p-2.5 px-4.5 border-none rounded-lg font-bold cursor-pointer transition-all duration-300 text-base mt-2.5 btn-blue-hover-dark">Hitung</button>
-          <div id="result_9" class="mt-3 bg-white/10 p-2.5 px-3.5 rounded-md font-bold text-base text-center max-w-md"></div>
+      <div v-show="matchesSearch('density starch')" class="glass-card rounded-xl mb-8 overflow-hidden">
+        <div @click="toggleF('f13')" class="p-5 cursor-pointer flex justify-between items-center hover:bg-white/5 transition">
+          <h4 class="font-bold text-cyan-300"><i class="bi bi-droplet-fill mr-2"></i> 2. Density Starch</h4>
+          <i class="fa fa-chevron-right text-gray-500 norm-icon" :class="{'rotate-icon text-cyan-400': openF === 'f13'}"></i>
         </div>
+        <transition name="slide">
+          <div v-show="openF === 'f13'" class="p-5 border-t border-gray-700 bg-black/30">
+            <code class="block text-center text-yellow-200 bg-black/50 p-2 rounded mb-4 font-mono text-xs border border-gray-700">Density = 100 / (100 - solid + (solid / 1.65))</code>
+            <div class="mb-4"><label class="text-xs text-gray-400 font-bold mb-1 block uppercase">Solid (%)</label><input type="number" v-model.number="f13.sol" placeholder="Contoh: 28"></div>
+            <button @click="calc13" class="w-full bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-bold py-3 rounded-lg active:scale-95 transition-transform">HITUNG DENSITY</button>
+            <div v-if="f13.res" class="res-box" v-html="f13.res"></div><div v-if="f13.err" class="err-box" v-html="f13.err"></div>
+          </div>
+        </transition>
       </div>
     </div>
 
-    <div class="formula-item bg-gray-800 rounded-xl shadow-lg p-5 mb-8">
-      <h3 class="formula-toggle flex items-center text-blue-200 cursor-pointer transition-colors duration-300 hover:text-blue-400">
-        <i class="bi bi-speedometer2 text-2xl mr-3"></i>  Menghitung Flow&nbsp;
-        <i class="fa fa-chevron-right toggle-icon transition-transform duration-300"></i>
-      </h3>
-      <p class="text-gray-400 text-sm mt-2 formula-summary">Menghitung debit cairan dalam tangki berdasarkan perubahan level dan durasi waktu.</p>
-      <div class="formula-content bg-black/60 p-5 rounded-lg text-white backdrop-blur-sm custom-shadow-dark mt-4">
-        <p class="formula-desc bg-gray-900 text-gray-200 border-l-4 border-green-500 p-4 px-5 my-5 rounded-lg text-base leading-relaxed shadow-md max-w-full box-border break-words">
-          Menghitung debit cairan dalam tangki berdasarkan perubahan level dan durasi waktu.
-        </p>
-        <pre><code class="bg-white/10 p-2.5 rounded-lg block whitespace-pre-wrap font-mono text-yellow-50 max-w-full overflow-x-auto box-border break-words">Flow = ((Level Awal - Level Akhir) × Volume) / (Waktu Akhir - Waktu Awal)</code></pre>
-        <div class="example-box bg-white/10 p-4 border-l-4 border-blue-400 rounded-lg text-base text-blue-50 mt-2.5 block mb-3 w-full max-w-md">
-          <strong>Masukkan nilai:</strong><br>
-          <label>Level Awal (%): <input type="number" id="level1_3_3" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-level1_3_3" class="error-message"></div>
-          <label>Level Akhir (%): <input type="number" id="level2_3_3" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-level2_3_3" class="error-message"></div>
-          <label>Volume Tangki (m3): <input type="number" id="volume3_3" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-volume3_3" class="error-message"></div>
-          <label>Waktu Awal (HH.MM): <input type="number" id="time1_3_3" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-time1_3_3" class="error-message"></div>
-          <label>Waktu Akhir (HH.MM): <input type="number" id="time2_3_3" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-time2_3_3" class="error-message"></div>
-          <button id="btn_3" class="bg-blue-600 text-white p-2.5 px-4.5 border-none rounded-lg font-bold cursor-pointer transition-all duration-300 text-base mt-2.5 btn-blue-hover-dark">Hitung</button>
-          <div id="result_3" class="mt-3 bg-white/10 p-2.5 px-3.5 rounded-md font-bold text-base text-center max-w-md"></div>
+    <div v-show="showCategory('manajemen aliran flow beda level konversi')">
+      <h3 class="text-xs md:text-sm font-bold text-gray-500 uppercase tracking-widest mb-4 border-b border-gray-800 pb-2">Manajemen Aliran (Flow)</h3>
+
+      <div v-show="matchesSearch('flow starch elevator')" class="glass-card rounded-xl mb-4 overflow-hidden">
+        <div @click="toggleF('f2')" class="p-5 cursor-pointer flex justify-between items-center hover:bg-white/5 transition">
+          <h4 class="font-bold text-orange-300"><i class="bi bi-arrow-right-circle-fill mr-2"></i> 3. Flow Starch Elevator</h4>
+          <i class="fa fa-chevron-right text-gray-500 norm-icon" :class="{'rotate-icon text-orange-400': openF === 'f2'}"></i>
         </div>
+        <transition name="slide">
+          <div v-show="openF === 'f2'" class="p-5 border-t border-gray-700 bg-black/30">
+            <code class="block text-center text-yellow-200 bg-black/50 p-2 rounded mb-4 font-mono text-xs border border-gray-700">Flow = [Solid × Flow Water / (1 - Solid)] × 1.1</code>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div><label class="text-xs text-gray-400 font-bold mb-1 block uppercase">Solid (%)</label><input type="number" v-model.number="f2.sol"></div>
+              <div><label class="text-xs text-gray-400 font-bold mb-1 block uppercase">Flow Air (L/min)</label><input type="number" v-model.number="f2.fw"></div>
+            </div>
+            <button @click="calc2" class="w-full bg-gradient-to-r from-orange-600 to-red-600 text-white font-bold py-3 rounded-lg active:scale-95 transition-transform">HITUNG FLOW</button>
+            <div v-if="f2.res" class="res-box" v-html="f2.res"></div><div v-if="f2.err" class="err-box" v-html="f2.err"></div>
+          </div>
+        </transition>
       </div>
-    </div>
 
-    <h2 class="text-3xl font-bold text-yellow-400 mb-6 mt-10 text-center category-heading">Dosis & Konsumsi</h2>
-
-    <div class="formula-item bg-gray-800 rounded-xl shadow-lg p-5 mb-8">
-      <h3 class="formula-toggle flex items-center text-blue-200 cursor-pointer transition-colors duration-300 hover:text-blue-400">
-        <i class="bi bi-lightning-charge-fill text-2xl mr-2"></i>  Flow Waterglass
-        <i class="fa fa-chevron-right toggle-icon transition-transform duration-300"></i>
-      </h3>
-      <p class="text-gray-400 text-sm mt-2 formula-summary">Menghitung kebutuhan flow waterglass sesuai konsentrasi dan dosis.</p>
-      <div class="formula-content bg-black/60 p-5 rounded-lg text-white backdrop-blur-sm custom-shadow-dark mt-4">
-        <p class="formula-desc bg-gray-900 text-gray-200 border-l-4 border-green-500 p-4 px-5 my-5 rounded-lg text-base leading-relaxed shadow-md max-w-full box-border break-words">
-          Menghitung kebutuhan flow waterglass sesuai dengan konsentrasi dan dosis yang diinginkan.
-        </p>
-        <pre><code class="bg-white/10 p-2.5 rounded-lg block whitespace-pre-wrap font-mono text-yellow-50 max-w-full overflow-x-auto box-border break-words">Flow = Flow Storage (m3/h) x %Solid Storage x %Dosis / 14</code></pre>
-        <div class="example-box bg-white/10 p-4 border-l-4 border-blue-400 rounded-lg text-base text-blue-50 mt-2.5 block mb-3 w-full max-w-md">
-          <strong>Masukkan nilai:</strong><br>
-          <label>Flow Storage (m3/h): <input type="number" id="flow5_5" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-flow5_5" class="error-message"></div>
-          <label>%Solid Storage: <input type="number" id="solid5_5" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-solid5_5" class="error-message"></div>
-          <label>%Dosis: <input type="number" id="dosis5_5" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-dosis5_5" class="error-message"></div>
-          <button id="btn_5" class="bg-blue-600 text-white p-2.5 px-4.5 border-none rounded-lg font-bold cursor-pointer transition-all duration-300 text-base mt-2.5 btn-blue-hover-dark">Hitung</button>
-          <div id="result_5" class="mt-3 bg-white/10 p-2.5 px-3.5 rounded-md font-bold text-base text-center max-w-md"></div>
+      <div v-show="matchesSearch('konversi flow lpm m3h')" class="glass-card rounded-xl mb-4 overflow-hidden">
+        <div @click="toggleF('f9')" class="p-5 cursor-pointer flex justify-between items-center hover:bg-white/5 transition">
+          <h4 class="font-bold text-orange-300"><i class="bi bi-arrow-left-right mr-2"></i> 4. Konversi Satuan Flow</h4>
+          <i class="fa fa-chevron-right text-gray-500 norm-icon" :class="{'rotate-icon text-orange-400': openF === 'f9'}"></i>
         </div>
+        <transition name="slide">
+          <div v-show="openF === 'f9'" class="p-5 border-t border-gray-700 bg-black/30">
+            <code class="block text-center text-yellow-200 bg-black/50 p-2 rounded mb-4 font-mono text-xs border border-gray-700">L/min ↔ m³/h</code>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div><label class="text-xs text-gray-400 font-bold mb-1 block uppercase">Angka Flow</label><input type="number" v-model.number="f9.val"></div>
+              <div><label class="text-xs text-gray-400 font-bold mb-1 block uppercase">Arah Konversi</label>
+                <select v-model="f9.type"><option value="lpm">L/min → m³/h</option><option value="m3h">m³/h → L/min</option></select>
+              </div>
+            </div>
+            <button @click="calc9" class="w-full bg-gradient-to-r from-orange-600 to-red-600 text-white font-bold py-3 rounded-lg active:scale-95 transition-transform">KONVERSI</button>
+            <div v-if="f9.res" class="res-box" v-html="f9.res"></div><div v-if="f9.err" class="err-box" v-html="f9.err"></div>
+          </div>
+        </transition>
       </div>
-    </div>
 
-    <div class="formula-item bg-gray-800 rounded-xl shadow-lg p-5 mb-8">
-      <h3 class="formula-toggle flex items-center text-blue-200 cursor-pointer transition-colors duration-300 hover:text-blue-400">
-        <i class="bi bi-water text-2xl mr-3"></i>  Rumus Pengenceran&nbsp;
-        <i class="fa fa-chevron-right toggle-icon transition-transform duration-300"></i>
-      </h3>
-      <p class="text-gray-400 text-sm mt-2 formula-summary">Menghitung air yang dibutuhkan untuk mengencerkan larutan ke target solid.</p>
-      <div class="formula-content bg-black/60 p-5 rounded-lg text-white backdrop-blur-sm custom-shadow-dark mt-4">
-        <p class="formula-desc bg-gray-900 text-gray-200 border-l-4 border-green-500 p-4 px-5 my-5 rounded-lg text-base leading-relaxed shadow-md max-w-full box-border break-words">
-          Menghitung berapa banyak air yang dibutuhkan untuk mengencerkan larutan ke target solid tertentu.
-        </p>
-        <pre><code class="bg-white/10 p-2.5 rounded-lg block whitespace-pre-wrap font-mono text-yellow-50 max-w-full overflow-x-auto box-border break-words">Flow Air (m³/h) = [(Flow × (%Solid - %Target)) / %Target]</code></pre>
-        <div class="example-box bg-white/10 p-4 border-l-4 border-blue-400 rounded-lg text-base text-blue-50 mt-2.5 block mb-3 w-full max-w-md">
-          <strong>Masukkan nilai:</strong><br>
-          <label>Flow (m³/h): <input type="number" id="flow6_6" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-flow6_6" class="error-message"></div>
-          <label>%Solid Content: <input type="number" id="solid6_6" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-solid6_6" class="error-message"></div>
-          <label>%Target Solid: <input type="number" id="target6_6" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-target6_6" class="error-message"></div>
-          <button id="btn_6" class="bg-blue-600 text-white p-2.5 px-4.5 border-none rounded-lg font-bold cursor-pointer transition-all duration-300 text-base mt-2.5 btn-blue-hover-dark">Hitung</button>
-          <div id="result_6" class="mt-3 bg-white/10 p-2.5 px-3.5 rounded-md font-bold text-base text-center max-w-md"></div>
+      <div v-show="matchesSearch('menghitung flow beda level waktu')" class="glass-card rounded-xl mb-8 overflow-hidden">
+        <div @click="toggleF('f3')" class="p-5 cursor-pointer flex justify-between items-center hover:bg-white/5 transition">
+          <h4 class="font-bold text-orange-300"><i class="bi bi-speedometer2 mr-2"></i> 5. Hitung Flow (Beda Level)</h4>
+          <i class="fa fa-chevron-right text-gray-500 norm-icon" :class="{'rotate-icon text-orange-400': openF === 'f3'}"></i>
         </div>
+        <transition name="slide">
+          <div v-show="openF === 'f3'" class="p-5 border-t border-gray-700 bg-black/30">
+            <code class="block text-center text-yellow-200 bg-black/50 p-2 rounded mb-4 font-mono text-xs border border-gray-700">Flow = (ΔLevel × Vol) / ΔWaktu</code>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+              <div><label class="text-xs text-gray-400 font-bold mb-1 block uppercase">Lvl Awal (%)</label><input type="number" v-model.number="f3.l1"></div>
+              <div><label class="text-xs text-gray-400 font-bold mb-1 block uppercase">Lvl Akhir (%)</label><input type="number" v-model.number="f3.l2"></div>
+              <div><label class="text-xs text-gray-400 font-bold mb-1 block uppercase">Vol Tangki (m³)</label><input type="number" v-model.number="f3.v"></div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+              <div><label class="text-xs text-gray-400 font-bold mb-1 block uppercase">Waktu Awal</label><input type="time" v-model="f3.t1"></div>
+              <div><label class="text-xs text-gray-400 font-bold mb-1 block uppercase">Waktu Akhir</label><input type="time" v-model="f3.t2"></div>
+            </div>
+            <button @click="calc3" class="w-full bg-gradient-to-r from-orange-600 to-red-600 text-white font-bold py-3 rounded-lg active:scale-95 transition-transform">KALKULASI</button>
+            <div v-if="f3.res" class="res-box" v-html="f3.res"></div><div v-if="f3.err" class="err-box" v-html="f3.err"></div>
+          </div>
+        </transition>
       </div>
     </div>
 
-    <div class="formula-item bg-gray-800 rounded-xl shadow-lg p-5 mb-8">
-      <h3 class="formula-toggle flex items-center text-blue-200 cursor-pointer transition-colors duration-300 hover:text-blue-400">
-        <i class="bi bi-boxes text-2xl mr-3"></i>  Rumus Pencampuran&nbsp;
-        <i class="fa fa-chevron-right toggle-icon transition-transform duration-300"></i>
-      </h3>
-      <p class="text-gray-400 text-sm mt-2 formula-summary">Menghitung solid akhir dari dua larutan berbeda yang dicampurkan.</p>
-      <div class="formula-content bg-black/60 p-5 rounded-lg text-white backdrop-blur-sm custom-shadow-dark mt-4">
-        <p class="formula-desc bg-gray-900 text-gray-200 border-l-4 border-green-500 p-4 px-5 my-5 rounded-lg text-base leading-relaxed shadow-md max-w-full box-border break-words">
-          Menghitung solid akhir dari dua larutan berbeda yang dicampurkan dengan volume dan solid masing-masing.
-        </p>
-        <pre><code class="bg-white/10 p-2.5 rounded-lg block whitespace-pre-wrap font-mono text-yellow-50 max-w-full overflow-x-auto box-border break-words">Solid Campuran = (Vol1 x Solid1 + Vol2 x Solid2) / (Vol1 + Vol2)</code></pre>
-        <div class="example-box bg-white/10 p-4 border-l-4 border-blue-400 rounded-lg text-base text-blue-50 mt-2.5 block mb-3 w-full max-w-md">
-          <strong>Campuran 1 (Tangki Final):</strong><br>
-          <label>Volume Tangki 1 (m³): <input type="number" id="vol1" step="0.01" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-vol1" class="error-message"></div>
-          <label>Level 1 (%): <input type="number" id="level1" step="0.1" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-level1" class="error-message"></div>
-          <label>Solid 1 (%): <input type="number" id="solid1" step="0.1" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-solid1" class="error-message"></div>
-          <strong>Campuran 2 (Tangki Tercampur Air):</strong><br>
-          <label>Volume Tangki 2 (m³): <input type="number" id="vol2" step="0.01" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-vol2" class="error-message"></div>
-          <label>Level 2 (%): <input type="number" id="level2" step="0.1" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-level2" class="error-message"></div>
-          <label>Solid 2 (%): <input type="number" id="solid2" step="0.1" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-solid2" class="error-message"></div>
-          <button id="btn_7" class="bg-blue-600 text-white p-2.5 px-4.5 border-none rounded-lg font-bold cursor-pointer transition-all duration-300 text-base mt-2.5 btn-blue-hover-dark">Hitung</button>
-          <div id="result_7" class="mt-3 bg-white/10 p-2.5 px-3.5 rounded-md font-bold text-base text-center max-w-md"></div>
+    <div v-show="showCategory('dosis konsumsi waterglass naoh enzyme bonedry campuran pengenceran')">
+      <h3 class="text-xs md:text-sm font-bold text-gray-500 uppercase tracking-widest mb-4 border-b border-gray-800 pb-2">Dosis & Kalkulasi Advance</h3>
+
+      <div v-show="matchesSearch('flow waterglass')" class="glass-card rounded-xl mb-4 overflow-hidden">
+        <div @click="toggleF('f5')" class="p-5 cursor-pointer flex justify-between items-center hover:bg-white/5 transition">
+          <h4 class="font-bold text-purple-300"><i class="bi bi-lightning-charge-fill mr-2"></i> 6. Flow Waterglass</h4>
+          <i class="fa fa-chevron-right text-gray-500 norm-icon" :class="{'rotate-icon text-purple-400': openF === 'f5'}"></i>
         </div>
+        <transition name="slide">
+          <div v-show="openF === 'f5'" class="p-5 border-t border-gray-700 bg-black/30">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+              <div><label class="text-xs text-gray-400 font-bold mb-1 block uppercase">Flow Strg (m³/h)</label><input type="number" v-model.number="f5.fs"></div>
+              <div><label class="text-xs text-gray-400 font-bold mb-1 block uppercase">%Solid Strg</label><input type="number" v-model.number="f5.sol"></div>
+              <div><label class="text-xs text-gray-400 font-bold mb-1 block uppercase">%Dosis</label><input type="number" v-model.number="f5.dos"></div>
+            </div>
+            <button @click="calc5" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold py-3 rounded-lg active:scale-95 transition-transform">HITUNG WG</button>
+            <div v-if="f5.res" class="res-box" v-html="f5.res"></div><div v-if="f5.err" class="err-box" v-html="f5.err"></div>
+          </div>
+        </transition>
       </div>
-    </div>
 
-    <div class="formula-item bg-gray-800 rounded-xl shadow-lg p-5 mb-8">
-      <h3 class="formula-toggle flex items-center text-blue-200 cursor-pointer transition-colors duration-300 hover:text-blue-400">
-        <i class="bi bi-box-fill text-2xl mr-3"></i>  Solid NaOH&nbsp;
-        <i class="fa fa-chevron-right toggle-icon transition-transform duration-300"></i>
-      </h3>
-      <p class="text-gray-400 text-sm mt-2 formula-summary">Menghitung persentase solid larutan NaOH setelah dicampur air.</p>
-      <div class="formula-content bg-black/60 p-5 rounded-lg text-white backdrop-blur-sm custom-shadow-dark mt-4">
-        <p class="formula-desc bg-gray-900 text-gray-200 border-l-4 border-green-500 p-4 px-5 my-5 rounded-lg text-base leading-relaxed shadow-md max-w-full box-border break-words">
-          Menghitung persentase solid larutan NaOH setelah dicampur dengan air.
-        </p>
-        <pre><code class="bg-white/10 p-2.5 rounded-lg block whitespace-pre-wrap font-mono text-yellow-50 max-w-full overflow-x-auto box-border break-words">Solid = Total NaOH x 48% / (Total NaOH + Total Water)</code></pre>
-        <div class="example-box bg-white/10 p-4 border-l-4 border-blue-400 rounded-lg text-base text-blue-50 mt-2.5 block mb-3 w-full max-w-md">
-          <strong>Masukkan nilai:</strong><br>
-          <label>Total NaOH (kg): <input type="number" id="naoh8_8" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-naoh8_8" class="error-message"></div>
-          <label>Total Water (liter): <input type="number" id="air8_8" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-air8_8" class="error-message"></div>
-          <button id="btn_8" class="bg-blue-600 text-white p-2.5 px-4.5 border-none rounded-lg font-bold cursor-pointer transition-all duration-300 text-base mt-2.5 btn-blue-hover-dark">Hitung</button>
-          <div id="result_8" class="mt-3 bg-white/10 p-2.5 px-3.5 rounded-md font-bold text-base text-center max-w-md"></div>
+      <div v-show="matchesSearch('solid naoh')" class="glass-card rounded-xl mb-4 overflow-hidden">
+        <div @click="toggleF('f8')" class="p-5 cursor-pointer flex justify-between items-center hover:bg-white/5 transition">
+          <h4 class="font-bold text-purple-300"><i class="bi bi-box-fill mr-2"></i> 7. Solid NaOH</h4>
+          <i class="fa fa-chevron-right text-gray-500 norm-icon" :class="{'rotate-icon text-purple-400': openF === 'f8'}"></i>
         </div>
+        <transition name="slide">
+          <div v-show="openF === 'f8'" class="p-5 border-t border-gray-700 bg-black/30">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+              <div><label class="text-xs text-gray-400 font-bold mb-1 block uppercase">NaOH (kg)</label><input type="number" v-model.number="f8.n"></div>
+              <div><label class="text-xs text-gray-400 font-bold mb-1 block uppercase">Air (Liter)</label><input type="number" v-model.number="f8.a"></div>
+            </div>
+            <button @click="calc8" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold py-3 rounded-lg active:scale-95 transition-transform">HITUNG NAOH</button>
+            <div v-if="f8.res" class="res-box" v-html="f8.res"></div><div v-if="f8.err" class="err-box" v-html="f8.err"></div>
+          </div>
+        </transition>
       </div>
-    </div>
 
-    <div class="formula-item bg-gray-800 rounded-xl shadow-lg p-5 mb-8">
-      <h3 class="formula-toggle flex items-center text-blue-200 cursor-pointer transition-colors duration-300 hover:text-blue-400">
-        <i class="bi bi-percent text-2xl mr-3"></i>  PPM Enzyme&nbsp;
-        <i class="fa fa-chevron-right toggle-icon transition-transform duration-300"></i>
-      </h3>
-      <p class="text-gray-400 text-sm mt-2 formula-summary">Menghitung konsentrasi enzim dalam aliran pati dalam PPM.</p>
-      <div class="formula-content bg-black/60 p-5 rounded-lg text-white backdrop-blur-sm custom-shadow-dark mt-4">
-        <p class="formula-desc bg-gray-900 text-gray-200 border-l-4 border-green-500 p-4 px-5 my-5 rounded-lg text-base leading-relaxed shadow-md max-w-full box-border break-words">
-          Menghitung konsentrasi enzim dalam aliran starch menggunakan satuan PPM (part per million).
-        </p>
-        <pre><code class="bg-white/10 p-2.5 rounded-lg block whitespace-pre-wrap font-mono text-yellow-50 max-w-full overflow-x-auto box-border break-words">PPM = (Flow Enzyme / Flow Starch) x 1000</code></pre>
-        <div class="example-box bg-white/10 p-4 border-l-4 border-blue-400 rounded-lg text-base text-blue-50 mt-2.5 block mb-3 w-full max-w-md">
-          <strong>Masukkan nilai:</strong><br>
-          <label>Flow Enzyme (l/min): <input type="number" id="enzyme10_10" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-enzyme10_10" class="error-message"></div>
-          <label>Flow Starch (kg/min): <input type="number" id="starch10_10" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-starch10_10" class="error-message"></div>
-          <button id="btn_10" class="bg-blue-600 text-white p-2.5 px-4.5 border-none rounded-lg font-bold cursor-pointer transition-all duration-300 text-base mt-2.5 btn-blue-hover-dark">Hitung</button>
-          <div id="result_10" class="mt-3 bg-white/10 p-2.5 px-3.5 rounded-md font-bold text-base text-center max-w-md"></div>
+      <div v-show="matchesSearch('dosis ppm enzyme')" class="glass-card rounded-xl mb-4 overflow-hidden">
+        <div @click="toggleF('f10')" class="p-5 cursor-pointer flex justify-between items-center hover:bg-white/5 transition">
+          <h4 class="font-bold text-purple-300"><i class="bi bi-percent mr-2"></i> 8. Dosis Enzyme (PPM)</h4>
+          <i class="fa fa-chevron-right text-gray-500 norm-icon" :class="{'rotate-icon text-purple-400': openF === 'f10'}"></i>
         </div>
+        <transition name="slide">
+          <div v-show="openF === 'f10'" class="p-5 border-t border-gray-700 bg-black/30">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+              <div><label class="text-xs text-gray-400 font-bold mb-1 block uppercase">Flow Enz (L/min)</label><input type="number" v-model.number="f10.e"></div>
+              <div><label class="text-xs text-gray-400 font-bold mb-1 block uppercase">Flow Starch (kg/min)</label><input type="number" v-model.number="f10.s"></div>
+            </div>
+            <button @click="calc10" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold py-3 rounded-lg active:scale-95 transition-transform">HITUNG PPM</button>
+            <div v-if="f10.res" class="res-box" v-html="f10.res"></div><div v-if="f10.err" class="err-box" v-html="f10.err"></div>
+          </div>
+        </transition>
       </div>
-    </div>
 
-    <div class="formula-item bg-gray-800 rounded-xl shadow-lg p-5 mb-8">
-      <h3 class="formula-toggle flex items-center text-blue-200 cursor-pointer transition-colors duration-300 hover:text-blue-400">
-        <i class="bi bi-graph-up text-2xl mr-3"></i>  Starch Bonedry Flow&nbsp;
-        <i class="fa fa-chevron-right toggle-icon transition-transform duration-300"></i>
-      </h3>
-      <p class="text-gray-400 text-sm mt-2 formula-summary">Menghitung aliran pati bonedry dari dua sumber aliran.</p>
-      <div class="formula-content bg-black/60 p-5 rounded-lg text-white backdrop-blur-sm custom-shadow-dark mt-4">
-        <p class="formula-desc bg-gray-900 text-gray-200 border-l-4 border-green-500 p-4 px-5 my-5 rounded-lg text-base leading-relaxed shadow-md max-w-full box-border break-words">
-          Menghitung aliran bonedry starch dari dua sumber aliran berdasarkan solid, flow, dan densitas.
-        </p>
-        <pre><code class="bg-white/10 p-2.5 rounded-lg block whitespace-pre-wrap font-mono text-yellow-50 max-w-full overflow-x-auto box-border break-words">Flow (kg/h) = [(SolidTop × FlowTop) + (SolidBottom × FlowBottom)] × Density × 10</code></pre>
-        <div class="example-box bg-white/10 p-4 border-l-4 border-blue-400 rounded-lg text-base text-blue-50 mt-2.5 block mb-3 w-full max-w-md">
-          <strong>Masukkan nilai:</strong><br>
-          <label>Solid Top (%): <input type="number" id="solidTop11" step="any" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-solidTop11" class="error-message"></div>
-          <label>Total Flow Top (m³/h): <input type="number" id="flowTop11" step="any" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-flowTop11" class="error-message"></div>
-          <label>Solid Bottom (%): <input type="number" id="solidBottom11" step="any" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-solidBottom11" class="error-message"></div>
-          <label>Total Flow Bottom (m³/h): <input type="number" id="flowBottom11" step="any" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-flowBottom11" class="error-message"></div>
-          <label>Density (ton/m³): <input type="number" id="density11" step="any" value="1.1" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-density11" class="error-message"></div>
-          <button id="btn_11" class="bg-blue-600 text-white p-2.5 px-4.5 border-none rounded-lg font-bold cursor-pointer transition-all duration-300 text-base mt-2.5 btn-blue-hover-dark">Hitung</button>
-          <div id="result_11" class="mt-3 bg-white/10 p-2.5 px-3.5 rounded-md font-bold text-base text-center max-w-md"></div>
+      <div v-show="matchesSearch('pengenceran air target')" class="glass-card rounded-xl mb-4 overflow-hidden">
+        <div @click="toggleF('f6')" class="p-5 cursor-pointer flex justify-between items-center hover:bg-white/5 transition">
+          <h4 class="font-bold text-emerald-300"><i class="bi bi-water mr-2"></i> 9. Target Pengenceran Air</h4>
+          <i class="fa fa-chevron-right text-gray-500 norm-icon" :class="{'rotate-icon text-emerald-400': openF === 'f6'}"></i>
         </div>
+        <transition name="slide">
+          <div v-show="openF === 'f6'" class="p-5 border-t border-gray-700 bg-black/30">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+              <div><label class="text-xs text-gray-400 font-bold mb-1 block uppercase">Flow Awal</label><input type="number" v-model.number="f6.f"></div>
+              <div><label class="text-xs text-gray-400 font-bold mb-1 block uppercase">%Solid Awal</label><input type="number" v-model.number="f6.s"></div>
+              <div><label class="text-xs text-gray-400 font-bold mb-1 block uppercase">%Target</label><input type="number" v-model.number="f6.t"></div>
+            </div>
+            <button @click="calc6" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold py-3 rounded-lg active:scale-95 transition-transform">HITUNG AIR PENGENCER</button>
+            <div v-if="f6.res" class="res-box" v-html="f6.res"></div><div v-if="f6.err" class="err-box" v-html="f6.err"></div>
+          </div>
+        </transition>
       </div>
-    </div>
 
-    <div class="formula-item bg-gray-800 rounded-xl shadow-lg p-5 mb-8">
-      <h3 class="formula-toggle flex items-center text-blue-200 cursor-pointer transition-colors duration-300 hover:text-blue-400">
-        <i class="bi bi-bar-chart-fill text-2xl mr-3"></i>  Starch Consumption&nbsp;
-        <i class="fa fa-chevron-right toggle-icon transition-transform duration-300"></i>
-      </h3>
-      <p class="text-gray-400 text-sm mt-2 formula-summary">Menghitung konsumsi pati per ton kertas berdasarkan laju produksi.</p>
-      <div class="formula-content bg-black/60 p-5 rounded-lg text-white backdrop-blur-sm custom-shadow-dark mt-4">
-        <p class="formula-desc bg-gray-900 text-gray-200 border-l-4 border-green-500 p-4 px-5 my-5 rounded-lg text-base leading-relaxed shadow-md max-w-full box-border break-words">
-          Menghitung konsumsi starch per ton kertas berdasarkan laju produksi dan flow bonedry.
-        </p>
-        <pre><code class="bg-white/10 p-2.5 rounded-lg block whitespace-pre-wrap font-mono text-yellow-50 max-w-full overflow-x-auto box-border break-words">Consumption = Bonedry Flow / Paper Production Rate</code></pre>
-        <div class="example-box bg-white/10 p-4 border-l-4 border-blue-400 rounded-lg text-base text-blue-50 mt-2.5 block mb-3 w-full max-w-md">
-          <strong>Masukkan nilai:</strong><br>
-          <label>Bonedry Flow (kg/h): <input type="number" id="bdf12_12" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-bdf12_12" class="error-message"></div>
-          <label>Paper Prod. Rate (t/h): <input type="number" id="rate12_12" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-rate12_12" class="error-message"></div>
-          <button id="btn_12" class="bg-blue-600 text-white p-2.5 px-4.5 border-none rounded-lg font-bold cursor-pointer transition-all duration-300 text-base mt-2.5 btn-blue-hover-dark">Hitung</button>
-          <div id="result_12" class="mt-3 bg-white/10 p-2.5 px-3.5 rounded-md font-bold text-base text-center max-w-md"></div>
+      <div v-show="matchesSearch('pencampuran tangki mix')" class="glass-card rounded-xl mb-4 overflow-hidden">
+        <div @click="toggleF('f7')" class="p-5 cursor-pointer flex justify-between items-center hover:bg-white/5 transition">
+          <h4 class="font-bold text-emerald-300"><i class="bi bi-boxes mr-2"></i> 10. Pencampuran 2 Tangki</h4>
+          <i class="fa fa-chevron-right text-gray-500 norm-icon" :class="{'rotate-icon text-emerald-400': openF === 'f7'}"></i>
         </div>
+        <transition name="slide">
+          <div v-show="openF === 'f7'" class="p-5 border-t border-gray-700 bg-black/30">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-4">
+              <div class="bg-black/40 p-4 rounded-lg border border-gray-700">
+                <h5 class="text-cyan-400 font-bold mb-3 text-[10px] uppercase tracking-widest border-b border-gray-700 pb-1">Tangki 1</h5>
+                <div class="space-y-3">
+                  <label class="flex justify-between items-center text-xs text-gray-300">Vol (m³) <input type="number" v-model.number="f7.v1" class="w-24 p-1 h-8"></label>
+                  <label class="flex justify-between items-center text-xs text-gray-300">Level (%) <input type="number" v-model.number="f7.l1" class="w-24 p-1 h-8"></label>
+                  <label class="flex justify-between items-center text-xs text-gray-300">Solid (%) <input type="number" v-model.number="f7.s1" class="w-24 p-1 h-8"></label>
+                </div>
+              </div>
+              <div class="bg-black/40 p-4 rounded-lg border border-gray-700">
+                <h5 class="text-purple-400 font-bold mb-3 text-[10px] uppercase tracking-widest border-b border-gray-700 pb-1">Tangki 2</h5>
+                <div class="space-y-3">
+                  <label class="flex justify-between items-center text-xs text-gray-300">Vol (m³) <input type="number" v-model.number="f7.v2" class="w-24 p-1 h-8"></label>
+                  <label class="flex justify-between items-center text-xs text-gray-300">Level (%) <input type="number" v-model.number="f7.l2" class="w-24 p-1 h-8"></label>
+                  <label class="flex justify-between items-center text-xs text-gray-300">Solid (%) <input type="number" v-model.number="f7.s2" class="w-24 p-1 h-8"></label>
+                </div>
+              </div>
+            </div>
+            <button @click="calc7" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold py-3 rounded-lg active:scale-95 transition-transform">HITUNG CAMPURAN</button>
+            <div v-if="f7.res" class="res-box" v-html="f7.res"></div><div v-if="f7.err" class="err-box" v-html="f7.err"></div>
+          </div>
+        </transition>
       </div>
-    </div>
 
-    <div class="formula-item bg-gray-800 rounded-xl shadow-lg p-5 mb-8">
-      <h3 class="formula-toggle flex items-center text-blue-200 cursor-pointer transition-colors duration-300 hover:text-blue-400">
-        <i class="bi bi-clock-history text-2xl mr-3"></i>  Retention Time&nbsp;
-        <i class="fa fa-chevron-right toggle-icon transition-transform duration-300"></i>
-      </h3>
-      <p class="text-gray-400 text-sm mt-2 formula-summary">Menentukan waktu retensi larutan dalam tangki reaksi.</p>
-      <div class="formula-content bg-black/60 p-5 rounded-lg text-white backdrop-blur-sm custom-shadow-dark mt-4">
-        <p class="formula-desc bg-gray-900 text-gray-200 border-l-4 border-green-500 p-4 px-5 my-5 rounded-lg text-base leading-relaxed shadow-md max-w-full box-border break-words">
-          Menentukan waktu retensi larutan dalam tangki reaksi berdasarkan volume dan laju aliran.
-        </p>
-        <pre><code class="bg-white/10 p-2.5 rounded-lg block whitespace-pre-wrap font-mono text-yellow-50 max-w-full overflow-x-auto box-border break-words">Retention Time (menit) = (Volume × Level%) / (Flow / 60)</code></pre>
-        <div class="example-box bg-white/10 p-4 border-l-4 border-blue-400 rounded-lg text-base text-blue-50 mt-2.5 block mb-3 w-full max-w-md">
-          <strong>Masukkan nilai:</strong><br>
-          <label>Flow FIC-6881 (m³/h): <input type="number" id="flow4_4" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-flow4_4" class="error-message"></div>
-          <label>Level Reaction Tank (%): <input type="number" id="level4_4" class="my-1.5 px-2.5 py-1.5 rounded border-none bg-white/10 text-white w-40 text-base focus-border-yellow-dark" /></label><br>
-          <div id="error-level4_4" class="error-message"></div>
-          <button id="btn_4" class="bg-blue-600 text-white p-2.5 px-4.5 border-none rounded-lg font-bold cursor-pointer transition-all duration-300 text-base mt-2.5 btn-blue-hover-dark">Hitung</button>
-          <div id="result_4" class="mt-3 bg-white/10 p-2.5 px-3.5 rounded-md font-bold text-base text-center max-w-md"></div>
+      <div v-show="matchesSearch('starch bonedry flow')" class="glass-card rounded-xl mb-4 overflow-hidden">
+        <div @click="toggleF('f11')" class="p-5 cursor-pointer flex justify-between items-center hover:bg-white/5 transition">
+          <h4 class="font-bold text-emerald-300"><i class="bi bi-graph-up mr-2"></i> 11. Starch Bonedry Flow</h4>
+          <i class="fa fa-chevron-right text-gray-500 norm-icon" :class="{'rotate-icon text-emerald-400': openF === 'f11'}"></i>
         </div>
+        <transition name="slide">
+          <div v-show="openF === 'f11'" class="p-5 border-t border-gray-700 bg-black/30">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+              <div><label class="text-xs text-gray-400 font-bold mb-1 block uppercase">Solid Top</label><input type="number" v-model.number="f11.st"></div>
+              <div><label class="text-xs text-gray-400 font-bold mb-1 block uppercase">Flow Top</label><input type="number" v-model.number="f11.ft"></div>
+              <div><label class="text-xs text-gray-400 font-bold mb-1 block uppercase">Solid Bot</label><input type="number" v-model.number="f11.sb"></div>
+              <div><label class="text-xs text-gray-400 font-bold mb-1 block uppercase">Flow Bot</label><input type="number" v-model.number="f11.fb"></div>
+              <div class="sm:col-span-2"><label class="text-xs text-gray-400 font-bold mb-1 block uppercase">Density (ton/m³)</label><input type="number" v-model.number="f11.d" placeholder="1.1"></div>
+            </div>
+            <button @click="calc11" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold py-3 rounded-lg active:scale-95 transition-transform">HITUNG BONEDRY</button>
+            <div v-if="f11.res" class="res-box" v-html="f11.res"></div><div v-if="f11.err" class="err-box" v-html="f11.err"></div>
+          </div>
+        </transition>
+      </div>
+
+      <div v-show="matchesSearch('starch consumption konsumsi')" class="glass-card rounded-xl mb-4 overflow-hidden">
+        <div @click="toggleF('f12')" class="p-5 cursor-pointer flex justify-between items-center hover:bg-white/5 transition">
+          <h4 class="font-bold text-emerald-300"><i class="bi bi-bar-chart-fill mr-2"></i> 12. Starch Consumption</h4>
+          <i class="fa fa-chevron-right text-gray-500 norm-icon" :class="{'rotate-icon text-emerald-400': openF === 'f12'}"></i>
+        </div>
+        <transition name="slide">
+          <div v-show="openF === 'f12'" class="p-5 border-t border-gray-700 bg-black/30">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+              <div><label class="text-xs text-gray-400 font-bold mb-1 block uppercase">Bonedry (kg/h)</label><input type="number" v-model.number="f12.b"></div>
+              <div><label class="text-xs text-gray-400 font-bold mb-1 block uppercase">Prod. Rate (t/h)</label><input type="number" v-model.number="f12.r"></div>
+            </div>
+            <button @click="calc12" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold py-3 rounded-lg active:scale-95 transition-transform">HITUNG KONSUMSI</button>
+            <div v-if="f12.res" class="res-box" v-html="f12.res"></div><div v-if="f12.err" class="err-box" v-html="f12.err"></div>
+          </div>
+        </transition>
+      </div>
+
+      <div v-show="matchesSearch('retention time waktu retensi')" class="glass-card rounded-xl mb-4 overflow-hidden">
+        <div @click="toggleF('f4')" class="p-5 cursor-pointer flex justify-between items-center hover:bg-white/5 transition">
+          <h4 class="font-bold text-emerald-300"><i class="bi bi-clock-history mr-2"></i> 13. Retention Time</h4>
+          <i class="fa fa-chevron-right text-gray-500 norm-icon" :class="{'rotate-icon text-emerald-400': openF === 'f4'}"></i>
+        </div>
+        <transition name="slide">
+          <div v-show="openF === 'f4'" class="p-5 border-t border-gray-700 bg-black/30">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+              <div><label class="text-xs text-gray-400 font-bold mb-1 block uppercase">Flow (m³/h)</label><input type="number" v-model.number="f4.f"></div>
+              <div><label class="text-xs text-gray-400 font-bold mb-1 block uppercase">Level Tank (%)</label><input type="number" v-model.number="f4.l"></div>
+            </div>
+            <button @click="calc4" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold py-3 rounded-lg active:scale-95 transition-transform">HITUNG RETENSI</button>
+            <div v-if="f4.res" class="res-box" v-html="f4.res"></div><div v-if="f4.err" class="err-box" v-html="f4.err"></div>
+          </div>
+        </transition>
       </div>
     </div>
 
-  </div> <button id="backToTop" class="fixed bottom-2.5 right-4 z-50 p-1.5 px-2.5 text-xl bg-blue-600 text-white border-none rounded-sm cursor-pointer w-auto min-w-0 inline-block m-0">
-    <i class="bi bi-arrow-up-circle-fill"></i>
-  </button>
+  </main>
 
-  <footer class="text-center py-6 text-gray-400 text-sm mt-auto footer-bg">
-    <div class="max-w-[1000px] mx-auto text-center leading-relaxed border-t border-gray-700 pt-3.5 footer-content-div">
-      <p>&copy; 2025 Ardita Rizki F — Operator DCS Starch, PM1</p>
-      <p>PT Dayasa Aria Prima | Industrial Excellence with Integrity</p>
-    </div>
+  <footer class="text-center py-6 sm:py-8 mt-12 border-t border-gray-800 z-10 bg-[#0b0f19]/80 backdrop-blur-md">
+    <p class="text-[9px] sm:text-[10px] text-gray-500 font-bold tracking-widest uppercase">&copy; 2026 Ardita Rizki Fauzi | StarchPrep Ecosystem</p>
   </footer>
 
-  <script>
-    // Theme Toggle and Navbar Logic
-    document.addEventListener('DOMContentLoaded', () => {
-      const body = document.body;
-      const themeToggle = document.getElementById('theme-toggle');
-      const themeIcon = document.getElementById('theme-icon');
-      const navbarMenu = document.getElementById('navbarMenu');
-      const navbarToggle = document.querySelector('.navbar-toggle');
+</div>
 
-      // Elements that need dynamic class changes
-      const header = document.querySelector('header');
-      const navbarBrand = document.querySelector('.navbar-brand');
-      const homeLink = document.querySelector('.home-link');
-      const navMenuLinks = document.querySelectorAll('.nav-menu-link');
-      const headerInfoBox = document.querySelector('.header-info-box');
-      const headerInfoTitle = headerInfoBox.querySelector('h1');
-      const headerInfoDesc = headerInfoBox.querySelector('p');
+<script>
+  const { createApp } = Vue;
 
-      const searchBarContainer = document.querySelector('.search-bar-container');
-      const searchInputField = document.getElementById('search-input');
-      const searchIcon = document.querySelector('.search-icon');
-      const categoryHeadings = document.querySelectorAll('.category-heading');
-
-      const formulaItems = document.querySelectorAll('.formula-item');
-      const formulaToggles = document.querySelectorAll('.formula-toggle');
-      const formulaContents = document.querySelectorAll('.formula-content');
-      const formulaDescs = document.querySelectorAll('.formula-desc');
-      const codeBlocks = document.querySelectorAll('pre code');
-      const exampleBoxes = document.querySelectorAll('.example-box');
-      const inputFields = document.querySelectorAll('input[type="number"], select');
-      const resultBoxes = document.querySelectorAll('[id^="result_"]');
-      const buttons = document.querySelectorAll('button:not(#theme-toggle):not(#backToTop)'); // Exclude theme and backToTop buttons
-      const backToTopButton = document.getElementById('backToTop');
-
-      const footer = document.querySelector('footer');
-      const footerContentDiv = document.querySelector('.footer-content-div');
-
-      // Fungsi untuk membersihkan pesan error dan kelas input
-      function clearInputError(inputElement) {
-          inputElement.classList.remove('input-error');
-          const errorDiv = document.getElementById('error-' + inputElement.id);
-          if (errorDiv) {
-              errorDiv.innerText = '';
-          }
+  createApp({
+    data() {
+      return {
+        searchQuery: '',
+        openF: null,
+        tools: [
+          { title: 'Konsumsi Alum', icon: 'bi-droplet-half', link: 'alum.html', tag: 'Chemical', color: 'blue' },
+          { title: 'Totalizer Starch', icon: 'bi-speedometer2', link: 'totalizer starch.html', tag: 'Production', color: 'emerald' },
+          { title: 'Flow Enzyme', icon: 'bi-bezier2', link: 'enzyme.html', tag: 'Dosing', color: 'purple' },
+          { title: 'Retention Time', icon: 'bi-clock-history', link: 'retentiontime.html', tag: 'Process', color: 'cyan' },
+          { title: 'Estimasi Starch', icon: 'bi-calculator-fill', link: 'estimate.html', tag: 'Calculation', color: 'orange' },
+          { title: 'Flow SSA', icon: 'bi-diagram-3-fill', link: 'SSA.html', tag: 'Sizing', color: 'pink' },
+          { title: 'Pemakaian NaOH', icon: 'bi-cup-straw', link: 'NaOH.html', tag: 'Chemical', color: 'blue' },
+          { title: 'Atago Solid', icon: 'bi-eyedropper', link: 'atago.html', tag: 'Quality Control', color: 'green' },
+          { title: 'Dosis Enzyme', icon: 'bi-percent', link: 'PPM.html', tag: 'Dosing', color: 'purple' },
+          { title: 'Starch Consumption', icon: 'bi-bar-chart-fill', link: 'Starch Consumption.html', tag: 'Production', color: 'emerald' }
+        ],
+        f1: { s: null, w: null, res: '', err: '' },
+        f13: { sol: null, res: '', err: '' },
+        f2: { sol: null, fw: null, res: '', err: '' },
+        f9: { val: null, type: 'lpm', res: '', err: '' },
+        f3: { l1: null, l2: null, v: null, t1: '', t2: '', res: '', err: '' },
+        f5: { fs: null, sol: null, dos: null, res: '', err: '' },
+        f6: { f: null, s: null, t: null, res: '', err: '' },
+        f7: { v1: null, l1: null, s1: null, v2: null, l2: null, s2: null, res: '', err: '' },
+        f8: { n: null, a: null, res: '', err: '' },
+        f10: { e: null, s: null, res: '', err: '' },
+        f11: { st: null, ft: null, sb: null, fb: null, d: 1.1, res: '', err: '' },
+        f12: { b: null, r: null, res: '', err: '' },
+        f4: { f: null, l: null, res: '', err: '' }
       }
-
-      // Fungsi untuk menampilkan pesan error dan menambahkan kelas input
-      function showInputError(inputElement, message) {
-          inputElement.classList.add('input-error');
-          const errorDiv = document.getElementById('error-' + inputElement.id);
-          if (errorDiv) {
-              errorDiv.innerText = message;
-          }
+    },
+    computed: {
+      filteredTools() {
+        const query = this.searchQuery.toLowerCase();
+        return this.tools.filter(tool => 
+          tool.title.toLowerCase().includes(query) || 
+          tool.tag.toLowerCase().includes(query)
+        );
+      },
+      isAnyFormulaVisible() {
+        return this.matchesSearch('solid starch water density manajemen aliran flow beda level konversi dosis konsumsi waterglass naoh enzyme bonedry campuran pengenceran retention time waktu retensi');
       }
-
-      // Function to apply theme classes
-      const applyTheme = (theme) => {
-        // Clear existing theme-specific classes from body
-        body.classList.remove('bg-gray-950', 'text-gray-100', 'bg-gray-50', 'text-gray-900');
-        header.classList.remove('bg-gray-900', 'bg-gray-100');
-        navbarBrand.classList.remove('text-yellow-400', 'text-yellow-700');
-        homeLink.classList.remove('bg-yellow-400', 'text-gray-900', 'bg-yellow-700', 'text-white');
-        navbarMenu.classList.remove('bg-gray-800', 'bg-gray-200');
-        navMenuLinks.forEach(link => link.classList.remove('text-gray-100', 'hover:bg-gray-700', 'text-gray-800', 'hover:bg-gray-300'));
-        headerInfoBox.classList.remove('bg-gray-900', 'shadow-md', 'bg-gray-100', 'shadow-sm');
-        headerInfoTitle.classList.remove('text-yellow-400', 'text-yellow-700');
-        headerInfoDesc.classList.remove('text-gray-400', 'text-gray-600');
-
-        searchBarContainer.classList.remove('custom-shadow-dark', 'custom-shadow-light');
-        searchInputField.classList.remove('bg-gray-700', 'text-gray-100', 'placeholder-gray-400', 'border-gray-600', 'focus-border-yellow-dark', 'bg-gray-100', 'text-gray-800', 'placeholder-gray-500', 'border-gray-300', 'focus-border-yellow-light');
-        searchIcon.classList.remove('text-gray-400', 'text-gray-600');
-        categoryHeadings.forEach(heading => heading.classList.remove('text-yellow-400', 'text-yellow-700'));
-
-        formulaItems.forEach(item => item.classList.remove('bg-gray-800', 'shadow-lg', 'bg-white', 'shadow-md'));
-        formulaToggles.forEach(toggle => toggle.classList.remove('text-blue-200', 'hover:text-blue-400', 'text-blue-700', 'hover:text-blue-900'));
-        formulaContents.forEach(content => content.classList.remove('bg-black/60', 'text-white', 'backdrop-blur-sm', 'custom-shadow-dark', 'bg-white/80', 'text-gray-900', 'custom-shadow-light'));
-        formulaDescs.forEach(desc => desc.classList.remove('bg-gray-900', 'text-gray-200', 'border-green-500', 'shadow-md', 'bg-gray-100', 'text-gray-700', 'border-green-700', 'shadow-sm'));
-        codeBlocks.forEach(code => code.classList.remove('bg-white/10', 'text-yellow-50', 'bg-gray-200', 'text-gray-800'));
-        exampleBoxes.forEach(box => box.classList.remove('bg-white/10', 'text-blue-50', 'border-blue-400', 'bg-gray-200', 'text-blue-700', 'border-blue-600'));
-        inputFields.forEach(input => input.classList.remove('bg-white/10', 'text-white', 'focus-border-yellow-dark', 'bg-gray-200', 'text-gray-800', 'focus-border-yellow-light'));
-        resultBoxes.forEach(result => result.classList.remove('bg-white/10', 'bg-gray-200'));
-        buttons.forEach(btn => btn.classList.remove('bg-blue-600', 'text-white', 'btn-blue-hover-dark', 'bg-blue-700', 'btn-blue-hover-light'));
-        backToTopButton.classList.remove('bg-blue-600', 'bg-blue-700');
-
-        footer.classList.remove('bg-gray-950', 'text-gray-400', 'bg-gray-50', 'text-gray-600');
-        footerContentDiv.classList.remove('border-gray-700', 'border-gray-300');
-        themeToggle.classList.remove('bg-gray-700', 'text-gray-200', 'bg-gray-200', 'text-gray-700');
-
-
-        if (theme === 'dark') {
-          body.classList.add('bg-gray-950', 'text-gray-100');
-          header.classList.add('bg-gray-900');
-          navbarBrand.classList.add('text-yellow-400');
-          homeLink.classList.add('bg-yellow-400', 'text-gray-900');
-          navbarMenu.classList.add('bg-gray-800');
-          navMenuLinks.forEach(link => link.classList.add('text-gray-100', 'hover:bg-gray-700'));
-          headerInfoBox.classList.add('bg-gray-900', 'shadow-md');
-          headerInfoTitle.classList.add('text-yellow-400');
-          headerInfoDesc.classList.add('text-gray-400');
-
-          searchBarContainer.classList.add('custom-shadow-dark');
-          searchInputField.classList.add('bg-gray-700', 'text-gray-100', 'placeholder-gray-400', 'border-gray-600', 'focus-border-yellow-dark');
-          searchIcon.classList.add('text-gray-400');
-          categoryHeadings.forEach(heading => heading.classList.add('text-yellow-400'));
-
-          formulaItems.forEach(item => item.classList.add('bg-gray-800', 'shadow-lg'));
-          formulaToggles.forEach(toggle => toggle.classList.add('text-blue-200', 'hover:text-blue-400'));
-          formulaContents.forEach(content => content.classList.add('bg-black/60', 'text-white', 'backdrop-blur-sm', 'custom-shadow-dark'));
-          formulaDescs.forEach(desc => desc.classList.add('bg-gray-900', 'text-gray-200', 'border-green-500', 'shadow-md'));
-          codeBlocks.forEach(code => code.classList.add('bg-white/10', 'text-yellow-50'));
-          exampleBoxes.forEach(box => box.classList.add('bg-white/10', 'text-blue-50', 'border-blue-400'));
-          inputFields.forEach(input => input.classList.add('bg-white/10', 'text-white', 'focus-border-yellow-dark'));
-          resultBoxes.forEach(result => result.classList.add('bg-white/10'));
-          buttons.forEach(btn => btn.classList.add('bg-blue-600', 'text-white', 'btn-blue-hover-dark'));
-          backToTopButton.classList.add('bg-blue-600');
-
-          footer.classList.add('bg-gray-950', 'text-gray-400');
-          footerContentDiv.classList.add('border-gray-700');
-          themeIcon.classList.replace('bi-sun-fill', 'bi-moon-fill');
-          themeToggle.classList.add('bg-gray-700', 'text-gray-200');
-
-        } else { // light theme
-          body.classList.add('bg-gray-50', 'text-gray-900');
-          header.classList.add('bg-gray-100');
-          navbarBrand.classList.add('text-yellow-700');
-          homeLink.classList.add('bg-yellow-700', 'text-white');
-          navbarMenu.classList.add('bg-gray-200');
-          navMenuLinks.forEach(link => link.classList.add('text-gray-800', 'hover:bg-gray-300'));
-          headerInfoBox.classList.add('bg-gray-100', 'shadow-sm');
-          headerInfoTitle.classList.add('text-yellow-700');
-          headerInfoDesc.classList.add('text-gray-600');
-
-          searchBarContainer.classList.add('custom-shadow-light');
-          searchInputField.classList.add('bg-gray-100', 'text-gray-800', 'placeholder-gray-500', 'border-gray-300', 'focus-border-yellow-light');
-          searchIcon.classList.add('text-gray-600');
-          categoryHeadings.forEach(heading => heading.classList.add('text-yellow-700'));
-
-          formulaItems.forEach(item => item.classList.add('bg-white', 'shadow-md'));
-          formulaToggles.forEach(toggle => toggle.classList.add('text-blue-700', 'hover:text-blue-900'));
-          formulaContents.forEach(content => content.classList.add('bg-white/80', 'text-gray-900', 'custom-shadow-light'));
-          formulaDescs.forEach(desc => desc.classList.add('bg-gray-100', 'text-gray-700', 'border-green-700', 'shadow-sm'));
-          codeBlocks.forEach(code => code.classList.add('bg-gray-200', 'text-gray-800'));
-          exampleBoxes.forEach(box => box.classList.add('bg-gray-200', 'text-blue-700', 'border-blue-600'));
-          inputFields.forEach(input => input.classList.add('bg-gray-200', 'text-gray-800', 'focus-border-yellow-light'));
-          resultBoxes.forEach(result => result.classList.add('bg-gray-200'));
-          buttons.forEach(btn => btn.classList.add('bg-blue-700', 'text-white', 'btn-blue-hover-light'));
-          backToTopButton.classList.add('bg-blue-700');
-
-          footer.classList.add('bg-gray-50', 'text-gray-600');
-          footerContentDiv.classList.add('border-gray-300');
-          themeIcon.classList.replace('bi-moon-fill', 'bi-sun-fill');
-          themeToggle.classList.add('bg-gray-200', 'text-gray-700');
-        }
-        localStorage.setItem('theme', theme);
-      };
-
-      // Toggle tema
-      const toggleTheme = () => {
-        const currentTheme = body.classList.contains('bg-gray-950') ? 'dark' : 'light';
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        applyTheme(newTheme);
-      };
-
-      // Tentukan tema awal
-      const getInitialTheme = () => {
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-          return savedTheme;
-        }
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          return 'dark';
-        }
-        return 'light'; // Default ke terang jika tidak ada preferensi
-      };
-
-      // Terapkan tema awal
-      applyTheme(getInitialTheme());
-
-      // Event listener untuk tombol toggle tema
-      themeToggle.addEventListener('click', toggleTheme);
-
-      // Dengarkan perubahan preferensi tema sistem
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-        if (!localStorage.getItem('theme')) {
-          applyTheme(e.matches ? 'dark' : 'light');
-        }
-      });
-
-      // Fungsi Toggle Navbar
-      window.toggleMenu = function() {
-        if (navbarMenu.classList.contains('show')) {
-          navbarMenu.classList.remove('show');
-          navbarMenu.addEventListener('transitionend', function handler() {
-            navbarMenu.classList.add('hidden');
-            navbarMenu.removeEventListener('transitionend', handler);
-          }, { once: true });
-        } else {
-          navbarMenu.classList.remove('hidden');
-          void navbarMenu.offsetWidth; // Memaksa reflow
-          navbarMenu.classList.add('show');
-        }
-      };
-
-      // Logika Accordion
-      formulaToggles.forEach(toggle => {
-        toggle.addEventListener('click', function () {
-          const content = this.nextElementSibling.nextElementSibling; // Adjusted to target formula-content after formula-summary
-          const icon = this.querySelector('.toggle-icon');
-
-          if (content.classList.contains("show")) {
-            // Menutup
-            content.classList.remove("show");
-            icon.classList.remove("rotate");
-            content.addEventListener('transitionend', function handler() {
-              content.classList.add('hidden'); // Sembunyikan setelah transisi
-              content.removeEventListener('transitionend', handler);
-            }, { once: true });
-          } else {
-            // Membuka
-            // Tutup semua accordion lain
-            formulaContents.forEach(otherContent => {
-                if (otherContent !== content && otherContent.classList.contains('show')) {
-                    otherContent.classList.remove('show');
-                    otherContent.previousElementSibling.previousElementSibling.querySelector('.toggle-icon').classList.remove('rotate'); // Icon of the other toggle
-                    otherContent.addEventListener('transitionend', function handler() {
-                        otherContent.classList.add('hidden');
-                        otherContent.removeEventListener('transitionend', handler);
-                    }, { once: true });
-                }
-            });
-
-            content.classList.remove('hidden'); // Tampilkan segera
-            void content.offsetWidth; // Memaksa reflow
-            content.classList.add("show");
-            icon.classList.add("rotate");
-          }
-        });
-      });
-
-      // Logika Tombol Back to Top
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-          backToTopButton.style.display = 'block';
-        } else {
-          backToTopButton.style.display = 'none';
-        }
-      });
-
-      // Fungsi untuk scroll ke atas dan menutup semua accordion
-      function scrollToTopAndClose() {
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
-
-        formulaContents.forEach(content => {
-          content.classList.remove('show');
-          content.addEventListener('transitionend', function handler() {
-            content.classList.add('hidden');
-            content.removeEventListener('transitionend', handler);
-          }, { once: true });
-        });
-
-        formulaToggles.forEach(toggle => {
-          const icon = toggle.querySelector('.toggle-icon');
-          if (icon) {
-            icon.classList.remove('rotate');
-          }
-        });
+    },
+    methods: {
+      toggleF(id) { this.openF = this.openF === id ? null : id; },
+      
+      matchesSearch(keywords) {
+        if (!this.searchQuery) return true;
+        return keywords.toLowerCase().includes(this.searchQuery.toLowerCase());
+      },
+      
+      showCategory(categoryKeywords) {
+        if (!this.searchQuery) return true;
+        const query = this.searchQuery.toLowerCase();
+        const words = categoryKeywords.split(' ');
+        return words.some(word => word.includes(query) || query.includes(word));
+      },
+      
+      calc1() {
+        this.f1.res = this.f1.err = '';
+        if(!this.f1.s || !this.f1.w) return this.f1.err = 'Lengkapi data!';
+        this.f1.res = `SOLID = ${((this.f1.s / (this.f1.s + this.f1.w)) * 100).toFixed(1)} %`;
+      },
+      calc13() {
+        this.f13.res = this.f13.err = '';
+        if(!this.f13.sol) return this.f13.err = 'Isi nilai solid!';
+        this.f13.res = `DENSITY = ${(100 / (100 - this.f13.sol + (this.f13.sol / 1.65))).toFixed(3)}`;
+      },
+      calc2() {
+        this.f2.res = this.f2.err = '';
+        let s = this.f2.sol / 100;
+        if(!s || !this.f2.fw || s>=1) return this.f2.err = 'Data error / Solid max 99!';
+        this.f2.res = `FLOW = ${((s * this.f2.fw) / (1 - s) * 1.1).toFixed(2)} kg/min`;
+      },
+      calc9() {
+        this.f9.res = this.f9.err = '';
+        if(!this.f9.val) return this.f9.err = 'Isi nilai flow!';
+        this.f9.res = this.f9.type === 'lpm' ? `${(this.f9.val * 60 / 1000).toFixed(1)} m³/h` : `${(this.f9.val * 1000 / 60).toFixed(1)} L/min`;
+      },
+      calc3() {
+        this.f3.res = this.f3.err = '';
+        if(!this.f3.t1 || !this.f3.t2) return this.f3.err = 'Isi waktu!';
+        let t1 = parseInt(this.f3.t1.split(":")[0])*60 + parseInt(this.f3.t1.split(":")[1]);
+        let t2 = parseInt(this.f3.t2.split(":")[0])*60 + parseInt(this.f3.t2.split(":")[1]);
+        if(!this.f3.l1 || !this.f3.l2 || !this.f3.v || t2<=t1) return this.f3.err = 'Data error / Waktu mundur!';
+        let f = (((this.f3.l1 - this.f3.l2)/100) * this.f3.v) / (t2 - t1) * 60;
+        this.f3.res = `${f.toFixed(1)} m³/jam <br> ${(f*1000/60).toFixed(1)} L/min`;
+      },
+      calc5() {
+        this.f5.res = this.f5.err = '';
+        if(!this.f5.fs || !this.f5.sol || !this.f5.dos) return this.f5.err = 'Lengkapi data!';
+        this.f5.res = `WATERGLASS = ${(((this.f5.fs * this.f5.sol * this.f5.dos)/1400)*1000/60).toFixed(1)} L/min`;
+      },
+      calc6() {
+        this.f6.res = this.f6.err = '';
+        if(!this.f6.f || !this.f6.s || !this.f6.t || this.f6.s <= this.f6.t) return this.f6.err = 'Target error!';
+        this.f6.res = `TAMBAHAN AIR = ${((this.f6.f * (this.f6.s - this.f6.t)) / this.f6.t).toFixed(2)} m³/h`;
+      },
+      calc7() {
+        this.f7.res = this.f7.err = '';
+        if(!this.f7.v1 || !this.f7.s1 || !this.f7.v2 || !this.f7.s2) return this.f7.err = 'Isi semua data!';
+        let v1 = this.f7.v1 * (this.f7.l1/100), v2 = this.f7.v2 * (this.f7.l2/100);
+        this.f7.res = `SOLID MIX = ${(((v1*this.f7.s1)+(v2*this.f7.s2))/(v1+v2)).toFixed(1)}%`;
+      },
+      calc8() {
+        this.f8.res = this.f8.err = '';
+        if(!this.f8.n || !this.f8.a) return this.f8.err = 'Isi data!';
+        this.f8.res = `SOLID NaOH = ${((this.f8.n * 0.48) / (this.f8.n + this.f8.a) * 100).toFixed(1)}%`;
+      },
+      calc10() {
+        this.f10.res = this.f10.err = '';
+        if(!this.f10.e || !this.f10.s) return this.f10.err = 'Isi data!';
+        this.f10.res = `DOSIS = ${((this.f10.e / this.f10.s)*1000).toFixed(0)} ppm`;
+      },
+      calc11() {
+        this.f11.res = this.f11.err = '';
+        if(!this.f11.st || !this.f11.ft || !this.f11.sb || !this.f11.fb) return this.f11.err = 'Isi Top & Bottom!';
+        this.f11.res = `BONEDRY = ${(((this.f11.st*this.f11.ft) + (this.f11.sb*this.f11.fb)) * this.f11.d * 10).toFixed(1)} kg/h`;
+      },
+      calc12() {
+        this.f12.res = this.f12.err = '';
+        if(!this.f12.b || !this.f12.r) return this.f12.err = 'Isi data!';
+        this.f12.res = `KONSUMSI = ${(this.f12.b / this.f12.r).toFixed(2)} kg/ton`;
+      },
+      calc4() {
+        this.f4.res = this.f4.err = '';
+        if(!this.f4.f || !this.f4.l) return this.f4.err = 'Isi data!';
+        this.f4.res = `RETENSI = ${((7*(this.f4.l/100))/(this.f4.f/60)).toFixed(1)} menit`;
       }
-      backToTopButton.addEventListener('click', scrollToTopAndClose);
-
-      // Logika Validasi Input (blockNonNumberInput)
-      function blockNonNumberInput() {
-        var numberInputs = document.querySelectorAll('input[type="number"]');
-        numberInputs.forEach(function(input) {
-          input.onkeydown = function(e) {
-            var key = e.keyCode || e.which;
-
-            // Izinkan: angka (0-9), angka numpad (0-9)
-            if ((key >= 48 && key <= 57) || (key >= 96 && key <= 105)) return;
-
-            // Izinkan: backspace, tab, delete, panah kiri/kanan
-            if (key === 8 || key === 9 || key === 46 || key === 37 || key === 39) return;
-
-            // Izinkan: titik (keyboard = 190, numpad = 110)
-            if (key === 190 || key === 110) {
-              if (this.value.indexOf('.') !== -1) { // Jika sudah ada titik, blok
-                e.preventDefault();
-                return;
-              }
-              return; // Izinkan satu titik
-            }
-
-            // Blok semua tombol lainnya
-            e.preventDefault();
-          };
-
-          input.onpaste = function(e) {
-            var pasted = (e.clipboardData || window.clipboardData).getData('text');
-            if (/[^0-9.]/.test(pasted) || (pasted.split('.').length > 2)) { // Jika mengandung selain angka/titik, atau lebih dari satu titik, blok
-              e.preventDefault();
-            }
-          };
-
-          // Hapus pesan error saat input berubah
-          input.addEventListener('input', () => clearInputError(input));
-        });
-      }
-      blockNonNumberInput(); // Terapkan validasi input
-
-      // Logika Kalkulator
-      document.getElementById("btn_1").addEventListener("click", function () {
-        const starchInput = document.getElementById("starch1_1");
-        const waterInput = document.getElementById("water1_1");
-        clearInputError(starchInput);
-        clearInputError(waterInput);
-
-        var starch = parseFloat(starchInput.value);
-        var water = parseFloat(waterInput.value);
-
-        if (isNaN(starch)) {
-          showInputError(starchInput, "Harap masukkan nilai pati yang valid.");
-          document.getElementById("result_1").innerText = "";
-          return;
-        }
-        if (isNaN(water)) {
-          showInputError(waterInput, "Harap masukkan nilai air yang valid.");
-          document.getElementById("result_1").innerText = "";
-          return;
-        }
-        if ((starch + water) === 0) {
-          showInputError(starchInput, "Total pati dan air tidak boleh nol.");
-          showInputError(waterInput, "Total pati dan air tidak boleh nol.");
-          document.getElementById("result_1").innerText = "";
-          return;
-        }
-
-        var solid = starch / (starch + water);
-        var percent = (solid * 100).toFixed(1);
-        document.getElementById("result_1").innerText = "Solid = " + percent + " %";
-      });
-
-      document.getElementById("btn_2").addEventListener("click", function () {
-        const solidInput = document.getElementById("solid2_2");
-        const flowWaterInput = document.getElementById("flowwater2_2");
-        clearInputError(solidInput);
-        clearInputError(flowWaterInput);
-
-        var solid = parseFloat(solidInput.value) / 100;
-        var flowWater = parseFloat(flowWaterInput.value);
-
-        if (isNaN(solid) || solid <= 0 || solid >= 1) {
-          showInputError(solidInput, "Solid harus antara 0 dan 100%.");
-          document.getElementById("result_2").innerText = "";
-          return;
-        }
-        if (isNaN(flowWater)) {
-          showInputError(flowWaterInput, "Harap masukkan flow air yang valid.");
-          document.getElementById("result_2").innerText = "";
-          return;
-        }
-
-        var flow = (solid * flowWater) / (1 - solid) * 1.1;
-        document.getElementById("result_2").innerText = "Flow = " + flow.toFixed(2) + " kg/min";
-      });
-
-      document.getElementById("btn_3").addEventListener("click", function () {
-        const levelAwalInput = document.getElementById("level1_3_3");
-        const levelAkhirInput = document.getElementById("level2_3_3");
-        const volumeInput = document.getElementById("volume3_3");
-        const timeAwalInput = document.getElementById("time1_3_3");
-        const timeAkhirInput = document.getElementById("time2_3_3");
-
-        clearInputError(levelAwalInput);
-        clearInputError(levelAkhirInput);
-        clearInputError(volumeInput);
-        clearInputError(timeAwalInput);
-        clearInputError(timeAkhirInput);
-
-        var levelAwal = parseFloat(levelAwalInput.value);
-        var levelAkhir = parseFloat(levelAkhirInput.value);
-        var volume = parseFloat(volumeInput.value);
-        var timeAwal = timeAwalInput.value.trim();
-        var timeAkhir = timeAkhirInput.value.trim();
-
-        if (isNaN(levelAwal)) { showInputError(levelAwalInput, "Nilai tidak valid."); document.getElementById("result_3").innerText = ""; return; }
-        if (isNaN(levelAkhir)) { showInputError(levelAkhirInput, "Nilai tidak valid."); document.getElementById("result_3").innerText = ""; return; }
-        if (isNaN(volume)) { showInputError(volumeInput, "Nilai tidak valid."); document.getElementById("result_3").innerText = ""; return; }
-        if (!timeAwal) { showInputError(timeAwalInput, "Waktu awal dibutuhkan."); document.getElementById("result_3").innerText = ""; return; }
-        if (!timeAkhir) { showInputError(timeAkhirInput, "Waktu akhir dibutuhkan."); document.getElementById("result_3").innerText = ""; return; }
-
-        function parseTime(t) {
-          var parts = t.split(".");
-          if (parts.length !== 2) return NaN;
-          var jam = parseInt(parts[0], 10);
-          var menit = parseInt(parts[1], 10);
-          return jam * 60 + menit;
-        }
-
-        var menitAwal = parseTime(timeAwal);
-        var menitAkhir = parseTime(timeAkhir);
-
-        if (isNaN(menitAwal)) { showInputError(timeAwalInput, "Format waktu salah (HH.MM)."); document.getElementById("result_3").innerText = ""; return; }
-        if (isNaN(menitAkhir)) { showInputError(timeAkhirInput, "Format waktu salah (HH.MM)."); document.getElementById("result_3").innerText = ""; return; }
-        if (menitAkhir <= menitAwal) { showInputError(timeAkhirInput, "Waktu Akhir harus lebih besar dari Waktu Awal."); document.getElementById("result_3").innerText = ""; return; }
-
-        var deltaLevel = levelAwal - levelAkhir;
-        var deltaWaktu = menitAkhir - menitAwal;
-        var volumeTerpakai = (deltaLevel / 100) * volume; // m³
-        var flowM3PerMenit = volumeTerpakai / deltaWaktu; // m³/min
-        var flowLiterPerMenit = flowM3PerMenit * 1000;    // liter/min
-        var flowM3PerJam = flowM3PerMenit * 60;           // m³/h
-
-        document.getElementById("result_3").innerText =
-          "Volume Terpakai: " + volumeTerpakai.toFixed(3) + " m³\n" +
-          "Flowrate: " + flowLiterPerMenit.toFixed(1) + " L/min | " +
-          flowM3PerJam.toFixed(2) + " m³/h";
-      });
-
-      document.getElementById("btn_4").addEventListener("click", function () {
-        const flowInput = document.getElementById("flow4_4");
-        const levelInput = document.getElementById("level4_4");
-        clearInputError(flowInput);
-        clearInputError(levelInput);
-
-        var volume = 7;  // Volume fix 7 m³
-        var level = parseFloat(levelInput.value);
-        var flow = parseFloat(flowInput.value);
-
-        if (isNaN(level)) { showInputError(levelInput, "Harap masukkan level yang valid."); document.getElementById("result_4").innerText = ""; return; }
-        if (isNaN(flow)) { showInputError(flowInput, "Harap masukkan flow yang valid."); document.getElementById("result_4").innerText = ""; return; }
-        if (flow === 0) { showInputError(flowInput, "Flow tidak boleh nol."); document.getElementById("result_4").innerText = ""; return; }
-
-        var retentionTime = (volume * (level / 100)) / (flow / 60);
-        document.getElementById("result_4").innerText = "Retention Time: " + retentionTime.toFixed(2) + " menit";
-      });
-
-      document.getElementById("btn_5").addEventListener("click", function () {
-        const flowStorageInput = document.getElementById("flow5_5");
-        const solidInput = document.getElementById("solid5_5");
-        const dosisInput = document.getElementById("dosis5_5");
-        clearInputError(flowStorageInput);
-        clearInputError(solidInput);
-        clearInputError(dosisInput);
-
-        var flowStorage = parseFloat(flowStorageInput.value);
-        var solid = parseFloat(solidInput.value);
-        var dosis = parseFloat(dosisInput.value);
-
-        if (isNaN(flowStorage)) { showInputError(flowStorageInput, "Nilai tidak valid."); document.getElementById("result_5").innerText = ""; return; }
-        if (isNaN(solid)) { showInputError(solidInput, "Nilai tidak valid."); document.getElementById("result_5").innerText = ""; return; }
-        if (isNaN(dosis)) { showInputError(dosisInput, "Nilai tidak valid."); document.getElementById("result_5").innerText = ""; return; }
-
-        var flowM3PerHour = (flowStorage * solid * dosis) / 14 / 100;
-        var flowLPerMin = (flowM3PerHour * 1000) / 60;
-
-        document.getElementById("result_5").innerText = "Flow Waterglass = " + flowLPerMin.toFixed(1) + " L/min";
-      });
-
-      document.getElementById("btn_6").addEventListener("click", function () {
-        const flowInput = document.getElementById("flow6_6");
-        const solidInput = document.getElementById("solid6_6");
-        const targetInput = document.getElementById("target6_6");
-        clearInputError(flowInput);
-        clearInputError(solidInput);
-        clearInputError(targetInput);
-
-        var flow = parseFloat(flowInput.value);
-        var solid = parseFloat(solidInput.value);
-        var target = parseFloat(targetInput.value);
-
-        if (isNaN(flow)) { showInputError(flowInput, "Nilai tidak valid."); document.getElementById("result_6").innerText = ""; return; }
-        if (isNaN(solid)) { showInputError(solidInput, "Nilai tidak valid."); document.getElementById("result_6").innerText = ""; return; }
-        if (isNaN(target)) { showInputError(targetInput, "Nilai tidak valid."); document.getElementById("result_6").innerText = ""; return; }
-        if (target === 0) { showInputError(targetInput, "Target tidak boleh nol."); document.getElementById("result_6").innerText = ""; return; }
-
-        var flowAir = (flow * (solid - target)) / target;
-
-        document.getElementById("result_6").innerText = "Flow Water = " + flowAir.toFixed(2) + " m³/h";
-      });
-
-      document.getElementById("btn_7").addEventListener("click", function () {
-        const vol1Input = document.getElementById("vol1");
-        const level1Input = document.getElementById("level1");
-        const solid1Input = document.getElementById("solid1");
-        const vol2Input = document.getElementById("vol2");
-        const level2Input = document.getElementById("level2");
-        const solid2Input = document.getElementById("solid2");
-
-        clearInputError(vol1Input);
-        clearInputError(level1Input);
-        clearInputError(solid1Input);
-        clearInputError(vol2Input);
-        clearInputError(level2Input);
-        clearInputError(solid2Input);
-
-        var vol1 = parseFloat(vol1Input.value);
-        var level1 = parseFloat(level1Input.value);
-        var solid1 = parseFloat(solid1Input.value);
-        var vol2 = parseFloat(vol2Input.value);
-        var level2 = parseFloat(level2Input.value);
-        var solid2 = parseFloat(solid2Input.value);
-
-        if (isNaN(vol1)) { showInputError(vol1Input, "Nilai tidak valid."); document.getElementById("result_7").innerText = ""; return; }
-        if (isNaN(level1)) { showInputError(level1Input, "Nilai tidak valid."); document.getElementById("result_7").innerText = ""; return; }
-        if (isNaN(solid1)) { showInputError(solid1Input, "Nilai tidak valid."); document.getElementById("result_7").innerText = ""; return; }
-        if (isNaN(vol2)) { showInputError(vol2Input, "Nilai tidak valid."); document.getElementById("result_7").innerText = ""; return; }
-        if (isNaN(level2)) { showInputError(level2Input, "Nilai tidak valid."); document.getElementById("result_7").innerText = ""; return; }
-        if (isNaN(solid2)) { showInputError(solid2Input, "Nilai tidak valid."); document.getElementById("result_7").innerText = ""; return; }
-
-        var vol1_real = vol1 * (level1 / 100);
-        var vol2_real = vol2 * (level2 / 100);
-
-        if ((vol1_real + vol2_real) === 0) {
-            showInputError(vol1Input, "Total volume campuran tidak boleh nol.");
-            showInputError(vol2Input, "Total volume campuran tidak boleh nol.");
-            document.getElementById("result_7").innerText = "";
-            return;
-        }
-
-        var solid_mix = (vol1_real * solid1 + vol2_real * solid2) / (vol1_real + vol2_real);
-
-        document.getElementById("result_7").innerText = "Solid Campuran = " + solid_mix.toFixed(2) + " %";
-      });
-
-      document.getElementById("btn_8").addEventListener("click", function () {
-        const naohInput = document.getElementById("naoh8_8");
-        const airInput = document.getElementById("air8_8");
-        clearInputError(naohInput);
-        clearInputError(airInput);
-
-        var naoh = parseFloat(naohInput.value);
-        var air = parseFloat(airInput.value);
-
-        if (isNaN(naoh)) { showInputError(naohInput, "Nilai tidak valid."); document.getElementById("result_8").innerText = ""; return; }
-        if (isNaN(air)) { showInputError(airInput, "Nilai tidak valid."); document.getElementById("result_8").innerText = ""; return; }
-
-        var solid = (naoh * 0.48) / (naoh + air) * 100;
-
-        document.getElementById("result_8").innerText = "Solid NaOH = " + solid.toFixed(2) + " %";
-      });
-
-      document.getElementById("btn_9").addEventListener("click", function () {
-        const flowInput = document.getElementById("flow9_9");
-        clearInputError(flowInput);
-
-        var flow = parseFloat(flowInput.value);
-        var type = document.getElementById("conversionType9").value;
-
-        if (isNaN(flow)) { showInputError(flowInput, "Nilai tidak valid."); document.getElementById("result_9").innerText = ""; return; }
-
-        var result;
-        if (type === "lpm_to_m3h") {
-          result = flow * 60 / 1000;
-          document.getElementById("result_9").innerText = result.toFixed(2) + " m³/h";
-        } else {
-          result = flow * 1000 / 60;
-          document.getElementById("result_9").innerText = result.toFixed(2) + " l/min";
-        }
-      });
-
-      document.getElementById("btn_10").addEventListener("click", function () {
-        const enzymeInput = document.getElementById("enzyme10_10");
-        const starchInput = document.getElementById("starch10_10");
-        clearInputError(enzymeInput);
-        clearInputError(starchInput);
-
-        var enzyme = parseFloat(enzymeInput.value);
-        var starch = parseFloat(starchInput.value);
-
-        if (isNaN(enzyme)) { showInputError(enzymeInput, "Nilai tidak valid."); document.getElementById("result_10").innerText = ""; return; }
-        if (isNaN(starch)) { showInputError(starchInput, "Nilai tidak valid."); document.getElementById("result_10").innerText = ""; return; }
-        if (starch === 0) { showInputError(starchInput, "Flow Starch tidak boleh nol."); document.getElementById("result_10").innerText = ""; return; }
-
-        var ppm = (enzyme / starch) * 1000;
-        document.getElementById("result_10").innerText = "PPM = " + ppm.toFixed(2);
-      });
-
-      document.getElementById("btn_11").addEventListener("click", function () {
-        const solidTopInput = document.getElementById("solidTop11");
-        const flowTopInput = document.getElementById("flowTop11");
-        const solidBottomInput = document.getElementById("solidBottom11");
-        const flowBottomInput = document.getElementById("flowBottom11");
-        const densityInput = document.getElementById("density11");
-
-        clearInputError(solidTopInput);
-        clearInputError(flowTopInput);
-        clearInputError(solidBottomInput);
-        clearInputError(flowBottomInput);
-        clearInputError(densityInput);
-
-        var solidTop = parseFloat(solidTopInput.value);
-        var flowTop = parseFloat(flowTopInput.value);
-        var solidBottom = parseFloat(solidBottomInput.value);
-        var flowBottom = parseFloat(flowBottomInput.value);
-        var density = parseFloat(densityInput.value);
-
-        if (isNaN(solidTop)) { showInputError(solidTopInput, "Nilai tidak valid."); document.getElementById("result_11").innerText = ""; return; }
-        if (isNaN(flowTop)) { showInputError(flowTopInput, "Nilai tidak valid."); document.getElementById("result_11").innerText = ""; return; }
-        if (isNaN(solidBottom)) { showInputError(solidBottomInput, "Nilai tidak valid."); document.getElementById("result_11").innerText = ""; return; }
-        if (isNaN(flowBottom)) { showInputError(flowBottomInput, "Nilai tidak valid."); document.getElementById("result_11").innerText = ""; return; }
-        if (isNaN(density)) { showInputError(densityInput, "Nilai tidak valid."); document.getElementById("result_11").innerText = ""; return; }
-
-        var result = ((solidTop * flowTop) + (solidBottom * flowBottom)) * density * 10;
-        document.getElementById("result_11").textContent = "Starch Bonedry Flow = " + result.toFixed(1) + " kg/h";
-      });
-
-      document.getElementById("btn_12").addEventListener("click", function () {
-        const bdfInput = document.getElementById("bdf12_12");
-        const rateInput = document.getElementById("rate12_12");
-        clearInputError(bdfInput);
-        clearInputError(rateInput);
-
-        var bdf = parseFloat(bdfInput.value);
-        var rate = parseFloat(rateInput.value);
-
-        if (isNaN(bdf)) { showInputError(bdfInput, "Nilai tidak valid."); document.getElementById("result_12").innerText = ""; return; }
-        if (isNaN(rate)) { showInputError(rateInput, "Nilai tidak valid."); document.getElementById("result_12").innerText = ""; return; }
-        if (rate === 0) { showInputError(rateInput, "Rate tidak boleh nol."); document.getElementById("result_12").innerText = ""; return; }
-
-        var consumption = bdf / rate;
-        document.getElementById("result_12").innerText = "Starch Consumption = " + consumption.toFixed(2) + " kg/ton";
-      });
-
-      document.getElementById("btn_13").addEventListener("click", function () {
-        const solidInput = document.getElementById("solid13_13");
-        clearInputError(solidInput);
-
-        var solid = parseFloat(solidInput.value);
-
-        if (isNaN(solid)) { showInputError(solidInput, "Nilai tidak valid."); document.getElementById("result_13").innerText = ""; return; }
-
-        var density = 100 / (100 - solid + (solid / 1.65));
-        document.getElementById("result_13").innerText = "Density = " + density.toFixed(1) + " ton/m³";
-      });
-    });
-  </script>
-
+    }
+  }).mount('#app');
+</script>
 </body>
 </html>
-
-
-
