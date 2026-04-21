@@ -3,60 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>StarchPrep PRO V7 - Industrial Command Center</title>
+    <title>StarchPrep PRO V7.1 - Command Center</title>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; background-color: #0b0f19; color: #f8fafc; scroll-behavior: smooth; }
+        :root { --accent: #f1c40f; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            -webkit-tap-highlight-color: transparent; 
+            background-color: #0b0f19; 
+            color: #f8fafc; 
+            scroll-behavior: smooth; 
+            overflow-x: hidden;
+        }
         [v-cloak] { display: none; }
-        .bg-hero { position: fixed; inset: 0; z-index: -1; background-image: url('background.webp'); background-size: cover; background-position: center; }
-        .bg-overlay { position: fixed; inset: 0; background: linear-gradient(to bottom, rgba(11,15,25,0.85), rgba(11,15,25,0.95)); z-index: -1; backdrop-filter: blur(8px); }
-        .glass-card { background: rgba(30, 41, 59, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
-        input, select { background: #111 !important; border: 2px solid #333 !important; color: white !important; text-align: center; font-weight: 800; border-radius: 1rem; width: 100%; padding: 0.8rem; }
-        input:focus { border-color: #f1c40f !important; outline: none; }
+        
+        /* Dynamic Background */
+        .bg-hero { 
+            position: fixed; inset: 0; z-index: -2; 
+            background: radial-gradient(circle at 50% 0%, #1e293b 0%, #0b0f19 70%);
+        }
+        .bg-grid {
+            position: fixed; inset: 0; z-index: -1; opacity: 0.15;
+            background-image: radial-gradient(#ffffff 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        /* Asymmetric Cards (Biar gak cuma bulet kotak) */
+        .cyber-card { 
+            background: rgba(15, 23, 42, 0.7); 
+            backdrop-filter: blur(12px); 
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 24px 8px 24px 8px; /* Asimetris */
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .cyber-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(241, 196, 15, 0.3);
+            box-shadow: 0 20px 40px -10px rgba(241, 196, 15, 0.1);
+        }
+
+        /* Clean Inputs */
+        input, select { 
+            background: rgba(0, 0, 0, 0.4) !important; 
+            border: none !important;
+            border-bottom: 2px solid rgba(255,255,255,0.1) !important; 
+            color: #fff !important; 
+            text-align: center; 
+            font-weight: 700; 
+            border-radius: 8px 8px 0 0; 
+            width: 100%; 
+            padding: 1rem; 
+            transition: all 0.3s ease;
+        }
+        input:focus { 
+            border-bottom-color: var(--accent) !important; 
+            background: rgba(241, 196, 15, 0.05) !important;
+            outline: none; 
+        }
+
+        /* Animations */
         .fade-enter-active, .fade-leave-active { transition: all 0.4s ease; }
-        .fade-enter-from, .fade-leave-to { opacity: 0; transform: translateY(20px); }
-        .res-box { background: rgba(241, 196, 15, 0.05); border: 1px solid rgba(241, 196, 15, 0.2); border-radius: 1.5rem; padding: 1.5rem; text-align: center; }
+        .fade-enter-from, .fade-leave-to { opacity: 0; transform: translateY(20px) scale(0.98); }
+        
+        .spin-on-hover:hover { transform: rotate(180deg); transition: transform 0.4s ease; }
+        .bounce-icon { animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+
+        /* Result Box - Glowing & Fun */
+        .res-box { 
+            background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid rgba(255,255,255,0.1); 
+            border-radius: 16px; 
+            padding: 2rem 1.5rem; 
+            text-align: center; 
+            position: relative;
+            overflow: hidden;
+        }
+        .res-box::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+            transform: skewX(-25deg); animation: shine 3s infinite;
+        }
+        @keyframes shine { 100% { left: 200%; } }
     </style>
 </head>
 <body class="min-h-screen pb-32">
 
 <div id="app" v-cloak class="max-w-6xl mx-auto px-4 sm:px-8 relative">
-    <div class="bg-hero"></div><div class="bg-overlay"></div>
+    <div class="bg-hero"></div>
+    <div class="bg-grid"></div>
 
-    <nav class="flex justify-between items-center py-6 mb-8">
+    <nav class="flex justify-between items-center py-6 mb-8 border-b border-white/5">
         <div class="flex items-center gap-3">
-            <div class="bg-[#f1c40f] p-2 rounded-xl shadow-lg shadow-[#f1c40f]/20">
+            <div class="bg-[#f1c40f] p-2.5 rounded-lg shadow-[0_0_15px_rgba(241,196,15,0.4)]">
                 <i class="bi bi-cpu-fill text-black text-xl"></i>
             </div>
-            <h1 class="text-xl font-black italic tracking-tighter uppercase">STARCH<span class="text-[#f1c40f]">PRO</span></h1>
+            <h1 class="text-2xl font-black italic tracking-tighter uppercase">STARCH<span class="text-[#f1c40f]">PRO</span></h1>
         </div>
-        <a href="https://starch-preparation.netlify.app/" class="bg-white/5 border border-white/10 px-5 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest active:scale-90 transition-all">
-            <i class="bi bi-house-door mr-1"></i> Dashboard
+        <a href="https://starch-preparation.netlify.app/" class="group bg-white/5 border border-white/10 px-5 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-all">
+            <i class="bi bi-house-door mr-1 group-hover:text-[#f1c40f] transition-colors"></i> Dashboard
         </a>
     </nav>
 
     <div v-show="!activeId" class="animate-fade-in">
-        <div class="text-center mb-10">
-            <h2 class="text-4xl font-black text-white tracking-tighter mb-2">Operational Hub</h2>
-            <p class="text-slate-500 text-[10px] font-bold uppercase tracking-[0.3em]">Single Page Application v7.0</p>
+        <div class="text-center mb-12 relative">
+            <h2 class="text-4xl md:text-5xl font-black text-white tracking-tighter mb-3 drop-shadow-lg">Operational Hub</h2>
+            <p class="text-[#f1c40f] text-[11px] font-bold uppercase tracking-[0.3em] flex items-center justify-center gap-2">
+                <i class="bi bi-activity bounce-icon"></i> System Ready
+            </p>
         </div>
 
-        <div class="max-w-2xl mx-auto mb-10 relative">
-            <input type="text" v-model="searchQuery" placeholder="Cari Rumus (Alum, Atago, Enzim, SSA)..." 
-                   class="!bg-white/5 !border-white/5 !rounded-full py-4 px-12 text-sm shadow-2xl focus:!border-[#f1c40f]/30">
-            <i class="bi bi-search absolute left-5 top-1/2 -translate-y-1/2 text-[#f1c40f]"></i>
+        <div class="max-w-2xl mx-auto mb-12 relative group">
+            <input type="text" v-model="searchQuery" placeholder="Cari Modul Kalkulasi (Atago, Enzim, dll)..." 
+                   class="!bg-black/40 !border-b-0 !border-white/10 !rounded-full py-5 px-14 text-sm shadow-2xl group-hover:!border-[#f1c40f]/50 transition-all placeholder:text-slate-500">
+            <i class="bi bi-search absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-hover:text-[#f1c40f] transition-colors text-lg"></i>
+            <i v-if="searchQuery" @click="searchQuery = ''" class="bi bi-x-circle-fill absolute right-6 top-1/2 -translate-y-1/2 text-slate-500 cursor-pointer hover:text-red-400 transition-colors"></i>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
             <div v-for="(tool, index) in filteredTools" :key="tool.id" 
                  @click="openTool(tool.id)"
-                 class="glass-card p-6 rounded-[2.5rem] text-center cursor-pointer hover:border-[#f1c40f]/60 transition-all group"
+                 class="cyber-card p-6 text-center cursor-pointer group"
                  :class="{'md:col-span-2': filteredTools.length === 10 && index >= 8}">
-                <i :class="tool.icon + ' text-3xl mb-3 block group-hover:scale-110 transition-transform'" :style="{color: tool.color}"></i>
-                <span class="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 group-hover:text-white transition-colors">{{ tool.title }}</span>
+                <div class="w-14 h-14 mx-auto rounded-full flex items-center justify-center mb-4 transition-all duration-300 group-hover:scale-110 group-hover:rotate-12" :style="{ backgroundColor: tool.color + '20' }">
+                    <i :class="tool.icon + ' text-2xl'" :style="{color: tool.color}"></i>
+                </div>
+                <span class="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-300 group-hover:text-white transition-colors">{{ tool.title }}</span>
             </div>
         </div>
     </div>
@@ -64,154 +140,212 @@
     <transition name="fade" mode="out-in">
         <div v-if="activeId" :key="activeId" class="max-w-xl mx-auto pt-4">
             
-            <div class="flex justify-between items-center mb-6">
-                <button @click="activeId = null" class="flex items-center gap-2 text-[#f1c40f] font-black uppercase text-[10px] tracking-widest bg-white/5 px-4 py-2 rounded-full border border-white/5 active:scale-90">
-                    <i class="bi bi-chevron-left"></i> Kembali ke Menu
+            <div class="flex justify-between items-center mb-8 bg-black/20 p-2 pl-4 rounded-full border border-white/5 backdrop-blur-sm">
+                <button @click="activeId = null" class="flex items-center gap-2 text-slate-300 hover:text-white font-bold text-[11px] uppercase tracking-widest transition-colors">
+                    <i class="bi bi-arrow-left-circle-fill text-lg text-[#f1c40f]"></i> Menu
                 </button>
-                <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Active Modul</span>
+                <button @click="resetTool" class="flex items-center gap-2 text-red-400 hover:text-red-300 hover:bg-red-400/10 px-4 py-2 rounded-full font-bold text-[10px] uppercase tracking-widest transition-all">
+                    <i class="bi bi-arrow-clockwise spin-on-hover text-sm"></i> Reset Data
+                </button>
             </div>
 
-            <div v-if="activeId === 'f-alum'" class="glass-card p-8 rounded-[3rem] border-white/10">
-                <h3 class="text-center text-blue-400 font-black italic mb-8 uppercase text-xs">Alum Consumption (170162)</h3>
-                <div class="space-y-4">
-                    <input type="number" v-model.number="alum.l1" placeholder="Level Awal (%)" class="text-xl py-4">
-                    <input type="number" v-model.number="alum.l2" placeholder="Level Akhir (%)" class="text-xl py-4">
-                    <div class="res-box mt-6">
-                        <p class="text-5xl font-black text-white">{{ alumRes }} <span class="text-sm">kg</span></p>
-                        <p class="text-[10px] mt-2 font-bold opacity-40 uppercase tracking-widest">Usage: {{ (alum.l1 - alum.l2).toFixed(1) }} %</p>
+            <div v-if="activeId === 'f-alum'" class="cyber-card p-8">
+                <h3 class="flex items-center justify-center gap-2 text-blue-400 font-black mb-8 uppercase text-sm tracking-wider">
+                    <i class="bi bi-droplet-half"></i> Alum Cons. (170162)
+                </h3>
+                <div class="space-y-5">
+                    <div class="relative">
+                        <label class="text-[10px] text-blue-400 uppercase font-bold tracking-widest ml-2 mb-1 block">Level Awal</label>
+                        <input type="number" v-model.number="alum.l1" placeholder="0 %" class="text-2xl">
+                    </div>
+                    <div class="relative">
+                        <label class="text-[10px] text-blue-400 uppercase font-bold tracking-widest ml-2 mb-1 block">Level Akhir</label>
+                        <input type="number" v-model.number="alum.l2" placeholder="0 %" class="text-2xl">
+                    </div>
+                    <div class="res-box mt-8 border-t-2 border-blue-500/50">
+                        <p class="text-5xl font-black text-white drop-shadow-md">{{ alumRes }} <span class="text-lg font-bold text-slate-400">kg</span></p>
+                        <div class="mt-4 inline-block bg-blue-500/20 px-4 py-1.5 rounded-full border border-blue-500/30">
+                            <p class="text-[10px] font-black text-blue-300 uppercase tracking-widest">Usage: {{ (alum.l1 - alum.l2).toFixed(1) }} %</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div v-if="activeId === 'f-atago'" class="glass-card p-8 rounded-[3rem] border-white/10">
-                <h3 class="text-center text-[#f1c40f] font-black italic mb-8 uppercase text-xs">Refractometer Temperature Correction</h3>
-                <div class="space-y-4">
-                    <input type="number" v-model.number="atago.brix" placeholder="Measured Brix (%)" class="text-xl py-4">
-                    <input type="number" v-model.number="atago.temp" placeholder="Sample Temp (°C)" class="text-xl py-4">
-                    <div class="res-box mt-6 border-2" :class="atagoStatus">
-                        <p class="text-5xl font-black text-white">{{ atagoRes }}</p>
+            <div v-if="activeId === 'f-atago'" class="cyber-card p-8">
+                <h3 class="flex items-center justify-center gap-2 text-[#f1c40f] font-black mb-8 uppercase text-sm tracking-wider">
+                    <i class="bi bi-eyedropper"></i> Refractometer Temp Fix
+                </h3>
+                <div class="space-y-5">
+                    <input type="number" v-model.number="atago.brix" placeholder="Measured Brix (%)" class="text-xl py-5">
+                    <input type="number" v-model.number="atago.temp" placeholder="Sample Temp (°C)" class="text-xl py-5">
+                    <div class="res-box mt-8 border-t-2 transition-all duration-500" :class="atagoStatus">
+                        <p class="text-[10px] text-[#f1c40f] uppercase font-bold tracking-widest mb-2">Corrected Solid</p>
+                        <p class="text-6xl font-black text-white drop-shadow-md">{{ atagoRes }}</p>
                     </div>
                 </div>
             </div>
 
-            <div v-if="activeId === 'f-enz-batch'" class="glass-card p-8 rounded-[3rem]">
-                <h3 class="text-center text-purple-400 font-black italic mb-8 uppercase text-xs">Kalkulator Durasi & Batch Enzim</h3>
-                <div class="space-y-4">
-                    <div class="grid grid-cols-2 gap-3">
+            <div v-if="activeId === 'f-enz-batch'" class="cyber-card p-8">
+                <h3 class="flex items-center justify-center gap-2 text-purple-400 font-black mb-8 uppercase text-sm tracking-wider">
+                    <i class="bi bi-bezier2"></i> Kalkulator Batch Enzim
+                </h3>
+                <div class="space-y-5">
+                    <div class="grid grid-cols-2 gap-4">
                         <input type="text" v-model="enz.t1" @keyup="formatHHMM('t1')" placeholder="Mulai (0945)" maxlength="5">
                         <input type="text" v-model="enz.t2" @keyup="formatHHMM('t2')" placeholder="Selesai (1120)" maxlength="5">
                     </div>
                     <input type="number" v-model.number="enz.rate" placeholder="Rate (ml/menit)">
-                    <button @click="calcEnzBatch" class="w-full bg-purple-600 py-3 rounded-2xl font-black uppercase text-xs shadow-lg active:scale-95">Hitung & Simpan</button>
                     
-                    <div v-if="enz.list.length > 0" class="mt-6 space-y-2 max-h-48 overflow-y-auto pr-2">
-                        <div v-for="(b, i) in enz.list" :key="i" class="flex justify-between bg-black/40 p-4 rounded-xl text-[10px] font-bold border border-white/5">
-                            <span>MASAK {{i+1}}: {{b}} ml</span>
-                            <i @click="enz.list.splice(i,1)" class="bi bi-trash text-red-500 cursor-pointer"></i>
+                    <button @click="calcEnzBatch" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 py-4 rounded-xl font-black uppercase text-[11px] tracking-widest shadow-lg shadow-purple-600/30 transition-all transform active:scale-95">
+                        <i class="bi bi-plus-circle mr-1"></i> Hitung & Simpan Batch
+                    </button>
+                    
+                    <div v-if="enz.list.length > 0" class="mt-6 space-y-3 max-h-48 overflow-y-auto pr-2 scrollbar-thin">
+                        <div v-for="(b, i) in enz.list" :key="i" class="flex justify-between items-center bg-black/50 p-4 rounded-lg text-xs font-bold border-l-4 border-purple-500">
+                            <span class="text-slate-300">BATCH MASAK #{{i+1}}</span>
+                            <div class="flex items-center gap-4">
+                                <span class="text-purple-300 text-sm">{{b}} ml</span>
+                                <i @click="enz.list.splice(i,1)" class="bi bi-trash-fill text-slate-500 hover:text-red-500 cursor-pointer transition-colors text-lg"></i>
+                            </div>
                         </div>
                     </div>
-                    <div class="res-box mt-4 bg-purple-500/10 border-purple-400/20">
-                        <label class="block text-[9px] font-black uppercase opacity-40 mb-1">Total Enzyme Used</label>
-                        <p class="text-4xl font-black">{{ enzTotal }} <span class="text-sm">ml</span></p>
+                    
+                    <div class="res-box mt-6 border-t-2 border-purple-500/50 bg-purple-900/10">
+                        <label class="block text-[10px] font-black text-purple-400 uppercase tracking-widest mb-2">Total Enzyme Used</label>
+                        <p class="text-5xl font-black text-white">{{ enzTotal }} <span class="text-lg text-slate-400">ml</span></p>
                     </div>
                 </div>
             </div>
 
-            <div v-if="activeId === 'f-est'" class="glass-card p-8 rounded-[3rem]">
-                <h3 class="text-center text-orange-400 font-black italic mb-8 uppercase text-xs">Estimasi Sisa Waktu Starch</h3>
-                <div class="space-y-3">
-                    <input type="number" v-model.number="est.flow" placeholder="Total Flow Storage (m3/h)">
-                    <div class="bg-black/30 p-4 rounded-2xl border border-white/5">
-                        <label class="text-[8px] font-black text-slate-500 uppercase mb-2 block">Cooker Section</label>
-                        <input type="number" v-model.number="est.c" placeholder="Level Cooker (%)" class="mb-2">
-                        <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="checkbox" v-model="est.empty" class="w-4 h-4 !bg-transparent">
-                            <span class="text-[10px] text-slate-400 font-bold">Cooker benar-benar kosong</span>
+            <div v-if="activeId === 'f-est'" class="cyber-card p-8">
+                <h3 class="flex items-center justify-center gap-2 text-orange-400 font-black mb-8 uppercase text-sm tracking-wider">
+                    <i class="bi bi-hourglass-split"></i> Sisa Waktu Starch
+                </h3>
+                <div class="space-y-4">
+                    <input type="number" v-model.number="est.flow" placeholder="Total Flow (m³/h)" class="text-xl">
+                    
+                    <div class="bg-black/40 p-5 rounded-xl border border-white/5 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-1 h-full bg-orange-500"></div>
+                        <label class="text-[10px] font-black text-orange-400 uppercase tracking-widest mb-3 block">Level Parameter (%)</label>
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <input type="number" v-model.number="est.c" placeholder="Cooker %" :disabled="est.empty" :class="{'opacity-30': est.empty}">
+                            <input type="number" v-model.number="est.r" placeholder="Reaction %">
+                            <input type="number" v-model.number="est.s" placeholder="Storage %">
+                            <div class="flex gap-2">
+                                <input type="number" v-model.number="est.f1" placeholder="F1 %">
+                                <input type="number" v-model.number="est.f2" placeholder="F2 %">
+                            </div>
+                        </div>
+                        <label class="flex items-center gap-3 cursor-pointer p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors">
+                            <input type="checkbox" v-model="est.empty" class="w-5 h-5 accent-orange-500">
+                            <span class="text-xs text-slate-300 font-bold uppercase tracking-wide">Tandai Cooker Kosong Total</span>
                         </label>
                     </div>
-                    <div class="grid grid-cols-2 gap-3">
-                        <input v-model.number="est.r" type="number" placeholder="Reaction %">
-                        <input v-model.number="est.s" type="number" placeholder="Storage %">
-                        <input v-model.number="est.f1" type="number" placeholder="Final 1 %">
-                        <input v-model.number="est.f2" type="number" placeholder="Final 2 %">
-                    </div>
-                    <div class="res-box mt-4 border-orange-400/20">
-                        <p class="text-2xl font-black text-white leading-tight">{{ estRes }}</p>
+                    
+                    <div class="res-box mt-6 border-t-2 border-orange-500/50">
+                        <p class="text-[10px] font-black text-orange-400 uppercase tracking-widest mb-2">Estimasi Habis</p>
+                        <p class="text-3xl md:text-4xl font-black text-white tracking-tight">{{ estRes }}</p>
                     </div>
                 </div>
             </div>
 
-            <div v-if="activeId === 'f-cons'" class="glass-card p-8 rounded-[3rem]">
-                <h3 class="text-center text-green-400 font-black italic mb-8 uppercase text-xs">Starch Consumption (kg/ton)</h3>
-                <div class="space-y-3">
-                    <div class="grid grid-cols-2 gap-3">
-                        <input v-model.number="con.ft" type="number" placeholder="Flow Top (m3/h)">
+            <div v-if="activeId === 'f-cons'" class="cyber-card p-8">
+                <h3 class="flex items-center justify-center gap-2 text-green-400 font-black mb-8 uppercase text-sm tracking-wider">
+                    <i class="bi bi-bar-chart"></i> Starch Consumption
+                </h3>
+                <div class="space-y-5">
+                    <div class="grid grid-cols-2 gap-4">
+                        <input v-model.number="con.ft" type="number" placeholder="Flow Top (m³/h)">
                         <input v-model.number="con.st" type="number" placeholder="Solid Top %">
-                    </div>
-                    <div class="grid grid-cols-2 gap-3">
-                        <input v-model.number="con.fb" type="number" placeholder="Flow Bot (m3/h)">
+                        <input v-model.number="con.fb" type="number" placeholder="Flow Bot (m³/h)">
                         <input v-model.number="con.sb" type="number" placeholder="Solid Bot %">
                     </div>
-                    <input v-model.number="con.pr" type="number" placeholder="Paper Rate (t/h)">
-                    <div class="res-box mt-4 border-green-400/20">
-                        <p class="text-4xl font-black text-white">{{ consRes }} <span class="text-sm">kg/ton</span></p>
+                    <div class="relative pt-2">
+                        <i class="bi bi-speedometer absolute left-4 top-[2.2rem] text-slate-400"></i>
+                        <input v-model.number="con.pr" type="number" placeholder="Paper Rate (t/h)" class="pl-12 text-xl">
+                    </div>
+                    <div class="res-box mt-6 border-t-2 border-green-500/50">
+                        <p class="text-5xl font-black text-white">{{ consRes }} <span class="text-lg text-slate-400">kg/ton</span></p>
                     </div>
                 </div>
             </div>
 
-            <div v-if="activeId === 'f-naoh'" class="glass-card p-8 rounded-[3rem]">
-                <h3 class="text-center text-blue-300 font-black italic mb-8 uppercase text-xs">NaOH Solid & Pemakaian</h3>
-                <div class="space-y-4">
-                    <input v-model.number="naoh.n" type="number" placeholder="Total NaOH (Liter)" class="py-4">
-                    <input v-model.number="naoh.a" type="number" placeholder="Total Air (Liter)" class="py-4">
-                    <div class="res-box mt-4 border-blue-400/20">
-                        <p class="text-5xl font-black text-white">{{ naohRes }} <span class="text-sm">%</span></p>
+            <div v-if="activeId === 'f-naoh'" class="cyber-card p-8">
+                <h3 class="flex items-center justify-center gap-2 text-blue-300 font-black mb-8 uppercase text-sm tracking-wider">
+                    <i class="bi bi-cup-straw"></i> NaOH Preparation
+                </h3>
+                <div class="space-y-5">
+                    <input v-model.number="naoh.n" type="number" placeholder="Volume NaOH (Liter)" class="text-xl py-5">
+                    <input v-model.number="naoh.a" type="number" placeholder="Volume Air (Liter)" class="text-xl py-5">
+                    <div class="res-box mt-6 border-t-2 border-blue-400/50">
+                        <p class="text-[10px] font-black text-blue-300 uppercase tracking-widest mb-2">Konsentrasi Final</p>
+                        <p class="text-6xl font-black text-white">{{ naohRes }} <span class="text-2xl text-slate-400">%</span></p>
                     </div>
                 </div>
             </div>
 
-            <div v-if="activeId === 'f-ppm'" class="glass-card p-8 rounded-[3rem]">
-                <h3 class="text-center text-fuchsia-400 font-black italic mb-8 uppercase text-xs">Dosis Enzyme (PPM)</h3>
+            <div v-if="activeId === 'f-ppm'" class="cyber-card p-8">
+                <h3 class="flex items-center justify-center gap-2 text-fuchsia-400 font-black mb-8 uppercase text-sm tracking-wider">
+                    <i class="bi bi-percent"></i> Dosis Enzyme (PPM)
+                </h3>
                 <div class="space-y-4">
                     <input v-model.number="ppm.sol" type="number" placeholder="Solid Content (%)">
                     <input v-model.number="ppm.fw" type="number" placeholder="Flow Water (L/min)">
-                    <input v-model.number="ppm.val" type="number" placeholder="Dosis Enzyme (ppm)">
-                    <div class="res-box mt-4 border-fuchsia-400/20">
-                        <div class="flex justify-between items-center opacity-40 text-[9px] mb-2 px-2 uppercase font-black tracking-widest">
-                            <span>Flow Starch: {{ ppmStarch }} kg/min</span>
+                    <input v-model.number="ppm.val" type="number" placeholder="Target Dosis (ppm)" class="text-fuchsia-300 border-b-fuchsia-500/30">
+                    
+                    <div class="res-box mt-6 border-t-2 border-fuchsia-500/50">
+                        <div class="bg-black/30 rounded-lg p-3 mb-4 inline-block">
+                            <span class="text-[10px] text-fuchsia-300 uppercase font-black tracking-widest">Flow Starch: {{ ppmStarch }} kg/min</span>
                         </div>
-                        <p class="text-4xl font-black text-white">{{ ppmEnz }} <span class="text-sm">ml/min</span></p>
+                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Setting Pump</p>
+                        <p class="text-5xl font-black text-white">{{ ppmEnz }} <span class="text-lg text-slate-400">ml/min</span></p>
                     </div>
                 </div>
             </div>
 
-            <div v-if="activeId === 'f-total'" class="glass-card p-8 rounded-[3rem]">
-                <h3 class="text-center text-emerald-400 font-black italic mb-8 uppercase text-xs">Total System Inventory</h3>
-                <div class="grid grid-cols-2 gap-3">
-                    <input v-model.number="tot.h" type="number" placeholder="Hopper %">
-                    <input v-model.number="tot.c" type="number" placeholder="Cooker kg">
-                    <input v-model.number="tot.r" type="number" placeholder="Reaction kg">
-                    <input v-model.number="tot.s" type="number" placeholder="Storage kg">
-                    <input v-model.number="tot.f1" type="number" placeholder="Final 1 kg">
-                    <input v-model.number="tot.f2" type="number" placeholder="Final 2 kg">
+            <div v-if="activeId === 'f-total'" class="cyber-card p-8">
+                <h3 class="flex items-center justify-center gap-2 text-emerald-400 font-black mb-8 uppercase text-sm tracking-wider">
+                    <i class="bi bi-speedometer2"></i> System Inventory
+                </h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="col-span-2 relative">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-xs text-slate-500 font-bold">HOPPER</span>
+                        <input v-model.number="tot.h" type="number" placeholder="0 %" class="pl-20 text-emerald-100">
+                    </div>
+                    <input v-model.number="tot.c" type="number" placeholder="Cooker (kg)">
+                    <input v-model.number="tot.r" type="number" placeholder="Reaction (kg)">
+                    <input v-model.number="tot.s" type="number" placeholder="Storage (kg)">
+                    <div class="flex gap-2">
+                        <input v-model.number="tot.f1" type="number" placeholder="F1 (kg)">
+                        <input v-model.number="tot.f2" type="number" placeholder="F2 (kg)">
+                    </div>
                 </div>
-                <div class="res-box mt-6 border-emerald-400/20">
-                    <p class="text-5xl font-black text-white">{{ totRes }} <span class="text-sm">kg</span></p>
+                <div class="res-box mt-8 border-t-2 border-emerald-500/50">
+                    <p class="text-[10px] font-black text-emerald-400 uppercase tracking-widest mb-2">Total Massa Sistem</p>
+                    <p class="text-6xl font-black text-white drop-shadow-lg">{{ totRes }} <span class="text-xl text-slate-400">kg</span></p>
                 </div>
             </div>
 
-            <div v-if="activeId === 'f-ssa' || activeId === 'f-ret'" class="glass-card p-8 rounded-[3rem]">
-                <h3 class="text-center text-slate-300 font-black italic mb-8 uppercase text-xs">{{ activeId === 'f-ssa' ? 'SSA Flow' : 'Retention Time' }}</h3>
-                <div class="space-y-4">
+            <div v-if="activeId === 'f-ssa' || activeId === 'f-ret'" class="cyber-card p-8">
+                <h3 class="flex items-center justify-center gap-2 text-slate-200 font-black mb-8 uppercase text-sm tracking-wider">
+                    <i :class="activeId === 'f-ssa' ? 'bi-diagram-3 text-pink-400' : 'bi-clock-history text-cyan-400'"></i> 
+                    {{ activeId === 'f-ssa' ? 'SSA Flow Control' : 'Retention Time' }}
+                </h3>
+                <div class="space-y-5">
                     <template v-if="activeId === 'f-ssa'">
-                         <input v-model.number="ssa.kgt" type="number" placeholder="Target kg/ton">
-                         <input v-model.number="ssa.pr" type="number" placeholder="Prod. Rate (t/h)">
-                         <div class="res-box mt-4 border-pink-400/20"><p class="text-4xl font-black text-white">{{ ((ssa.kgt * ssa.pr) / 0.06).toFixed(0) }} cc/min</p></div>
+                         <input v-model.number="ssa.kgt" type="number" placeholder="Target Dosis (kg/ton)" class="text-xl">
+                         <input v-model.number="ssa.pr" type="number" placeholder="Prod. Rate (t/h)" class="text-xl">
+                         <div class="res-box mt-6 border-t-2 border-pink-500/50">
+                            <p class="text-5xl font-black text-white">{{ ((ssa.kgt * ssa.pr) / 0.06).toFixed(0) || 0 }} <span class="text-lg text-slate-400">cc/min</span></p>
+                         </div>
                     </template>
                     <template v-else>
-                         <input v-model.number="ret.f" type="number" placeholder="Flow m3/h">
-                         <input v-model.number="ret.t" type="number" placeholder="Waktu (min)">
-                         <div class="res-box mt-4 border-cyan-400/20"><p class="text-4xl font-black text-white">{{ ((ret.f/60*1000) * ret.t / 70).toFixed(1) }} % Level</p></div>
+                         <input v-model.number="ret.f" type="number" placeholder="Flow Aktual (m³/h)" class="text-xl">
+                         <input v-model.number="ret.t" type="number" placeholder="Target Waktu (menit)" class="text-xl">
+                         <div class="res-box mt-6 border-t-2 border-cyan-500/50">
+                            <p class="text-[10px] font-black text-cyan-400 uppercase tracking-widest mb-2">Target Level Storage</p>
+                            <p class="text-5xl font-black text-white">{{ ((ret.f/60*1000) * ret.t / 70).toFixed(1) || 0 }} <span class="text-2xl text-slate-400">%</span></p>
+                         </div>
                     </template>
                 </div>
             </div>
@@ -219,13 +353,16 @@
         </div>
     </transition>
 
-    <button v-show="showTop && activeId" @click="scrollToMenu" class="fixed bottom-8 right-8 w-14 h-14 bg-[#f1c40f] text-black rounded-full shadow-2xl flex items-center justify-center transition-all animate-bounce">
-        <i class="bi bi-chevron-up text-xl font-black"></i>
+    <button v-show="showTop && activeId" @click="scrollToMenu" class="fixed bottom-8 right-8 w-14 h-14 bg-[#f1c40f] text-black rounded-full shadow-[0_0_20px_rgba(241,196,15,0.4)] flex items-center justify-center transition-all hover:scale-110 z-50">
+        <i class="bi bi-chevron-up text-2xl font-black animate-bounce mt-1"></i>
     </button>
 
-    <footer class="mt-20 py-10 border-t border-white/5 text-center opacity-30">
-        <p class="text-[9px] font-black uppercase tracking-[0.4em]">Industrial Process Automation Hub v7.0</p>
-        <p class="text-[8px] font-bold mt-2">&copy; 2026 Ardita Rizki Fauzi | DCS Operator PM1</p>
+    <footer class="mt-24 py-8 border-t border-white/5 text-center">
+        <p class="text-[10px] text-slate-500 font-black uppercase tracking-[0.4em] mb-2">Industrial Process Automation Hub</p>
+        <div class="inline-flex items-center gap-2 bg-white/5 px-4 py-1.5 rounded-full border border-white/10">
+            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+            <p class="text-[9px] text-slate-400 font-bold uppercase tracking-widest">DCS PM1 Core</p>
+        </div>
     </footer>
 </div>
 
@@ -250,7 +387,7 @@ createApp({
             atago: { brix: null, temp: null },
             alum: { l1: null, l2: null },
             enz: { t1: '', t2: '', rate: null, list: [] },
-            est: { flow: null, c: 0, r: 0, s: 0, f1: 0, f2: 0, empty: false },
+            est: { flow: null, c: null, r: null, s: null, f1: null, f2: null, empty: false },
             con: { ft: null, st: null, fb: null, sb: null, pr: null },
             naoh: { n: null, a: null },
             ppm: { sol: null, fw: null, val: null },
@@ -269,20 +406,20 @@ createApp({
             let c = this.getCorr(this.atago.brix, this.atago.temp);
             return (this.atago.brix + (this.atago.temp > 20 ? c : -c)).toFixed(2) + " %";
         },
-        atagoStatus() { return (!this.atago.brix || !this.atago.temp) ? 'border-white/5 opacity-30' : 'border-[#f1c40f]/40 bg-[#f1c40f]/5'; },
+        atagoStatus() { return (!this.atago.brix || !this.atago.temp) ? 'border-slate-700 opacity-50' : 'border-[#f1c40f] glow-effect'; },
         enzTotal() { return this.enz.list.reduce((a, b) => a + b, 0); },
         estRes() {
-            if(!this.est.flow) return "Masukkan Flow..";
+            if(!this.est.flow) return "Menunggu Data..";
             let fLpm = this.est.flow / 60 * 1000;
-            let vC = this.est.empty ? (this.est.c/100*7000) : (1200 + (this.est.c/100*5800));
-            let totalV = vC + (this.est.r/100*7000) + (this.est.s/100*15000) + (this.est.f1/100*3000) + (this.est.f2/100*3000);
+            let vC = this.est.empty ? ((this.est.c||0)/100*7000) : (1200 + ((this.est.c||0)/100*5800));
+            let totalV = vC + ((this.est.r||0)/100*7000) + ((this.est.s||0)/100*15000) + ((this.est.f1||0)/100*3000) + ((this.est.f2||0)/100*3000);
             let mins = totalV / fLpm;
             let h = Math.floor(mins / 60), m = Math.floor(mins % 60), s = Math.round((mins % 1) * 60);
             return `${h}j ${m}m ${s}d`;
         },
         consRes() {
             if(!this.con.pr) return "--";
-            let bd = ((this.con.st*this.con.ft) + (this.con.sb*this.con.fb)) * 11; // Basic industrial factor (1.1 density * 10)
+            let bd = ((this.con.st*this.con.ft) + (this.con.sb*this.con.fb)) * 11; 
             return (bd / this.con.pr).toFixed(2);
         },
         naohRes() { return (this.naoh.n && this.naoh.a) ? ((this.naoh.n * 0.48) / (this.naoh.n + this.naoh.a) * 100).toFixed(1) : "--"; },
@@ -292,7 +429,7 @@ createApp({
         },
         ppmEnz() { return (this.ppmStarch * (this.ppm.val / 1000)).toFixed(2); },
         totRes() {
-            let h = (this.tot.h * 3180) / 100;
+            let h = ((this.tot.h||0) * 3180) / 100;
             return (h + (this.tot.c||0) + (this.tot.r||0) + (this.tot.s||0) + (this.tot.f1||0) + (this.tot.f2||0)).toFixed(0);
         }
     },
@@ -302,6 +439,21 @@ createApp({
             window.scrollTo({ top: 0, behavior: 'smooth' });
         },
         scrollToMenu() { this.activeId = null; window.scrollTo({ top: 0, behavior: 'smooth' }); },
+        resetTool() {
+            // Logika reset berdasarkan activeId
+            switch(this.activeId) {
+                case 'f-alum': this.alum = {l1: null, l2: null}; break;
+                case 'f-atago': this.atago = {brix: null, temp: null}; break;
+                case 'f-enz-batch': this.enz = {t1: '', t2: '', rate: null, list: []}; break;
+                case 'f-est': this.est = {flow: null, c: null, r: null, s: null, f1: null, f2: null, empty: false}; break;
+                case 'f-cons': this.con = {ft: null, st: null, fb: null, sb: null, pr: null}; break;
+                case 'f-naoh': this.naoh = {n: null, a: null}; break;
+                case 'f-ppm': this.ppm = {sol: null, fw: null, val: null}; break;
+                case 'f-total': this.tot = {h: null, c: null, r: null, s: null, f1: null, f2: null}; break;
+                case 'f-ssa': this.ssa = {kgt: null, pr: null}; break;
+                case 'f-ret': this.ret = {f: null, t: null}; break;
+            }
+        },
         formatHHMM(key) {
             let val = this.enz[key].replace(/[^0-9]/g, '');
             if(val.length > 2) val = val.slice(0, val.length - 2) + ':' + val.slice(val.length - 2);
